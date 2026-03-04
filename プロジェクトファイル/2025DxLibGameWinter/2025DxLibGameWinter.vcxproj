@@ -1,0 +1,366 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{52021038-ed19-437d-99d2-ad49e1b7d690}</ProjectGuid>
+    <RootNamespace>_2025DxLibGameWinter</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>../DxLib_VC;$(DXLIB_DIR);$(ProjectDir)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>../DxLib_VC;$(DXLIB_DIR);$(ProjectDir)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>../DxLib_VC;$(DXLIB_DIR);$(ProjectDir)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>../DxLib_VC;$(DXLIB_DIR);$(ProjectDir)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>../DxLib_VC;$(DXLIB_DIR);$(ProjectDir)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>../DxLib_VC;$(DXLIB_DIR);$(ProjectDir)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>../DxLib_VC;$(DXLIB_DIR);$(ProjectDir)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>../DxLib_VC;$(DXLIB_DIR);$(ProjectDir)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Library\DebugTools\DebugDiffTracker.cpp" />
+    <ClCompile Include="Library\System\Event\EventCollider.cpp" />
+    <ClCompile Include="Library\System\Event\EventManager.cpp" />
+    <ClCompile Include="Library\System\Event\EventTrigger.cpp" />
+    <ClCompile Include="Library\System\Event\EventWall.cpp" />
+    <ClCompile Include="Library\System\UI\UIScoreDrawer.cpp" />
+    <ClCompile Include="Loader\ObjectDataLoader.cpp" />
+    <ClCompile Include="Library\System\ObjectHandleHolder.cpp" />
+    <ClCompile Include="Objects\Character\Enemy\EnemyWeak\EnemyWeakStateDeath.cpp" />
+    <ClCompile Include="Objects\Character\Enemy\EnemyWeak\EnemyWeakStateReact.cpp" />
+    <ClCompile Include="Objects\Character\Enemy\EnemyWeak\EnemyWeakStateAttack.cpp" />
+    <ClCompile Include="Objects\Character\Enemy\EnemyWeak\EnemyWeakStateChase.cpp" />
+    <ClCompile Include="Objects\Character\Enemy\EnemyWeak\EnemyWeakStateIdle.cpp" />
+    <ClCompile Include="Objects\Character\Enemy\EnemyWeak\EnemyWeakStateSpawn.cpp" />
+    <ClCompile Include="Objects\Character\Enemy\EnemyBase.cpp" />
+    <ClCompile Include="Objects\Character\Enemy\EnemyManager.cpp" />
+    <ClCompile Include="Objects\Character\Enemy\EnemyWeak\EnemyWeak.cpp" />
+    <ClCompile Include="Objects\Character\Enemy\EnemyWeak\EnemyWeakStateBase.cpp" />
+    <ClCompile Include="Objects\Character\Player\JustDodge\JustDodgeCollider.cpp" />
+    <ClCompile Include="Library\Objects\AttackCol.cpp" />
+    <ClCompile Include="Library\DebugTools\DebugField.cpp" />
+    <ClCompile Include="Library\Physics\ColliderDataPolygon.cpp" />
+    <ClCompile Include="Objects\Character\Player\JustDodge\JustDodgeManager.cpp" />
+    <ClCompile Include="Library\System\InputStateHolder.cpp" />
+    <ClCompile Include="Library\Objects\AttackableGameObject.cpp" />
+    <ClCompile Include="Library\Objects\Weapon\Weapon.cpp" />
+    <ClCompile Include="Library\Objects\Weapon\WeaponEnemy.cpp" />
+    <ClCompile Include="Library\Objects\Weapon\WeaponPlayer.cpp" />
+    <ClCompile Include="Library\System\GameObjectManager.cpp" />
+    <ClCompile Include="Library\Objects\GameObject.cpp" />
+    <ClCompile Include="Library\Objects\AnimationModel.cpp" />
+    <ClCompile Include="Library\System\TimeScaleManager.cpp" />
+    <ClCompile Include="Library\Geometry\Matrix4x4.cpp" />
+    <ClCompile Include="Library\Geometry\Quaternion.cpp" />
+    <ClCompile Include="Library\Geometry\Vector2.cpp" />
+    <ClCompile Include="Library\Geometry\Vector3.cpp" />
+    <ClCompile Include="Main\main.cpp" />
+    <ClCompile Include="Library\Objects\Model.cpp" />
+    <ClCompile Include="Objects\Camera\Camera.cpp" />
+    <ClCompile Include="Objects\Camera\CameraShaker.cpp" />
+    <ClCompile Include="Objects\Camera\CameraStateAnimation.cpp" />
+    <ClCompile Include="Objects\Camera\CameraStateBase.cpp" />
+    <ClCompile Include="Objects\Camera\CameraStateFixed.cpp" />
+    <ClCompile Include="Objects\Camera\CameraStateFollow.cpp" />
+    <ClCompile Include="Library\Objects\Character\CharacterBase.cpp" />
+    <ClCompile Include="Library\Physics\Collider.cpp" />
+    <ClCompile Include="Library\Physics\ColliderData.cpp" />
+    <ClCompile Include="Library\Physics\ColliderDataCapsule.cpp" />
+    <ClCompile Include="Library\Physics\ColliderDataSphere.cpp" />
+    <ClCompile Include="Library\Physics\Collision.cpp" />
+    <ClCompile Include="Library\Physics\Physics.cpp" />
+    <ClCompile Include="Library\Physics\Rigidbody.cpp" />
+    <ClCompile Include="Objects\Character\Player\Player.cpp" />
+    <ClCompile Include="Objects\Character\Player\PlayerStateBase.cpp" />
+    <ClCompile Include="Objects\Character\Player\PlayerStateIdle.cpp" />
+    <ClCompile Include="Objects\Character\Player\PlayerStateWalk.cpp" />
+    <ClCompile Include="Objects\Character\Player\PlayerStateDash.cpp" />
+    <ClCompile Include="Objects\Character\Player\PlayerStateDeath.cpp" />
+    <ClCompile Include="Objects\Character\Player\PlayerStateReact.cpp" />
+    <ClCompile Include="Objects\Character\Player\PlayerStateJump.cpp" />
+    <ClCompile Include="Objects\Character\Player\PlayerStateFall.cpp" />
+    <ClCompile Include="Objects\Character\Player\PlayerStateDodge.cpp" />
+    <ClCompile Include="Objects\Character\Player\PlayerStateAirDodge.cpp" />
+    <ClCompile Include="Loader\PlayerDataLoader.cpp" />
+    <ClCompile Include="Objects\Character\Player\PlayerStateAttack.cpp" />
+    <ClCompile Include="Objects\Character\Player\PlayerComboHolder.cpp" />
+    <ClCompile Include="Objects\Character\Player\PlayerStateLanding.cpp" />
+    <ClCompile Include="Objects\Character\Player\PlayerStateSpecialAttack.cpp" />
+    <ClCompile Include="Objects\Character\Player\PlayerStateAirAttack.cpp" />
+    <ClCompile Include="Objects\Character\Player\PlayerStateAirSpecialAttack.cpp" />
+    <ClCompile Include="Objects\Character\Player\PlayerStateDodgeFail.cpp" />
+    <ClCompile Include="Scene\ResultDataHolder.cpp" />
+    <ClCompile Include="Scene\SceneResult.cpp" />
+    <ClCompile Include="Scene\ScenePause.cpp" />
+    <ClCompile Include="Scene\SceneGamePlay.cpp" />
+    <ClCompile Include="Scene\SceneBase.cpp" />
+    <ClCompile Include="Scene\SceneController.cpp" />
+    <ClCompile Include="Scene\SceneTitle.cpp" />
+    <ClCompile Include="Library\System\StringUtility.cpp" />
+    <ClCompile Include="Library\System\Application.cpp" />
+    <ClCompile Include="Library\System\DebugDraw.cpp" />
+    <ClCompile Include="Library\System\Effect\EffectFactory.cpp" />
+    <ClCompile Include="Library\System\Effect\EffectManager.cpp" />
+    <ClCompile Include="Library\System\Effect\EffekseerEffect.cpp" />
+    <ClCompile Include="Library\System\Input.cpp" />
+    <ClCompile Include="Library\System\SoundManager.cpp" />
+    <ClCompile Include="Library\Objects\Skydome.cpp" />
+    <ClCompile Include="Library\System\StagePlacer.cpp" />
+    <ClCompile Include="Library\System\UI\UIButton.cpp" />
+    <ClCompile Include="Library\System\UI\UIButtonManager.cpp" />
+    <ClCompile Include="Library\System\UI\UIBase.cpp" />
+    <ClCompile Include="Library\System\UI\UIGameScoreDrawer.cpp" />
+    <ClCompile Include="Library\System\UI\UIGraph.cpp" />
+    <ClCompile Include="Library\System\UI\UIManager.cpp" />
+    <ClCompile Include="Library\System\UI\UIPlayerHP.cpp" />
+    <ClCompile Include="Library\System\UI\UIResultScoreDrawer.cpp" />
+    <ClCompile Include="Library\System\UI\UIComboAction.cpp" />
+    <ClCompile Include="Library\System\UI\UIComboScore.cpp" />
+    <ClCompile Include="Library\System\UI\UILockonTarget.cpp" />
+    <ClCompile Include="Library\ShadowGenerator.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Library\DebugTools\DebugDiffTracker.h" />
+    <ClInclude Include="Library\System\Event\EventCollider.h" />
+    <ClInclude Include="Library\System\Event\EventManager.h" />
+    <ClInclude Include="Library\System\Event\EventTrigger.h" />
+    <ClInclude Include="Library\System\Event\EventWall.h" />
+    <ClInclude Include="Library\Geometry\Easing.h" />
+    <ClInclude Include="Library\System\UI\UIScoreDrawer.h" />
+    <ClInclude Include="Loader\ObjectDataLoader.h" />
+    <ClInclude Include="Library\System\ObjectHandleHolder.h" />
+    <ClInclude Include="Objects\Character\Enemy\EnemyWeak\EnemyWeakStateDeath.h" />
+    <ClInclude Include="Objects\Character\Enemy\EnemyWeak\EnemyWeakStateReact.h" />
+    <ClInclude Include="Objects\Character\Enemy\EnemyWeak\EnemyWeakStateAttack.h" />
+    <ClInclude Include="Objects\Character\Enemy\EnemyWeak\EnemyWeakStateChase.h" />
+    <ClInclude Include="Objects\Character\Enemy\EnemyWeak\EnemyWeakStateIdle.h" />
+    <ClInclude Include="Objects\Character\Enemy\EnemyWeak\EnemyWeakStateSpawn.h" />
+    <ClInclude Include="Objects\Character\Enemy\EnemyBase.h" />
+    <ClInclude Include="Objects\Character\Enemy\EnemyManager.h" />
+    <ClInclude Include="Objects\Character\Enemy\EnemyWeak\EnemyWeak.h" />
+    <ClInclude Include="Objects\Character\Enemy\EnemyWeak\EnemyWeakStateBase.h" />
+    <ClInclude Include="Objects\Character\Player\JustDodge\JustDodgeCollider.h" />
+    <ClInclude Include="Library\Objects\AttackCol.h" />
+    <ClInclude Include="Library\DebugTools\DebugField.h" />
+    <ClInclude Include="Library\Physics\ColliderDataPolygon.h" />
+    <ClInclude Include="Objects\Character\Player\JustDodge\JustDodgeManager.h" />
+    <ClInclude Include="Library\System\InputStateHolder.h" />
+    <ClInclude Include="Library\Objects\AttackableGameObject.h" />
+    <ClInclude Include="Library\Objects\Weapon\Weapon.h" />
+    <ClInclude Include="Library\Objects\Weapon\WeaponEnemy.h" />
+    <ClInclude Include="Library\Objects\Weapon\WeaponPlayer.h" />
+    <ClInclude Include="Library\System\GameObjectManager.h" />
+    <ClInclude Include="Library\Objects\GameObject.h" />
+    <ClInclude Include="Library\Objects\AnimationModel.h" />
+    <ClInclude Include="Library\System\TimeScaleManager.h" />
+    <ClInclude Include="Library\Geometry\Calculation.h" />
+    <ClInclude Include="Library\Geometry\Matrix4x4.h" />
+    <ClInclude Include="Library\Geometry\Quaternion.h" />
+    <ClInclude Include="Library\Geometry\Vector2.h" />
+    <ClInclude Include="Library\Geometry\Vector3.h" />
+    <ClInclude Include="Library\Objects\Model.h" />
+    <ClInclude Include="Objects\Camera\Camera.h" />
+    <ClInclude Include="Objects\Camera\CameraShaker.h" />
+    <ClInclude Include="Objects\Camera\CameraStateAnimation.h" />
+    <ClInclude Include="Objects\Camera\CameraStateBase.h" />
+    <ClInclude Include="Objects\Camera\CameraStateFixed.h" />
+    <ClInclude Include="Objects\Camera\CameraStateFollow.h" />
+    <ClInclude Include="Library\Objects\Character\CharacterBase.h" />
+    <ClInclude Include="Objects\Character\Player\PlayerAnimationData.h" />
+    <ClInclude Include="Library\Physics\Collider.h" />
+    <ClInclude Include="Library\Physics\ColliderData.h" />
+    <ClInclude Include="Library\Physics\ColliderDataCapsule.h" />
+    <ClInclude Include="Library\Physics\ColliderDataSphere.h" />
+    <ClInclude Include="Library\Physics\Collision.h" />
+    <ClInclude Include="Library\Physics\Physics.h" />
+    <ClInclude Include="Library\Physics\ProjectSettings.h" />
+    <ClInclude Include="Library\Physics\Rigidbody.h" />
+    <ClInclude Include="Objects\Character\Player\Player.h" />
+    <ClInclude Include="Objects\Character\Player\PlayerStateBase.h" />
+    <ClInclude Include="Objects\Character\Player\PlayerStateIdle.h" />
+    <ClInclude Include="Objects\Character\Player\PlayerStateWalk.h" />
+    <ClInclude Include="Objects\Character\Player\PlayerStateDash.h" />
+    <ClInclude Include="Objects\Character\Player\PlayerStateDeath.h" />
+    <ClInclude Include="Objects\Character\Player\PlayerStateReact.h" />
+    <ClInclude Include="Objects\Character\Player\PlayerStateJump.h" />
+    <ClInclude Include="Objects\Character\Player\PlayerStateFall.h" />
+    <ClInclude Include="Objects\Character\Player\PlayerStateDodge.h" />
+    <ClInclude Include="Objects\Character\Player\PlayerStateAirDodge.h" />
+    <ClInclude Include="Loader\PlayerDataLoader.h" />
+    <ClInclude Include="Objects\Character\Player\PlayerStateAttack.h" />
+    <ClInclude Include="Objects\Character\Player\PlayerAttackAnimData.h" />
+    <ClInclude Include="Library\Objects\AttackColStats.h" />
+    <ClInclude Include="Objects\Character\Player\PlayerComboHolder.h" />
+    <ClInclude Include="Objects\Character\Player\PlayerStateLanding.h" />
+    <ClInclude Include="Objects\Character\Player\PlayerStateSpecialAttack.h" />
+    <ClInclude Include="Objects\Character\Player\PlayerStateAirAttack.h" />
+    <ClInclude Include="Objects\Character\Player\PlayerStateAirSpecialAttack.h" />
+    <ClInclude Include="Objects\Character\Player\PlayerStateDodgeFail.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
+    <ClInclude Include="Scene\ResultDataHolder.h" />
+    <ClInclude Include="Scene\SceneResult.h" />
+    <ClInclude Include="Scene\ScenePause.h" />
+    <ClInclude Include="Scene\SceneGamePlay.h" />
+    <ClInclude Include="Scene\SceneBase.h" />
+    <ClInclude Include="Scene\SceneController.h" />
+    <ClInclude Include="Scene\SceneTitle.h" />
+    <ClInclude Include="Library\System\StringUtility.h" />
+    <ClInclude Include="Library\System\Application.h" />
+    <ClInclude Include="Library\System\DebugDraw.h" />
+    <ClInclude Include="Library\System\Effect\EffectFactory.h" />
+    <ClInclude Include="Library\System\Effect\EffectManager.h" />
+    <ClInclude Include="Library\System\Effect\EffekseerEffect.h" />
+    <ClInclude Include="Library\System\Input.h" />
+    <ClInclude Include="Library\System\SoundManager.h" />
+    <ClInclude Include="Library\System\Statistics.h" />
+    <ClInclude Include="Library\Objects\Skydome.h" />
+    <ClInclude Include="Library\System\StagePlacer.h" />
+    <ClInclude Include="Library\System\UI\UIButton.h" />
+    <ClInclude Include="Library\System\UI\UIButtonManager.h" />
+    <ClInclude Include="Library\System\UI\UIBase.h" />
+    <ClInclude Include="Library\System\UI\UIGameScoreDrawer.h" />
+    <ClInclude Include="Library\System\UI\UIGraph.h" />
+    <ClInclude Include="Library\System\UI\UIManager.h" />
+    <ClInclude Include="Library\System\UI\UIPlayerHP.h" />
+    <ClInclude Include="Library\System\UI\UIResultScoreDrawer.h" />
+    <ClInclude Include="Library\System\UI\UIComboAction.h" />
+    <ClInclude Include="Library\System\UI\UIComboScore.h" />
+    <ClInclude Include="Library\System\UI\UILockonTarget.h" />
+    <ClInclude Include="Library\ShadowGenerator.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="2025DxLibGameWinter.rc" />
+    <ResourceCompile Include="Resource.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
