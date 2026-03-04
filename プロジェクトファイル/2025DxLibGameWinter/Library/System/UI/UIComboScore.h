@@ -4,7 +4,7 @@
 class UIComboScore : public UIBase
 {
 public:
-	UIComboScore(int graphHandle, Position2 centerPos, int drawScore);
+	UIComboScore(int baseGraphHandle, int scoreGraphHandle, Position2 centerPos, int drawScore);
 	~UIComboScore();
 
 	/// <summary>
@@ -40,7 +40,10 @@ private:
 	/// </summary>
 	void UpdateAnimScale(float progScale);
 
-	int _graphHandle;
+	void DrawScore(Position2 centerPos, int maxDigits, float scale);
+
+	int _baseGraphHandle;
+	int _scoreGraphHandle;
 	int _drawScore;
 
 	float _scale;

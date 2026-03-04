@@ -20,6 +20,10 @@ void UIScoreDrawer::DrawScore(Position2 centerPos, int maxDigits, float scale)
 {
 	if (_scoreGraphHandle == -1) return;
 
+	int drawScore = static_cast<int>(_drawScore);
+	// 四捨五入
+	if (_drawScore - drawScore >= 0.5f) drawScore++;
+
 	int allWidth, allHeight;
 	GetGraphSize(_scoreGraphHandle, &allWidth, &allHeight);
 
@@ -34,7 +38,7 @@ void UIScoreDrawer::DrawScore(Position2 centerPos, int maxDigits, float scale)
 		for (int j = 0; j < (maxDigits - 1 - i); ++j) {
 			powerOfTen *= 10;
 		}
-		int digit = (_drawScore / powerOfTen) % 10;
+		int digit = (drawScore / powerOfTen) % 10;
 
 		int srcX = digit * charWidth;
 

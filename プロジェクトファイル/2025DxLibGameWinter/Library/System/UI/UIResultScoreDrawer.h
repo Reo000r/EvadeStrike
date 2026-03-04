@@ -11,6 +11,6 @@ public:
 	void Draw(Vector2 shakeOffset);
 
 private:
-
+	void UpdateScoreValue();
 };
 

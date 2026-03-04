@@ -24,7 +24,7 @@ UIPlayerHP::UIPlayerHP(
 	int baseGraphHandle,
 	int gaugeGraphHandle,
 	int decGaugeGraphHandle) :
-	UIBase(Position2(Statistics::kScreenWidth * 0.2f, 
+	UIBase(Position2(Statistics::kScreenWidth * 0.25f, 
 		Statistics::kScreenHeight * 0.1f), true),
 	_baseGraphHandle(baseGraphHandle),
 	_gaugeGraphHandle(gaugeGraphHandle),

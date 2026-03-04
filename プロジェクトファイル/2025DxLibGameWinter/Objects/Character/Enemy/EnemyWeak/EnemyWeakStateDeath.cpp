@@ -55,11 +55,15 @@ void EnemyWeakStateDeath::Update()
 			rate /= (1.0f - kOpacityStartRate);
 		}
 	}
+	float timeScale = GetParentPtr()->GetCurrentTimeScale();
 	// エフェクト再生速度変更
 	if (rate >= kOpacityStartRate) {
 		if (_defeatEffect.lock()) {
-			_defeatEffect.lock()->SetPlaySpeed(kOpacityEffectSpeed);
+			_defeatEffect.lock()->SetPlaySpeed(kOpacityEffectSpeed * timeScale);
 		}
+	}
+	else {
+		_defeatEffect.lock()->SetPlaySpeed(kDefaultEffectSpeed * timeScale);
 	}
 	// 0.0f-1.0fから1.0f-0.0fに変換する
 	rate = (rate * -1.0f) + 1.0f;

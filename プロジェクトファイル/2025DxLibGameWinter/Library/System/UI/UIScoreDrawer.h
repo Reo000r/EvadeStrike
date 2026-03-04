@@ -12,7 +12,7 @@ public:
 protected:
 
 	int _scoreGraphHandle;
-	int _rawScore;
-	int _drawScore;
+	float _rawScore;
+	float _drawScore;
 };
 

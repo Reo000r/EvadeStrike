@@ -23,7 +23,11 @@ namespace {
 	constexpr int kStartScoreX = Statistics::kScreenWidth * 0.9f;
 	constexpr int kStartScoreY = Statistics::kScreenHeight * 0.3f;
 	//constexpr float kScaleScore = kBaseScale * 1.0f;
-	constexpr float kDistScore = kScaleAction * (128.0f + 16.0f);
+	constexpr float kDistScore = kScaleAction * 150.0f;
+
+	constexpr int kDrawScorePunch = 10;
+	constexpr int kDrawScoreKick = 15;
+	constexpr int kDrawScoreSpecial = 50;
 }
 
 UIGameScoreDrawer::UIGameScoreDrawer() :
@@ -89,18 +93,26 @@ void UIGameScoreDrawer::AddDrawComboScore()
 	// 現在の攻撃を取得
 	PlayerActionKind current = GetCurrentAction();
 
-	int handle = GetActionGraph(current);
-	if (handle <= 0) {
+	int baseHandle = LoadGraph(L"Data/Graph/EvadeStrike_ScoreDrawBack.png");
+	if (baseHandle <= 0) {
 		assert(false && "不正なハンドルまたは不正なアクション種別");
+		return;
+	}
+	int scoreHandle = LoadGraph(L"Data/Graph/EvadeStrike_Numbers.png");
+	if (scoreHandle <= 0) {
+		assert(false && "不正なハンドル");
 		return;
 	}
 
 	Position2 drawPos = _drawComboScoreBasePos;
 	drawPos.y += kDistScore * _drawComboScoreUIList.size();
 
-	constexpr int kDrawScorePunch = 10;
+	int drawScore = 0;
+	if		(current == PlayerActionKind::Punch) drawScore = kDrawScorePunch;
+	else if (current == PlayerActionKind::Kick) drawScore = kDrawScoreKick;
+	else if (current == PlayerActionKind::Special) drawScore = kDrawScoreSpecial;
 	auto ui = std::make_shared<UIComboScore>(
-		handle, drawPos, kDrawScorePunch);
+		baseHandle, scoreHandle, drawPos, drawScore);
 	UIManager::GetInstance().RegisterUI(ui);
 	_drawComboScoreUIList.emplace_back(ui);
 }
@@ -158,12 +170,12 @@ void UIGameScoreDrawer::UpdateCurrentAction()
 void UIGameScoreDrawer::UpdateScoreValue()
 {
 	// 追加スコア計算
-	int addValue = _rawScore - _drawScore;
+	float addValue = _rawScore - _drawScore;
 	// 更新がなければreturn
 	if (addValue == 0) return;
-	addValue *= 0.08f;
+	addValue *= 0.1f;
 	// 1より小さければ1にする
-	if (addValue <= 1) addValue = 1;
+	//if (addValue <= 1) addValue = 1;
 	// 描画スコア更新
 	_drawScore += addValue;
 }

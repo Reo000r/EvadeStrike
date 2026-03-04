@@ -44,7 +44,7 @@ void SceneResult::Init()
         resultHandle,
         Vector2(Statistics::kScreenWidth * 0.5f,
             Statistics::kScreenHeight * 0.2f),
-        0.5f * Statistics::kScreenWidthFullHDRatio,
+        0.7f * Statistics::kScreenWidthFullHDRatio,
         [](){}
     );
     // リトライボタン
