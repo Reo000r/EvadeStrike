@@ -1,5 +1,5 @@
 ﻿#include "EnemyWeak.h"
-#include "Objects/Character/Player/PlayerAnimationData.h"
+#include "Objects/Character/Enemy/EnemyAnimationData.h"
 #include "EnemyWeakStateBase.h"
 #include "EnemyWeakStateSpawn.h"
 #include "EnemyWeakStateReact.h"
@@ -12,9 +12,11 @@
 
 namespace {
 	constexpr float kHitPoint = 100.0f;
+	
+	constexpr float kModelScale = 2.0f;
 
-	constexpr float kColRadius = 100.0f;
-	constexpr float kColHeight = 350.0f;	// 身長
+	constexpr float kColRadius = 50.0f * kModelScale;
+	constexpr float kColHeight = 175.0f * kModelScale;
 
 	constexpr float kModelDrawOffsetAngle = DX_PI_F;
 
@@ -25,14 +27,18 @@ namespace {
 	const Vector3 kDrawOffset = Vector3(0, -kColRadius, 0);
 
 	// 攻撃情報
-	constexpr float kAttackColRad = 80.0f;
-	constexpr float kAttackColHeight = 150.0f;
-	const Vector3 kAttackColTransOffset = Vector3(0, 0, 100);
+	constexpr float kAttackColRad = 40.0f * kModelScale;
+	constexpr float kAttackColHeight = 75.0f * kModelScale;
+	const Vector3 kAttackColTransOffset = Vector3(0, 0, kColRadius);
 	const Vector3 kAttackColScale = Vector3(1, 1, 1);
 	const Vector3 kAttackColAngle = Vector3Zero();
+	constexpr float kAttackPower = 10.0f;
 
 	// ノックバック減衰量
 	constexpr float kKnockbackDecayAmount = 0.85f;
+
+	// ヒットストップ時のモデル振動量
+	constexpr float kShakeMagnitude = 5.0f * kModelScale;
 }
 
 EnemyWeak::EnemyWeak(std::weak_ptr<Physics> physics, int modelHandle) :
@@ -48,20 +54,20 @@ EnemyWeak::EnemyWeak(std::weak_ptr<Physics> physics, int modelHandle) :
 
 	SetPos(kDefaultPos);
 	MV1SetPosition(_animator->GetHandle(), GetPos());
-	MV1SetScale(_animator->GetHandle(), Vector3(1, 1, 1) * 2.0f);
+	MV1SetScale(_animator->GetHandle(), Vector3(1, 1, 1) * kModelScale);
 	MV1SetRotationXYZ(_animator->GetHandle(),
 		Vector3(0, _rotAngleY + kModelDrawOffsetAngle, 0));
 
 	// 使用するアニメーションを全て入れる
-	_animator->SetAnimData(kAnimNameIdle, kBaseAnimSpeed, true);
-	_animator->SetAnimData(kAnimNameDash, kBaseAnimSpeed, true);
-	_animator->SetAnimData(kAnimNameHeavyAttack1, kAttackAnimSpeed, false);
-	_animator->SetAnimData(kAnimNameReact, kBaseAnimSpeed, false);
-	_animator->SetAnimData(kAnimNameDeath, kDeathAnimSpeed, false);
-	_animator->SetAnimData(kAnimNameSpecialAttack2, kBaseAnimSpeed, false);
+	_animator->SetAnimData(WeakAnimData::kAnimNameSpawn, WeakAnimData::kSpawnAnimSpeed, false);
+	_animator->SetAnimData(WeakAnimData::kAnimNameIdle, WeakAnimData::kBaseAnimSpeed, true);
+	_animator->SetAnimData(WeakAnimData::kAnimNameDash, WeakAnimData::kBaseAnimSpeed, true);
+	_animator->SetAnimData(WeakAnimData::kAnimNameHeavyAttack1, WeakAnimData::kAttackAnimSpeed, false);
+	_animator->SetAnimData(WeakAnimData::kAnimNameReact, WeakAnimData::kBaseAnimSpeed, false);
+	_animator->SetAnimData(WeakAnimData::kAnimNameDeath, WeakAnimData::kDeathAnimSpeed, false);
 
 	// 最初のアニメーションを設定する
-	_animator->SetStartAnim(kAnimNameIdle);
+	_animator->SetStartAnim(WeakAnimData::kAnimNameSpawn);
 }
 
 EnemyWeak::~EnemyWeak()
@@ -84,7 +90,7 @@ void EnemyWeak::Init()
 	stats.transOffset = kAttackColTransOffset;
 	stats.scale = kAttackColScale;
 	stats.angle = kAttackColAngle;
-	stats.attackPower = 10.2f;
+	stats.attackPower = kAttackPower;
 	std::shared_ptr<AttackCol> ptr =
 		std::make_shared<AttackCol>(_physics, PhysicsData::GameObjectTag::EnemyAttack);
 	ptr->SetAttackData(stats);
@@ -145,7 +151,8 @@ void EnemyWeak::OnCollide(const std::weak_ptr<Collider> collider)
 {
 }
 
-void EnemyWeak::TakeDamage(std::shared_ptr<AttackableGameObject> attacker)
+void EnemyWeak::TakeDamage(std::shared_ptr<AttackableGameObject> attacker,
+	bool isReact)
 {
 	// 無敵状態ならreturn
 	if (IsInv()) return;
@@ -179,7 +186,7 @@ void EnemyWeak::TakeDamage(std::shared_ptr<AttackableGameObject> attacker)
 	}
 
 	// ヒットストップを行う
-	SetHitStop(10, true, 5.0f);
+	SetHitStop(10, true, kShakeMagnitude);
 	// ヒットストップ振動量を与える
 	_animator->SetDrawOffset(GetHitStopShakeVec() + kDrawOffset);
 

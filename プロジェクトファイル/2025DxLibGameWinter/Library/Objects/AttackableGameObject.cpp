@@ -62,7 +62,8 @@ void AttackableGameObject::OnCollide(const std::weak_ptr<Collider> collider)
 	if (_collider->GetTag() == PhysicsData::GameObjectTag::PlayerAttack) {
 
 		// 敵でないなら攻撃しない
-		if (other->GetTag() != PhysicsData::GameObjectTag::Enemy) {
+		if (other->GetTag() != PhysicsData::GameObjectTag::EnemyMinion &&
+			other->GetTag() != PhysicsData::GameObjectTag::EnemyBoss) {
 			return;
 		}
 

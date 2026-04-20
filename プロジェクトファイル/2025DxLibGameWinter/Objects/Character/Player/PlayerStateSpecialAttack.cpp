@@ -117,7 +117,7 @@ void PlayerStateSpecialAttack::Update()
 	_attackCol->Update();
 
 	// エフェクト位置更新
-	if (_currentEffect.lock()) {
+	if (!_currentEffect.expired()) {
 		if (_currentEffect.lock()->IsPlaying()) {
 			_currentEffect.lock()->SetPos(_attackCol->GetPos());
 		}
@@ -128,6 +128,8 @@ void PlayerStateSpecialAttack::OnExit()
 {
 	// 攻撃判定を消す
 	_attackCol->Disable();
+	// コンボを途切れさせる
+	ResetCombo();
 }
 
 std::shared_ptr<PlayerStateBase> PlayerStateSpecialAttack::CheckStateTransition()
@@ -160,8 +162,6 @@ std::shared_ptr<PlayerStateBase> PlayerStateSpecialAttack::CheckStateTransition(
 	// アニメーションが終了しているかつ
 	// 先行入力がなかったなら
 	if (GetAnimator()->GetCurrentAnimData()->isEnd) {
-		// コンボを途切れさせる
-		ResetCombo();
 		// 待機ステートに入る
 		return std::make_shared<PlayerStateIdle>(GetPlayerPtr());
 	}

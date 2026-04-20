@@ -11,7 +11,8 @@ namespace PhysicsData {
 		Player,			// プレイヤー
 		PlayerAttack,
 		PlayerJustDodge,
-		Enemy,			// 敵
+		EnemyMinion,		// 通常敵
+		EnemyBoss,			// ボス敵
 		EnemyAttack,
 		Item,			// アイテム
 		SystemWall,		// システム壁

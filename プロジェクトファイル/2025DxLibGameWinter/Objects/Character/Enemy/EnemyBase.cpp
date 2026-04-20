@@ -10,9 +10,11 @@ namespace {
 	constexpr float kModelDrawOffsetAngle = DX_PI_F;
 }
 
-EnemyBase::EnemyBase(std::weak_ptr<Physics> physics, int modelHandle) :
-	CharacterBase(physics, PhysicsData::Priority::Middle, 
-		PhysicsData::GameObjectTag::Enemy, PhysicsData::ColliderKind::Capsule,
+EnemyBase::EnemyBase(std::weak_ptr<Physics> physics, int modelHandle,
+	PhysicsData::Priority priority,
+	PhysicsData::GameObjectTag tag) :
+	CharacterBase(physics, priority, tag,
+		PhysicsData::ColliderKind::Capsule,
 		false, true, true),
 	_animator(std::make_shared<AnimationModel>()),
 	_manager(),
@@ -65,8 +67,10 @@ void EnemyBase::SetColliderData(float rad, Vector3 startToEnd)
 		false,		// isTrigger
 		true		// isCollision
 	);
-	// 自身の武器とは当たり判定を行わない
+	// 敵の攻撃判定やイベント壁などとは当たり判定を行わない
 	_collider->AddThroughTag(PhysicsData::GameObjectTag::EnemyAttack);
+	_collider->AddThroughTag(PhysicsData::GameObjectTag::EventWall);
+	_collider->AddThroughTag(PhysicsData::GameObjectTag::PlayerJustDodge);
 
 	// physicsに登録する
 	EntryPhysics(_physics);

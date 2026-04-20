@@ -37,7 +37,8 @@ public:
 	/// ダメージを受ける処理
 	/// </summary>
 	/// <param name="attacker">攻撃を行った相手</param>
-	virtual void TakeDamage(std::shared_ptr<AttackableGameObject> attacker) abstract;
+	virtual void TakeDamage(std::shared_ptr<AttackableGameObject> attacker, 
+		bool isReact = true) abstract;
 
 	/// <summary>
 	/// タイムスケールに応じて無敵時間更新

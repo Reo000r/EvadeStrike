@@ -19,7 +19,8 @@ void WeaponPlayer::OnCollide(const std::weak_ptr<Collider> collider)
     auto owner = _owner.lock();
 
     // 敵でないなら攻撃しない
-    if (other->GetTag() != PhysicsData::GameObjectTag::Enemy) {
+    if (other->GetTag() != PhysicsData::GameObjectTag::EnemyMinion && 
+        other->GetTag() != PhysicsData::GameObjectTag::EnemyBoss) {
         return;
     }
 

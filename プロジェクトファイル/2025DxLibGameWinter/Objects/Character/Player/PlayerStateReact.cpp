@@ -47,4 +47,6 @@ std::shared_ptr<PlayerStateBase> PlayerStateReact::CheckStateTransition()
 		// 待機ステートに入る
 		return std::make_shared<PlayerStateIdle>(GetPlayerPtr());
 	}
+
+	return nullptr;
 }

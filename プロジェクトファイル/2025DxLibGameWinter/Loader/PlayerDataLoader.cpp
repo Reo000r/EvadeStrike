@@ -6,8 +6,8 @@
 #include <DxLib.h>
 
 namespace {
-	const std::wstring kAttackAnimFilePath = L"Data/PlayerAttackAnimData.csv";
-	const std::wstring kAttackStatsFilePath = L"Data/PlayerAttackStats.csv";
+	const std::wstring kAttackAnimFilePath = L"Data/CSV/PlayerAttackAnimData.csv";
+	const std::wstring kAttackStatsFilePath = L"Data/CSV/PlayerAttackStats.csv";
     constexpr wchar_t kSplitMark = L',';
     const std::wstring kAttackAnimHeader = 
         L"ID,DefaultID,PunchID,KickID,StartAttackActiveRate,EndAttackActiveRate,StartTransRate,EndTransRate,AnimSpeed,AnimName";

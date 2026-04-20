@@ -58,7 +58,7 @@ public:
 	/// 通常のタイムスケールに戻す期間を設定
 	/// </summary>
 	/// <returns></returns>
-	float SetToDefaultScaleFrame(int frame);
+	void SetToDefaultScaleFrame(int frame);
 	
 	/// <summary>
 	/// ヒットストップを設定

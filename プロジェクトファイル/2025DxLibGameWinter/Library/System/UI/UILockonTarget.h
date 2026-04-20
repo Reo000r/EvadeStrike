@@ -4,7 +4,8 @@
 class UILockonTarget : public UIBase
 {
 public:
-	UILockonTarget(int graphHandle, Position2 centerPos, float scale);
+	UILockonTarget(int graphHandle, Position2 centerPos, 
+		float scaleMul);
 	~UILockonTarget();
 
 	/// <summary>
@@ -42,6 +43,7 @@ private:
 	int _graphHandle;
 	float _percent;
 	float _baseScale;
+	float _baseScaleMul;
 
 	// アニメーション
 	float _animStartPercent;  // アニメーション開始時の値

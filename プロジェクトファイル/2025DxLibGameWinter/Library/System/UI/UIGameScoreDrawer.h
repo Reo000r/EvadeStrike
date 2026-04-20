@@ -11,6 +11,7 @@ class UIGameScoreDrawer : public UIScoreDrawer
 {
 public:
 	UIGameScoreDrawer();
+	~UIGameScoreDrawer();
 
 	void Init() override;
 	void Update() override;

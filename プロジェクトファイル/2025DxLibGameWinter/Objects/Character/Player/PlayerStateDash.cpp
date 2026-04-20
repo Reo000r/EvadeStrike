@@ -44,8 +44,6 @@ std::shared_ptr<PlayerStateBase> PlayerStateDash::CheckStateTransition()
 	}
 	// 攻撃入力があれば
 	if (CanPunchAttackInput()) {
-		// 移動時に攻撃を入力すると追加で前進する
-		//AddTransformForward(kDashToAttackVel);
 		// 攻撃ステートに入る
 		const PlayerActionKind kind = PlayerActionKind::Punch;
 		PlayerAttackAnimData data = GetDataLoader()->GetAttackAnimData(GetPunchAttackID());

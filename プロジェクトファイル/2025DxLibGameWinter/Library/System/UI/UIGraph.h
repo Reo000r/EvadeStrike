@@ -8,7 +8,7 @@ public:
 
 	UIGraph(int graphHandle, Position2 centerPos, 
 		bool isDraw, float scale, float alpha, bool isShake = true);
-	~UIGraph();
+	virtual ~UIGraph();
 
 	/// <summary>
 	/// 初期化

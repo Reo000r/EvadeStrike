@@ -1,3 +1,8 @@
+## ダウンロード方法
+
+緑のCodeボタンをクリックし、Download ZIP を押してダウンロード
+
+
 # EvadeStrike ゲーム説明
 
 

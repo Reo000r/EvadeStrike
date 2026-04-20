@@ -14,8 +14,8 @@ public:
         bool isTrigger);
     virtual ~EventCollider();
 
-    void Init() override;
-    void Update() override;
+    virtual void Init() override;
+    virtual void Update() override;
     void Draw() const override;
 
     void SetEventManager(std::weak_ptr<EventManager> eventManager);
@@ -36,12 +36,12 @@ public:
     /// <summary>
     /// íœ‘ÎÛ‚É‚·‚é
     /// </summary>
-    void Expire();
+    virtual void Expire();
 
     // ƒCƒxƒ“ƒgî•ñ‚ğæ“¾
     const ObjectData& GetObjectData() const { return _data; }
 
-    std::shared_ptr<Collider> GetCollider() { return _collider; }
+    std::weak_ptr<Collider> GetCollider() { return _collider; }
 
 protected:
     std::weak_ptr<ObjectHandleHolder> _handleHolder;

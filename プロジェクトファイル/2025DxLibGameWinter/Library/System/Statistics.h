@@ -3,10 +3,10 @@
 
 namespace Statistics
 {
-	//constexpr int kScreenWidth  = 1920+32;
-	//constexpr int kScreenHeight = 1080+18;
-	constexpr int kScreenWidth  = 1280;
-	constexpr int kScreenHeight = 720;
+	constexpr int kScreenWidth  = 1920+16;
+	constexpr int kScreenHeight = 1080+9;
+	//constexpr int kScreenWidth  = 1280;
+	//constexpr int kScreenHeight = 720;
 	//constexpr int kScreenWidth  = 640;
 	//constexpr int kScreenHeight = 360;
 	constexpr float kScreenWidthFullHDRatio = kScreenWidth / 1920.0f;

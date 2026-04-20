@@ -3,7 +3,6 @@
 #include "PlayerStateIdle.h"
 #include "PlayerStateDash.h"
 #include "PlayerStateAttack.h"
-//#include "PlayerStateAirAttack.h"
 #include "PlayerAnimationData.h"
 #include "Objects/Character/Player/JustDodge/JustDodgeCollider.h"
 #include "Objects/Character/Player/JustDodge/JustDodgeManager.h"
@@ -12,6 +11,7 @@
 #include "Library/System/Effect/EffectManager.h"
 #include "Library/System/Effect/EffekseerEffect.h"
 #include "Library/System/SoundManager.h"
+#include <DxLib.h>
 
 namespace {
 	constexpr float kStartTransformFrameRate = 0.0f;
@@ -131,7 +131,7 @@ void PlayerStateDodge::Update()
 	}
 
 	// エフェクト位置更新
-	if (_currentEffect.lock()) {
+	if (!_currentEffect.expired()) {
 		if (_currentEffect.lock()->IsPlaying()) {
 			_currentEffect.lock()->SetPos(GetPlayerPtr()->GetCenterPos());
 		}

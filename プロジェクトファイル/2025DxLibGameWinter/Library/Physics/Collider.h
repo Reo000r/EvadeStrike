@@ -30,8 +30,8 @@ public:
 		bool isTrigger,
 		bool isCollision, 
 		bool useGravity);
+	virtual ~Collider() = default;
 
-	~Collider() = default;
 	void EntryPhysics(std::weak_ptr<Physics> physics);
 	void ReleasePhysics();
 
@@ -52,7 +52,9 @@ public:
 	Vector3 GetDir() const { return _rigidbody->GetDir(); }
 	std::shared_ptr<ColliderData> GetColData() const { return _colliderData; }
 	bool UseGravity() const { return _rigidbody->UseGravity(); }
+	void SetGravityState(bool useGravity) { _rigidbody->SetGravityState(useGravity); }
 	float GetGravityScale() const { return _rigidbody->GetGravityScale(); }
+	void SetGravityScale(float scale) { _rigidbody->SetGravityScale(scale); }
 	bool IsCollision() const { return _colliderData->IsCollision(); }
 	std::shared_ptr<GameObject> GetParent() const { return _parent; }
 	

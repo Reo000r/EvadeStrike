@@ -123,7 +123,6 @@ void Application::Run()
 
 		// シャドウマップへの描画
 		sceneController.Draw();
-		effectManager.Draw();
 
 		// リザルト用の画像を取得
 		ResultDataHolder::GetInstance().CopyResultScreen();

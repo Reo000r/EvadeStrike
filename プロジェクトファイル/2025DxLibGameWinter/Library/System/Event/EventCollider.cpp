@@ -25,7 +25,8 @@ EventCollider::~EventCollider()
 {
 }
 
-void EventCollider::Init() {
+void EventCollider::Init()
+{
     // 自身のポインタをColliderに設定
     _collider->SetParent(shared_from_this());
 
@@ -61,6 +62,7 @@ void EventCollider::Init() {
 	// 壁や床とは当たり判定を行わない
 	_collider->AddThroughTag(PhysicsData::GameObjectTag::SystemWall);
 	_collider->AddThroughTag(PhysicsData::GameObjectTag::StepGround);
+	_collider->AddThroughTag(PhysicsData::GameObjectTag::EventWall);
 
 	// col->SetPosで正確な位置を入れるか
 	// 当たり判定時にGetModelPosをしないと当たり判定がおかしくなるかも
@@ -69,12 +71,13 @@ void EventCollider::Init() {
 	EntryPhysics(_physics);
 }
 
-void EventCollider::Update() {
-    // 処理無し
-	if (_eventManager.lock()) {}
+void EventCollider::Update()
+{
+	// 処理なし
 }
 
-void EventCollider::Draw() const {
+void EventCollider::Draw() const
+{
 	if (_isDraw) MV1DrawModel(_modelHandle);
 }
 

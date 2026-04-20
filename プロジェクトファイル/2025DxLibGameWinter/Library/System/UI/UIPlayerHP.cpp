@@ -9,6 +9,9 @@
 namespace {
 	constexpr float kScale = 0.6f * Statistics::kScreenWidthFullHDRatio;
 
+	const Position2 kDrawPos = Position2(
+		Statistics::kScreenWidth * 0.25f,
+		Statistics::kScreenHeight * 0.1f);
 	const Vector2 kGaugeOffset = Vector2(15, -62) * kScale;
 
 	// アニメーションを行う時間
@@ -24,8 +27,7 @@ UIPlayerHP::UIPlayerHP(
 	int baseGraphHandle,
 	int gaugeGraphHandle,
 	int decGaugeGraphHandle) :
-	UIBase(Position2(Statistics::kScreenWidth * 0.25f, 
-		Statistics::kScreenHeight * 0.1f), true),
+	UIBase(kDrawPos, true),
 	_baseGraphHandle(baseGraphHandle),
 	_gaugeGraphHandle(gaugeGraphHandle),
 	_decGaugeGraphHandle(decGaugeGraphHandle),
@@ -61,9 +63,9 @@ void UIPlayerHP::Update()
 		_shakeAnimFrame = kShakeAnimTime;
 		// 減少アニメーションを行い始めていれば
 		if (_decAnimFrame <= kStartDecAnimTime) {
-			_decAnimFrame = kDecAnimTime;
 			_animStartHp = _lastHp;
 		}
+		_decAnimFrame = kDecAnimTime;
 	}
 
 	// アニメーション更新
@@ -163,7 +165,7 @@ void UIPlayerHP::DrawHPGaugeDec(Position2 drawPos, float ratio)
 	// 中心を保つためのオフセット
 	float offsetMoveX = (w - drawW) * 0.5f * _scale;
 
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 127);
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 	DrawRectRotaGraph(
 		static_cast<int>(drawPos.x - offsetMoveX),
 		static_cast<int>(drawPos.y), // 画面上の描画中心
@@ -171,7 +173,7 @@ void UIPlayerHP::DrawHPGaugeDec(Position2 drawPos, float ratio)
 		drawW, h,			// 元画像の幅と高さ
 		_scale,				// 拡大率
 		0.0,				// 回転（ラジアン）
-		_gaugeGraphHandle,	// グラフィックハンドル
+		_decGaugeGraphHandle,	// グラフィックハンドル
 		TRUE,				// 透過フラグ
 		FALSE				// 反転フラグ
 	);

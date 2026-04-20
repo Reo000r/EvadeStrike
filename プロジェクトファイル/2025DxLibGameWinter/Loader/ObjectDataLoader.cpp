@@ -84,7 +84,9 @@ std::vector<ObjectData> ObjectDataLoader::LoadData(std::string fileName)
 		// 位置、回転、拡縮
 		// DxLib空間への変換
 		// 位置
-		float px, py, pz;
+		float px = 0.0f;
+		float py = 0.0f;
+		float pz = 0.0f;
 		if (std::getline(ss, part, c)) px = std::stof(part);
 		if (std::getline(ss, part, c)) py = std::stof(part);
 		if (std::getline(ss, part, c)) pz = std::stof(part);

@@ -4,6 +4,7 @@
 #include "PlayerStateIdle.h"
 #include "Library/Geometry/Calculation.h"
 #include "Library/System/Input.h"
+#include <DxLib.h>
 
 namespace {
 	constexpr float kStartTransformFrameRate = 0.0f;

@@ -16,6 +16,7 @@ class UIGameScoreDrawer;
 
 enum class EnemyType {
 	Weak,
+	Boss,
 };
 
 /// <summary>
@@ -87,7 +88,6 @@ public:
 	void HitPlayerAttack();
 
 private:
-	void GenerateEnemys();
 
 	void UpdateAttackAuthority();
 

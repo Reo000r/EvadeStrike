@@ -2,7 +2,7 @@
 #include <cmath>
 
 namespace {
-	constexpr float kPi = 3.141592653589793238;
+	constexpr float kPi = 3.141592653589793238f;
 }
 
 enum class EasingType {
@@ -53,7 +53,7 @@ enum class EasingType {
 class Easing {
 public:
 	/// <summary>
-	/// <para> 進行度を対応したイージングを掛けて返す </para>
+	/// <para> 入力された値を対応したイージングを掛けて返す </para>
 	/// </summary>
 	/// <param name="t">進行度(0~1)</param>
 	/// <param name="type">イージングタイプ</param>
@@ -73,50 +73,50 @@ public:
 		case EasingType::EaseOutQuad:
 			return 1 - (1 - t) * (1 - t);
 		case EasingType::EaseInOutQuad:
-			return (t < 0.5f) ? (2 * t * t) : (1 - pow(-2 * t + 2, 2) / 2);
+			return (t < 0.5f) ? (2 * t * t) : (1 - powf(-2 * t + 2, 2) / 2);
 
 		case EasingType::EaseInCubic:
 			return t * t * t;
 		case EasingType::EaseOutCubic:
-			return 1 - pow(1 - t, 3);
+			return 1 - powf(1 - t, 3);
 		case EasingType::EaseInOutCubic:
-			return (t < 0.5f) ? (4 * t * t * t) : (1 - pow(-2 * t + 2, 3) / 2);
+			return (t < 0.5f) ? (4 * t * t * t) : (1 - powf(-2 * t + 2, 3) / 2);
 
 		case EasingType::easeInQuart:
 			return t * t * t * t;
 		case EasingType::easeOutQuart:
-			return 1 - pow(1 - t, 4);
+			return 1 - powf(1 - t, 4);
 		case EasingType::easeInOutQuart:
-			return (t < 0.5f) ? (8 * t * t * t * t) : (1 - pow(-2 * t + 2, 4) / 2);
+			return (t < 0.5f) ? (8 * t * t * t * t) : (1 - powf(-2 * t + 2, 4) / 2);
 
 		case EasingType::EaseInQuint:
 			return t * t * t * t * t;
 		case EasingType::EaseOutQuint:
-			return 1 - pow(1 - t, 5);
+			return 1 - powf(1 - t, 5);
 		case EasingType::EaseInOutQuint:
-			return (t < 0.5f) ? (16 * t * t * t * t * t) : (1 - pow(-2 * t + 2, 5) / 2);
+			return (t < 0.5f) ? (16 * t * t * t * t * t) : (1 - powf(-2 * t + 2, 5) / 2);
 
 		case EasingType::EaseInExpo:
-			return (t == 0.0f) ? 0 : (pow(2, 10 * t - 10));
+			return (t == 0.0f) ? 0 : (powf(2, 10 * t - 10));
 		case EasingType::EaseOutExpo:
-			return (t == 1.0f) ? 1 : (1 - pow(2, -10 * t));
+			return (t == 1.0f) ? 1 : (1 - powf(2, -10 * t));
 		case EasingType::EaseInOutExpo:
 			return t == 0
 				? 0
 				: t == 1
 				? 1
 				: t < 0.5f 
-				? pow(2, 20 * t - 10) / 2
-				: (2 - pow(2, -20 * t + 10)) / 2;
+				? powf(2, 20 * t - 10) / 2
+				: (2 - powf(2, -20 * t + 10)) / 2;
 
 		case EasingType::EaseInCirc:
-			return 1 - sqrt(1 - pow(t, 2));
+			return 1 - sqrtf(1 - powf(t, 2));
 		case EasingType::EaseOutCirc:
-			return sqrt(1 - pow(t - 1, 2));
+			return sqrtf(1 - powf(t - 1, 2));
 		case EasingType::EaseInOutCirc:
 			return t < 0.5f
-				? (1 - sqrt(1 - pow(2 * t, 2))) / 2
-				: (sqrt(1 - pow(-2 * t + 2, 2)) + 1) / 2;
+				? (1 - sqrtf(1 - powf(2 * t, 2))) / 2
+				: (sqrtf(1 - powf(-2 * t + 2, 2)) + 1) / 2;
 
 		case EasingType::EaseInBack: {
 			const float c1 = 1.70158f;
@@ -126,14 +126,14 @@ public:
 		case EasingType::EaseOutBack: {
 			const float c1 = 1.70158f;
 			const float c3 = c1 + 1;
-			return 1 + c3 * pow(t - 1, 3) + c1 * pow(t - 1, 2);
+			return 1 + c3 * powf(t - 1, 3) + c1 * powf(t - 1, 2);
 		}
 		case EasingType::EaseInOutBack: {
 			const float c1 = 1.70158f;
 			const float c2 = c1 * 1.525f;
 			return t < 0.5
-				? (pow(2 * t, 2) * ((c2 + 1) * 2 * t - c2)) / 2
-				: (pow(2 * t - 2, 2) * ((c2 + 1) * (t * 2 - 2) + c2) + 2) / 2;
+				? (powf(2 * t, 2) * ((c2 + 1) * 2 * t - c2)) / 2
+				: (powf(2 * t - 2, 2) * ((c2 + 1) * (t * 2 - 2) + c2) + 2) / 2;
 		}
 
 		case EasingType::EaseInElastic: {
@@ -142,7 +142,7 @@ public:
 				? 0
 				: t == 1
 				? 1
-				: -pow(2, 10 * t - 10) * sin((t * 10 - 10.75f) * c4);
+				: -powf(2, 10 * t - 10) * sin((t * 10 - 10.75f) * c4);
 		}
 		case EasingType::EaseOutElastic: {
 			const float c4 = (2 * kPi) / 3;
@@ -150,7 +150,7 @@ public:
 				? 0
 				: t == 1
 				? 1
-				: pow(2, -10 * t) * sin((t * 10 - 0.75f) * c4) + 1;
+				: powf(2, -10 * t) * sin((t * 10 - 0.75f) * c4) + 1;
 		}
 		case EasingType::EaseInOutElastic: {
 			const float c5 = (2 * kPi) / 4.5f;
@@ -159,8 +159,8 @@ public:
 				: t == 1
 				? 1
 				: t < 0.5f
-				? -(pow(2, 20 * t - 10) * sin((20 * t - 11.125f) * c5)) / 2
-				: (pow(2, -20 * t + 10) * sin((20 * t - 11.125f) * c5)) / 2 + 1;
+				? -(powf(2, 20 * t - 10) * sin((20 * t - 11.125f) * c5)) / 2
+				: (powf(2, -20 * t + 10) * sin((20 * t - 11.125f) * c5)) / 2 + 1;
 		}
 
 		case EasingType::EaseInBounce:
@@ -172,13 +172,13 @@ public:
 				return n1 * t * t;
 			}
 			else if (t < 2 / d1) {
-				return n1 * (t -= 1.5 / d1) * t + 0.75;
+				return n1 * (t -= 1.5f / d1) * t + 0.75f;
 			}
-			else if (t < 2.5 / d1) {
-				return n1 * (t -= 2.25 / d1) * t + 0.9375;
+			else if (t < 2.5f / d1) {
+				return n1 * (t -= 2.25f / d1) * t + 0.9375f;
 			}
 			else {
-				return n1 * (t -= 2.625 / d1) * t + 0.984375;
+				return n1 * (t -= 2.625f / d1) * t + 0.984375f;
 			}
 		}
 		case EasingType::EaseInOutBounce:

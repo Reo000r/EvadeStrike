@@ -25,6 +25,8 @@ namespace {
 	constexpr float kPointLightAtten0 = 1.0f;
 	constexpr float kPointLightAtten1 = 0.0f;
 	constexpr float kPointLightAtten2 = 0.0f;
+
+	constexpr float kLockonTargetScale = 0.6f;
 }
 
 Camera::Camera() :
@@ -55,7 +57,7 @@ void Camera::Init(std::shared_ptr<CameraStateBase>& state)
 	// UI生成
 	auto lockonGraph = std::make_shared<UILockonTarget>(
 		LoadGraph(L"Data/Graph/LockonTarget.png"),
-		Position2(0, 0), 0.8f
+		Position2(0, 0), kLockonTargetScale
 	);
 	UIManager::GetInstance().RegisterUI(lockonGraph);
 	_lockOnGraph = lockonGraph;

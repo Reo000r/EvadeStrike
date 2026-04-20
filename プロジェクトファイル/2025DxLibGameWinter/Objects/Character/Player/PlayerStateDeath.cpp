@@ -1,4 +1,5 @@
 ﻿#include "PlayerStateDeath.h"
+#include <DxLib.h>
 
 namespace {
 	// 透明度変更を開始するフレーム

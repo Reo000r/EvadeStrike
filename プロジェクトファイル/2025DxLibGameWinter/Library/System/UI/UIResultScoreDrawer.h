@@ -5,6 +5,7 @@ class UIResultScoreDrawer : public UIScoreDrawer
 {
 public:
 	UIResultScoreDrawer();
+	~UIResultScoreDrawer();
 
 	void Init();
 	void Update();

@@ -43,7 +43,7 @@ public:
 		const Vector2& pos, 
 		float baseScale, 
 		Action_t action);
-	~UIButton();
+	virtual ~UIButton();
 
 	void Update(bool canSelectMovement);
 	void Draw() const;

@@ -5,7 +5,7 @@
 #include <DxLib.h>
 
 namespace {
-    const std::wstring kFilePath = L"Data/PlayerComboData.csv";
+    const std::wstring kFilePath = L"Data/CSV/PlayerComboData.csv";
     constexpr wchar_t kSplitMark = L',';
     const std::wstring kAttackAnimHeader = L"Combo1,Combo2,Combo3,Combo4,Combo5";
 }

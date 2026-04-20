@@ -95,14 +95,14 @@ void CameraStateFollow::OnEnter()
 
     // ベースの追跡対象
     Vector3 baseTargetPos = Vector3Zero();
-    if (_target.lock()) {
+    if (!_target.expired()) {
         baseTargetPos = _target.lock()->GetCenterPos();
     }
     // 他の追跡対象
     Vector3 otherTargetPos = Vector3Zero();
     float otherTargetHPRatio = 0.0f;
     for (auto& target : _otherTargets) {
-        if (target.lock()) {
+        if (!target.expired()) {
             otherTargetPos = target.lock()->GetCenterPos();
             if (target.lock()->GetMaxHitPoint() != 0.0f) {
                 otherTargetHPRatio = target.lock()->GetHitPoint() / target.lock()->GetMaxHitPoint();
@@ -239,14 +239,14 @@ void CameraStateFollow::CameraUpdate(Vector3 rotAngle, float followLerpFactor)
 
     // ベースの追跡対象
     Vector3 baseTargetPos = Vector3Zero();
-    if (_target.lock()) {
+    if (!_target.expired()) {
         baseTargetPos = _target.lock()->GetCenterPos();
     }
     // 他の追跡対象
     Vector3 otherTargetPos = Vector3Zero();
     float otherTargetHPRatio = 0.0f;
     for (auto& target : _otherTargets) {
-        if (target.lock()) {
+        if (!target.expired()) {
             otherTargetPos += target.lock()->GetCenterPos();
             if (target.lock()->GetMaxHitPoint() != 0.0f) {
                 otherTargetHPRatio = target.lock()->GetHitPoint() / target.lock()->GetMaxHitPoint();

@@ -4,21 +4,6 @@
 namespace {
 	// アニメーション
 
-	//const std::wstring kBaseAnimName = L"Armature|Animation_";
-	//const std::wstring kAnimNameIdle = kBaseAnimName + L"Idle";
-	//const std::wstring kAnimNameWalk = kBaseAnimName + L"Walk";
-	//const std::wstring kAnimNameDash = kBaseAnimName + L"Run";
-	//const std::wstring kAnimNameJump = kBaseAnimName + L"Jump";
-	//const std::wstring kAnimNameFall = kBaseAnimName + L"Fall";
-	//const std::wstring kAnimNameAttack1 = kBaseAnimName + L"AttackCombo1";
-	//const std::wstring kAnimNameAttack2 = kBaseAnimName + L"AttackCombo2";
-	//const std::wstring kAnimNameAttack3 = kBaseAnimName + L"AttackCombo3";
-	//const std::wstring kAnimNameAttack4 = kBaseAnimName + L"AttackCombo4";
-	//const std::wstring kAnimNameAttack5 = kBaseAnimName + L"AttackCombo5";
-	//const std::wstring kAnimNameAirAttack = kBaseAnimName + L"AirAttack";
-	//const std::wstring kAnimNameReact = kBaseAnimName + L"BlockReact";
-	//const std::wstring kAnimNameDeath = kBaseAnimName + L"Dying";
-
 	const std::wstring kBaseAnimName = L"Armature|";
 	const std::wstring kAnimNameIdle = kBaseAnimName + L"Idle";
 	const std::wstring kAnimNameDash = kBaseAnimName + L"Dash";

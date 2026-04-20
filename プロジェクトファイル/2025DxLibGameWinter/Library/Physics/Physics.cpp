@@ -10,6 +10,7 @@
 #include "Library/Objects/GameObject.h"
 #include "Library/Objects/Character/CharacterBase.h"
 #include "Library/Geometry/Vector2.h"
+#include "Library/System/Statistics.h"
 
 #include <cassert>
 #include <vector>
@@ -51,6 +52,7 @@ void Physics::Release(std::shared_ptr<Collider> collider)
 
 void Physics::Update()
 {
+	LONGLONG startTime = GetNowHiPerformanceCount();
 	_wall.clear();
 	_floorAndRoof.clear();
 
@@ -100,6 +102,13 @@ void Physics::Update()
 	// 当たり通知
 	for (OnCollideInfo& info : onCollideInfo) {
 		info.owner->OnCollide(info.colider);
+	}
+
+	int diffTime = static_cast<int>(GetNowHiPerformanceCount() - startTime);
+	// FPSが想定値より低ければ
+	if (GetFPS() <= Statistics::kFPS * 0.9f) {
+		// Physics内で生じたラグを表示
+		printf("FPS:%.01f PhysicsDiff:%d\n", GetFPS(), diffTime);
 	}
 }
 
@@ -666,7 +675,8 @@ void Physics::ApplyGravity()
 		Vector3 baseGravity = PhysicsData::Gravity;
 		// キャラクターであれば
 		if (tag == PhysicsData::GameObjectTag::Player ||
-			tag == PhysicsData::GameObjectTag::Enemy) {
+			tag == PhysicsData::GameObjectTag::EnemyMinion ||
+			tag == PhysicsData::GameObjectTag::EnemyBoss) {
 			std::shared_ptr<CharacterBase> character =
 				std::static_pointer_cast<CharacterBase>(col->GetParent());
 			// 接地しているかどうか

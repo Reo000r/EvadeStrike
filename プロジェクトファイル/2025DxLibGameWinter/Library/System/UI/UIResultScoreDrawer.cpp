@@ -11,11 +11,15 @@ namespace {
 	constexpr int kStartScoreX = Statistics::kScreenWidth * 0.39f;
 	constexpr int kStartScoreY = Statistics::kScreenHeight * 0.4f;
 	
-	constexpr float kScoreAnimSpeed = 0.04f;
+	constexpr float kScoreAnimSpeed = 0.07f;
 }
 
 UIResultScoreDrawer::UIResultScoreDrawer() :
 	UIScoreDrawer(Position2(0, 0), true, LoadGraph(L"Data/Graph/EvadeStrike_Numbers.png"))
+{
+}
+
+UIResultScoreDrawer::~UIResultScoreDrawer()
 {
 }
 

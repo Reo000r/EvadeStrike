@@ -28,5 +28,7 @@ private:
 	/// <para> 変更がなければnullptrを返す </para>
 	/// </summary>
 	std::shared_ptr<EnemyWeakStateBase> CheckStateTransition() override;
+
+	float _targetScale;
 };
 

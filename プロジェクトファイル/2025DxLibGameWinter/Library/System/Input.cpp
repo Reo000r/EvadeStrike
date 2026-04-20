@@ -206,6 +206,21 @@ Input::PeripheralType Input::GetLastInputType() const
 
 void Input::SetDefault()
 {
+    // System
+    // 1 決定
+    // 2 キャンセル
+    // 
+    // GamePlay
+    // 1 ジャンプ
+    // 2 キック
+    // 3 重力切り替え(デバッグ)
+    // 4 パンチ
+    // 5 ジャスト回避(デバッグ)
+    // 6 回避
+    // 7,8 シーン切り替え
+    // 9,10 終了
+    // 
+
     // システム関連で使用するボタンテーブル
     _inputTable["System:Submit"] = {
         {PeripheralType::keybd, KEY_INPUT_RETURN},
@@ -301,6 +316,10 @@ void Input::SetDefault()
     _inputTable["Debug:JustDodge"] = {
         {PeripheralType::keybd, KEY_INPUT_B},
         {PeripheralType::pad1, PAD_INPUT_5}     // LBボタン
+    };
+    _inputTable["Debug:ChangePlayerGravity"] = {
+        {PeripheralType::keybd, KEY_INPUT_G},
+        {PeripheralType::pad1, PAD_INPUT_3}     // Xボタン
     };
 
     _inputTable["Debug:PauseScene"] = {

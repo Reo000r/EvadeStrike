@@ -6,8 +6,10 @@ class EnemyManager;
 class EnemyBase : public CharacterBase
 {
 public:
-	EnemyBase(std::weak_ptr<Physics> physics, int modelHandle);
-	~EnemyBase();
+	EnemyBase(std::weak_ptr<Physics> physics, int modelHandle,
+		PhysicsData::Priority priority = PhysicsData::Priority::Middle,
+		PhysicsData::GameObjectTag tag = PhysicsData::GameObjectTag::EnemyMinion);
+	virtual ~EnemyBase();
 	
 	void SetManager(std::shared_ptr<EnemyManager> manager) { _manager = manager; }
 

@@ -83,9 +83,9 @@ float GameObject::GetCurrentTimeScale() const
 	return scale;
 }
 
-float GameObject::SetToDefaultScaleFrame(int frame)
+void GameObject::SetToDefaultScaleFrame(int frame)
 {
-	return _toDefaultScaleFrame = frame;
+	_toDefaultScaleFrame = frame;
 }
 
 void GameObject::SetHitStop(int frame, bool isShake, float magnitude)

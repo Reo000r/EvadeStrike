@@ -14,6 +14,7 @@
 #include "Library/System/Effect/EffectManager.h"
 #include "Library/System/Effect/EffekseerEffect.h"
 #include "Library/System/SoundManager.h"
+#include <DxLib.h>
 #include <cassert>
 
 PlayerStateAirSpecialAttack::PlayerStateAirSpecialAttack(std::weak_ptr<Player> player, 
@@ -64,8 +65,6 @@ void PlayerStateAirSpecialAttack::OnEnter()
 
 	// アニメーションを変更する
 	GetAnimator()->ChangeAnim(_data.animName, false, 1.0f);
-	// コンボを途切れさせる
-	//GetComboHolder()->ResetActionData();
 
 	// 落下速度制限
 	GetCollider()->SetGravityScale(0.05f);
@@ -132,7 +131,7 @@ void PlayerStateAirSpecialAttack::Update()
 	_attackCol->Update();
 
 	// エフェクト位置更新
-	if (_currentEffect.lock()) {
+	if (!_currentEffect.expired()) {
 		if (_currentEffect.lock()->IsPlaying()) {
 			_currentEffect.lock()->SetPos(_attackCol->GetPos());
 		}
@@ -145,6 +144,8 @@ void PlayerStateAirSpecialAttack::OnExit()
 	_attackCol->Disable();
 	// 重力影響度を元に戻す
 	GetCollider()->SetGravityScale(1.0f);
+	// コンボを途切れさせる
+	ResetCombo();
 }
 
 std::shared_ptr<PlayerStateBase> PlayerStateAirSpecialAttack::CheckStateTransition()
@@ -192,8 +193,6 @@ std::shared_ptr<PlayerStateBase> PlayerStateAirSpecialAttack::CheckStateTransiti
 		// アニメーションが終了しているかつ
 		// 先行入力がなかったなら
 		if (GetAnimator()->GetCurrentAnimData()->isEnd) {
-			// コンボを途切れさせる
-			ResetCombo();
 			// 待機ステートに入る
 			return std::make_shared<PlayerStateFall>(GetPlayerPtr());
 		}

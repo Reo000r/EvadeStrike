@@ -104,7 +104,7 @@ void EventManager::CallEvent(int eventId, const std::string& eventType)
 
     // 敵の出現イベント判定
     if (eventType == "SpawnEnemy") {
-        if (!_enemyManager.lock()) {
+        if (_enemyManager.expired()) {
             assert(false && "不正なenemyManager");
             return;
         }
@@ -122,6 +122,9 @@ void EventManager::CallEvent(int eventId, const std::string& eventType)
             EnemyType type;
             if (data.statusData.groupName == "EnemyWeak") {
                 type = EnemyType::Weak;
+            }
+            else if (data.statusData.groupName == "EnemyBoss") {
+                type = EnemyType::Boss;
             }
             else {
                 // 未対応の敵種ならcontinue

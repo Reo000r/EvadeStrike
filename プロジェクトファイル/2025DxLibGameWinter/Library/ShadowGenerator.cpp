@@ -7,6 +7,8 @@ namespace {
 	constexpr int kShadowMapSize = 8192;
 	// 適応距離
 	constexpr float kShadowMapRange = kShadowMapSize;
+
+	const Vector3 kShadowDirection = Vector3(0.4f, -1.0f, 0.4f).Normalize();
 }
 
 ShadowGenerator::ShadowGenerator() :
@@ -41,7 +43,7 @@ void ShadowGenerator::ShadowDrawStart()
 		shadowBasePos = _baseObject.lock()->GetPos();
 	}
 	// シャドウマップ作成
-	SetShadowMapLightDirection(_shadowMapHandle, VGet(0.5f, -1.0f, 0.5f));
+	SetShadowMapLightDirection(_shadowMapHandle, kShadowDirection);
 	SetShadowMapDrawArea(
 		_shadowMapHandle, 
 		VSub(shadowBasePos, VGet(kShadowMapRange, 60.0f, kShadowMapRange)),

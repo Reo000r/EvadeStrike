@@ -145,6 +145,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateAttack1.cpp" />
+    <ClCompile Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateAttack2.cpp" />
+    <ClCompile Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateAttack3.cpp" />
+    <ClCompile Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateChase.cpp" />
+    <ClCompile Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateIdle.cpp" />
+    <ClCompile Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateDeath.cpp" />
+    <ClCompile Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateSpawn.cpp" />
+    <ClCompile Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateStagger.cpp" />
+    <ClCompile Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateBase.cpp" />
+    <ClCompile Include="Objects\Character\Enemy\EnemyBoss\EnemyBossBressProjectile.cpp" />
+    <ClCompile Include="Objects\Character\Enemy\EnemyBoss\EnemyBoss.cpp" />
     <ClCompile Include="Library\DebugTools\DebugDiffTracker.cpp" />
     <ClCompile Include="Library\System\Event\EventCollider.cpp" />
     <ClCompile Include="Library\System\Event\EventManager.cpp" />
@@ -245,8 +256,20 @@
     <ClCompile Include="Library\System\UI\UIComboScore.cpp" />
     <ClCompile Include="Library\System\UI\UILockonTarget.cpp" />
     <ClCompile Include="Library\ShadowGenerator.cpp" />
+    <ClCompile Include="Library\System\UI\UIBossHP.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateAttack1.h" />
+    <ClInclude Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateAttack2.h" />
+    <ClInclude Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateAttack3.h" />
+    <ClInclude Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateChase.h" />
+    <ClInclude Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateIdle.h" />
+    <ClInclude Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateDeath.h" />
+    <ClInclude Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateSpawn.h" />
+    <ClInclude Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateStagger.h" />
+    <ClInclude Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateBase.h" />
+    <ClInclude Include="Objects\Character\Enemy\EnemyBoss\EnemyBossBressProjectile.h" />
+    <ClInclude Include="Objects\Character\Enemy\EnemyBoss\EnemyBoss.h" />
     <ClInclude Include="Library\DebugTools\DebugDiffTracker.h" />
     <ClInclude Include="Library\System\Event\EventCollider.h" />
     <ClInclude Include="Library\System\Event\EventManager.h" />
@@ -266,6 +289,7 @@
     <ClInclude Include="Objects\Character\Enemy\EnemyManager.h" />
     <ClInclude Include="Objects\Character\Enemy\EnemyWeak\EnemyWeak.h" />
     <ClInclude Include="Objects\Character\Enemy\EnemyWeak\EnemyWeakStateBase.h" />
+    <ClInclude Include="Objects\Character\Enemy\EnemyAnimationData.h" />
     <ClInclude Include="Objects\Character\Player\JustDodge\JustDodgeCollider.h" />
     <ClInclude Include="Library\Objects\AttackCol.h" />
     <ClInclude Include="Library\DebugTools\DebugField.h" />
@@ -355,6 +379,7 @@
     <ClInclude Include="Library\System\UI\UIComboScore.h" />
     <ClInclude Include="Library\System\UI\UILockonTarget.h" />
     <ClInclude Include="Library\ShadowGenerator.h" />
+    <ClInclude Include="Library\System\UI\UIBossHP.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2025DxLibGameWinter.rc" />

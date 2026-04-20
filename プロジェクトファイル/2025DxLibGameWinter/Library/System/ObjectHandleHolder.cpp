@@ -10,19 +10,13 @@ namespace {
     // 名前, パス
     const std::unordered_map<std::string, std::wstring>
         kModelPathList = {
-        //{"House_A", kStageModelPath + L"House_A.mv1"},
-        //{"House_B", kStageModelPath + L"House_B.mv1"},
-        //{"House_C", kStageModelPath + L"House_C.mv1"},
-        //{"House_D", kStageModelPath + L"House_D.mv1"},
-        //{"House_Corner_A", kStageModelPath + L"House_Corner_A.mv1"},
-        //{"House_Corner_B", kStageModelPath + L"House_Corner_B.mv1"},
-
         {"Ground", kStageModelPath + L"Ground_Tilling.mv1"},
         {"Wall", kStageModelPath + L"Wall.mv1"},
         {"EventWall", kStageModelPath + L"Wall.mv1"},
 
         {"Player", kCharacterModelPath + L"PlayerModel.mv1"},
         {"EnemyWeak", kCharacterModelPath + L"EnemyWeakModel.mv1"},
+        {"EnemyBoss", kCharacterModelPath + L"EnemyWeakModel.mv1"},
     };
 }
 
@@ -37,8 +31,12 @@ ObjectHandleHolder::~ObjectHandleHolder()
 
 void ObjectHandleHolder::Load()
 {
+    // 確保されていたモデルを解放
+    for (const auto& pair : _modelHandleList) {
+        MV1DeleteModel(pair.second);
+    }
     _modelHandleList.clear();
-
+    
     // 予めモデル読み込み
     for (const auto& pair : kModelPathList) {
         std::wstring path = pair.second.c_str();

@@ -10,6 +10,7 @@ class SceneBase
 {
 public:
 	SceneBase() {};
+	virtual ~SceneBase() = default;
 
 	/// <summary>
 	/// 初期化

@@ -272,6 +272,7 @@ void SceneGamePlay::NormalDraw() const
 	_eventManager->Draw();
 	_enemyManager->Draw();
 	_justDodgeManager->Draw();
+	EffectManager::GetInstance().Draw();
 	_shadowGenerator->ShadowDrawEnd();
 	// 影なしの通常の奥描画
 	_skydome->Draw();
@@ -282,6 +283,7 @@ void SceneGamePlay::NormalDraw() const
 	_eventManager->Draw();
 	_enemyManager->Draw();
 	_justDodgeManager->Draw();
+	EffectManager::GetInstance().Draw();
 	_shadowGenerator->NormalDrawEnd();
 	// 影なしの通常の手前描画
 	UIManager::GetInstance().Draw();

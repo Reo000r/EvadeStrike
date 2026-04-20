@@ -41,6 +41,10 @@ UIGameScoreDrawer::UIGameScoreDrawer() :
 {
 }
 
+UIGameScoreDrawer::~UIGameScoreDrawer()
+{
+}
+
 void UIGameScoreDrawer::Init()
 {
 	ResetActionList();
@@ -68,7 +72,7 @@ void UIGameScoreDrawer::SetPlayerComboHolder(std::weak_ptr<PlayerComboHolder> co
 
 void UIGameScoreDrawer::AddDrawComboAction()
 {
-	int listSize = _lastComboList.size();
+	int listSize = static_cast<int>(_lastComboList.size());
 	if (listSize <= 0) return;
 	PlayerActionKind action = _lastComboList[listSize - 1];
 
@@ -138,7 +142,7 @@ void UIGameScoreDrawer::UpdateComboScoreBasePos()
 	if (_drawComboScoreUIList.size() < _lastScoreListSize) {
 		_drawComboScoreBasePos.y += kDistScore;
 	}
-	_lastScoreListSize = _drawComboScoreUIList.size();
+	_lastScoreListSize = static_cast<int>(_drawComboScoreUIList.size());
 
 	float offsetY = _drawComboScoreBasePos.y - defaultPos.y;
 	float distOffset = 0.0f;
@@ -184,7 +188,7 @@ PlayerActionKind UIGameScoreDrawer::GetCurrentAction()
 {
 	// PlayerComboHolderから現在の攻撃を取得
 	auto actionList = _comboHolder.lock()->GetActionList();
-	int size = actionList.size();
+	int size = static_cast<int>(actionList.size());
 	// 攻撃がないなら登録しない
 	if (size <= 0) return PlayerActionKind::None;
 	return actionList[size-1];

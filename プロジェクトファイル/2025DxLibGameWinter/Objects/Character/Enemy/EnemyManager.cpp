@@ -1,6 +1,7 @@
 ﻿#include "EnemyManager.h"
 #include "Objects/Character/Enemy/EnemyBase.h"
 #include "Objects/Character/Enemy/EnemyWeak/EnemyWeak.h"
+#include "Objects/Character/Enemy/EnemyBoss/EnemyBoss.h"
 #include "Objects/Character/Player/Player.h"
 #include "Objects/Character/Player/JustDodge/JustDodgeManager.h"
 #include "Library/System/GameObjectManager.h"
@@ -20,7 +21,7 @@ namespace {
 
 	const std::wstring kModelPathWeak = L"Data/Model/Character/PlayerModel.mv1";
 
-	const std::string kStageDataPath = "Data/StagePlaceData.csv";
+	const std::string kStageDataPath = "Data/CSV/StagePlaceData.csv";
 }
 
 EnemyManager::EnemyManager() :
@@ -105,6 +106,11 @@ std::shared_ptr<EnemyBase> EnemyManager::SpawnEnemy(EnemyType type, const Positi
 	case EnemyType::Weak:
 		handle = _handleHolder.lock()->GetModelHandle("EnemyWeak");
 		enemy = std::make_shared<EnemyWeak>(_physics, handle);
+		break;
+
+	case EnemyType::Boss:
+		handle = _handleHolder.lock()->GetModelHandle("EnemyBoss");
+		enemy = std::make_shared<EnemyBoss>(_physics, handle);
 		break;
 
 	default:
@@ -192,44 +198,16 @@ void EnemyManager::HitPlayerAttack()
 	_gameScoreDrawer.lock()->AddDrawComboScore();
 }
 
-void EnemyManager::GenerateEnemys()
-{
-	// 敵の配置データをファイルから取得
-	// kStageDataPathの情報をObjectDataLoaderを用いて取得
-	std::vector<ObjectData> objData =
-		ObjectDataLoader::LoadData(kStageDataPath.c_str());
-	for (const auto& data : objData) {
-		if (data.transData.name == "EnemySpawn") {
-			// 敵の生成
-			if (data.statusData.groupName == "EnemyWeak") {
-				//SpawnEnemy(EnemyType::Weak, data.transData.pos);
-			}
-		}
-	}
-
-	//// 生成中心点
-	//Position3 centerPos = Position3(2000.0f, 0.0f, 10000.0f);
-	//// 半径
-	//float radius = 1400.0f;
-	//for (int i = 0; i < kEnemyWeakNum; ++i) {
-	//	// 角度計算
-	//	float rad = Calc::ToRadian((360.0f / kEnemyWeakNum) * i);
-	//	// 円周上の座標を計算
-	//	Position3 spawnPos = Position3(
-	//		centerPos.x + radius * cosf(rad), 
-	//		centerPos.y, 
-	//		centerPos.z + radius * sinf(rad)
-	//	);
-	//	SpawnEnemy(EnemyType::Weak, spawnPos);
-	//}
-}
-
 void EnemyManager::UpdateAttackAuthority()
 {
 	int authorityNum = 0;
 	std::vector<std::shared_ptr<EnemyBase>> notAuthority;
 	for (auto& enemy : _enemys) {
-		if (enemy->HasAttackAuthority()) {
+		// ボスだった場合は
+		if (enemy->GetTag() == PhysicsData::GameObjectTag::EnemyBoss) {
+			// 無視
+		}
+		else if (enemy->HasAttackAuthority()) {
 			++authorityNum;
 		}
 		else {
@@ -237,7 +215,7 @@ void EnemyManager::UpdateAttackAuthority()
 		}
 	}
 	// 攻撃権がない敵数
-	int notAuthorityNum = notAuthority.size();
+	int notAuthorityNum = static_cast<int>(notAuthority.size());
 	// 攻撃権が余っているかつ
 	// 攻撃権がない敵数が1以上なら
 	while (authorityNum < kAttackAuthorityNum && 

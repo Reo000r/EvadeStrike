@@ -14,7 +14,7 @@ void EventTrigger::OnCollide(const std::weak_ptr<Collider> collider)
 {
     // プレイヤーと当たったらイベント発火
     if (collider.lock()->GetTag() == PhysicsData::GameObjectTag::Player) {
-        if (_eventManager.lock()) {
+        if (!_eventManager.expired()) {
             // 自身が保持するCallEventIdとEventTypeを通知
             _eventManager.lock()->CallEvent(_data.eventData.callEventId, _data.eventData.eventType);
         }

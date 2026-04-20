@@ -41,7 +41,7 @@ void EnemyWeakStateIdle::Update()
 	RotateToPlayer(kTurnSpeed);
 
 	// エフェクトが生成されていない場合
-	if (!_currentEffect.lock()) {
+	if (_currentEffect.expired()) {
 		float attackNotiEffTime = kAttackNoticeEffectTime * TimeScaleManager::GetInstance().GetOtherCurrentScale();
 		// 攻撃待機時間とステート遷移時間が指定秒を切っているかつ
 		// 攻撃権があれば
@@ -50,7 +50,7 @@ void EnemyWeakStateIdle::Update()
 			GetParentPtr()->HasAttackAuthority()) {
 			// 攻撃予告エフェクトを生成
 			Position3 generatePos = GetParentPtr()->GetCenterPos();
-			generatePos.y += 150;	// 頭部に寄せる
+			generatePos.y *= 2.2f;	// 頭部に寄せる
 			_currentEffect = EffectManager::GetInstance().GenerateEffect(
 				"Atk_Breakdown.efkefc", generatePos);
 			_currentEffect.lock()->SetPlaySpeed(0.5f);
@@ -81,8 +81,10 @@ std::shared_ptr<EnemyWeakStateBase> EnemyWeakStateIdle::CheckStateTransition()
 		return nullptr;
 	}
 
-	// 遷移待機時間がないなら
-	if (IsNothingStateTransitionTime()) {
+	// 遷移待機時間が経過しているかつ
+	// 攻撃予告エフェクトが生成されていなければ
+	if (IsNothingStateTransitionTime() &&
+		_currentEffect.expired()) {
 
 		// 攻撃権を持っている場合は
 		if (GetParentPtr()->HasAttackAuthority()) {

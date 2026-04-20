@@ -144,6 +144,14 @@ void Player::Init()
 
 void Player::Update()
 {
+#ifdef _DEBUG
+	// 入力があったら反転
+	if (Input::GetInstance().IsTrigger("Debug:ChangePlayerGravity")) {
+		_collider->SetGravityState(!_collider->UseGravity());
+	}
+#endif // _DEBUG
+
+
 	// 無敵時間の更新
 	UpdateInvTime();
 
@@ -183,7 +191,9 @@ void Player::OnCollide(const std::weak_ptr<Collider> collider)
 	// 処理なし
 }
 
-void Player::TakeDamage(std::shared_ptr<AttackableGameObject> attacker)
+void Player::TakeDamage(
+	std::shared_ptr<AttackableGameObject> attacker,
+	bool isReact)
 {
 	// 無敵状態ならreturn
 	if (IsInv()) return;
@@ -191,8 +201,17 @@ void Player::TakeDamage(std::shared_ptr<AttackableGameObject> attacker)
 	// ダメージを受ける
 	Damage(attacker->GetAttackPower());
 
+	float magnitude = 45.0f;
+	int durationFrame = 15;
+	float frequency = 20.0f;
+	constexpr float kWeakAttackCameraShakeMul = 0.3f;
+	if (isReact) {
+		magnitude *= kWeakAttackCameraShakeMul;
+		durationFrame *= kWeakAttackCameraShakeMul;
+		frequency *= kWeakAttackCameraShakeMul;
+	}
 	// カメラを少し揺らす
-	GetCamera().lock()->Shake(45, 15, 20);
+	GetCamera().lock()->Shake(magnitude, durationFrame, frequency);
 	
 	// 削り値だけノックバック耐久値を削る
 	_breakPoint -= attacker->GetBreakPower();
@@ -217,8 +236,11 @@ void Player::TakeDamage(std::shared_ptr<AttackableGameObject> attacker)
 		return;
 	}
 
-	// でなければ被弾ステートに遷移
-	_currentState->ChangeState(std::make_shared<PlayerStateReact>(GetPlayerPtr()));
+	// 中断されるほどの攻撃なら
+	if (isReact) {
+		// 被弾ステートに遷移
+		_currentState->ChangeState(std::make_shared<PlayerStateReact>(GetPlayerPtr()));
+	}
 }
 
 void Player::GeneratePlayerUI()
@@ -226,8 +248,8 @@ void Player::GeneratePlayerUI()
 	// HPUI
 	std::shared_ptr<UIPlayerHP> uiHp;
 	int uiHpBase = LoadGraph(L"Data/Graph/EvadeStrike_HPGauge.png");
-	int uiHpGauge = LoadGraph(L"Data/Graph/EvadeStrike_HPGauge_Another.png");
-	int uiHpDecGauge = LoadGraph(L"Data/Graph/EvadeStrike_HPGauge_Another.png");
+	int uiHpGauge = LoadGraph(L"Data/Graph/EvadeStrike_HPGauge_Bar.png");
+	int uiHpDecGauge = LoadGraph(L"Data/Graph/EvadeStrike_HPGauge_DecBar.png");
 	uiHp = std::make_shared<UIPlayerHP>(
 		uiHpBase, uiHpGauge, uiHpDecGauge);
 	uiHp->SetPlayer(GetPlayerPtr());
@@ -270,19 +292,19 @@ void Player::UpdateAttackCol()
 void Player::UpdateDodge()
 {
 	// エフェクト位置更新
-	if (_dodgeLimitEffect.lock()) {
+	if (!_dodgeLimitEffect.expired()) {
 		if (_dodgeLimitEffect.lock()->IsPlaying()) {
 			_dodgeLimitEffect.lock()->SetPos(GetCenterPos());
 		}
 	}
-	if (_dodgeFootEffect.lock()) {
+	if (!_dodgeFootEffect.expired()) {
 		if (_dodgeFootEffect.lock()->IsPlaying()) {
 			_dodgeFootEffect.lock()->SetPos(GetPos() + Vector3(0, -kColRadius, 0));
 		}
 	}
 	// 足元のエフェクトが消えているが
 	// リミットエフェクトが出ているば場合
-	else if (_dodgeLimitEffect.lock()) {
+	else if (!_dodgeLimitEffect.expired()) {
 		_dodgeLimitEffect.lock()->SetPlaySpeed(0.4f);
 	}
 
@@ -415,14 +437,14 @@ void Player::AddRotAngleY(float rad)
 
 void Player::StartDodgeEffect()
 {
-	if (_dodgeLimitEffect.lock()) {
+	if (!_dodgeLimitEffect.expired()) {
 		_dodgeLimitEffect.lock()->DeleteEffect();
 	}
 	_dodgeLimitEffect = EffectManager::GetInstance().GenerateEffect(
 		"Atk_Breakdown.efkefc", GetCenterPos());
 	_dodgeLimitEffect.lock()->SetPlaySpeed(0.001f);
 
-	if (_dodgeFootEffect.lock()) {
+	if (!_dodgeFootEffect.expired()) {
 		_dodgeFootEffect.lock()->DeleteEffect();
 	}
 	_dodgeFootEffect = EffectManager::GetInstance().GenerateEffect(

@@ -9,16 +9,13 @@ namespace {
 	constexpr float kEnterForwardVel = 7.0f;
 	// 特定の状態に遷移する範囲
 	constexpr float kAttackRangeInPlayer = 800.0f;	// 攻撃遷移範囲
-	constexpr float kIdleRangeInPlayer = 1200.0f;	// 待機遷移範囲
-	constexpr float kChaseRangeInPlayer = kIdleRangeInPlayer + 2000.0f;	// 追跡遷移範囲
+	constexpr float kIdleRangeInPlayer = 2000.0f;	// 待機遷移範囲
+	constexpr float kChaseRangeInPlayer = kIdleRangeInPlayer + 1000.0f;	// 追跡遷移範囲
 	// 回転速度
 	constexpr float kTurnSpeed = 0.2f;
 
 	constexpr float kStateTransitionTime = 1.0f;// ステート遷移時間
 	constexpr float kAttackInterval = 4.0f;		// 攻撃待機時間
-
-	constexpr float kAttackAnimSpeed = 0.5f;
-	constexpr float kDeathAnimSpeed = 2.0f;		// 死亡アニメーション速度
 
 	constexpr int kReactDefaultScaleFrame = 4;	// 被弾時タイムスケールを戻すフレーム
 

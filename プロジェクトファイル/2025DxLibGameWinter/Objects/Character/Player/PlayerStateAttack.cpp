@@ -13,6 +13,7 @@
 #include "Library/System/Effect/EffectManager.h"
 #include "Library/System/Effect/EffekseerEffect.h"
 #include "Library/System/SoundManager.h"
+#include <DxLib.h>
 #include <cassert>
 
 PlayerStateAttack::PlayerStateAttack(std::weak_ptr<Player> player,
@@ -122,7 +123,7 @@ void PlayerStateAttack::Update()
 	_attackCol->Update();
 
 	// エフェクト位置更新
-	if (_currentEffect.lock()) {
+	if (!_currentEffect.expired()) {
 		if (_currentEffect.lock()->IsPlaying()) {
 			_currentEffect.lock()->SetPos(_attackCol->GetCenterPos());
 		}

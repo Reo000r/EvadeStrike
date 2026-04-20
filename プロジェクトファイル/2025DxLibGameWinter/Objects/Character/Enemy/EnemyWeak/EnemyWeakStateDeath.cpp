@@ -55,21 +55,21 @@ void EnemyWeakStateDeath::Update()
 			rate /= (1.0f - kOpacityStartRate);
 		}
 	}
+	// 0.0f-1.0fから1.0f-0.0fに変換する
+	rate = (rate * -1.0f) + 1.0f;
+	// 1.0不透明 0.0透明
+	MV1SetOpacityRate(GetAnimator()->GetHandle(), rate);
+
 	float timeScale = GetParentPtr()->GetCurrentTimeScale();
 	// エフェクト再生速度変更
 	if (rate >= kOpacityStartRate) {
-		if (_defeatEffect.lock()) {
+		if (!_defeatEffect.expired()) {
 			_defeatEffect.lock()->SetPlaySpeed(kOpacityEffectSpeed * timeScale);
 		}
 	}
 	else {
 		_defeatEffect.lock()->SetPlaySpeed(kDefaultEffectSpeed * timeScale);
 	}
-	// 0.0f-1.0fから1.0f-0.0fに変換する
-	rate = (rate * -1.0f) + 1.0f;
-
-	// 1.0不透明 0.0透明
-	MV1SetOpacityRate(GetAnimator()->GetHandle(), rate);
 
 	// アニメーションが終了しているなら
 	if (data->isEnd) {
@@ -79,7 +79,7 @@ void EnemyWeakStateDeath::Update()
 	}
 
 	// エフェクト位置更新
-	if (_defeatEffect.lock()) {
+	if (!_defeatEffect.expired()) {
 		if (_defeatEffect.lock()->IsPlaying()) {
 			_defeatEffect.lock()->SetPos(GetParentPtr()->GetPos());
 		}

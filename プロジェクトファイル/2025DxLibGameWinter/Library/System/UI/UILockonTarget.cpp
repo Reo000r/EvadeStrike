@@ -3,7 +3,7 @@
 #include <DxLib.h>
 
 namespace {
-	constexpr float kBaseAlpha = 0.5f;
+	constexpr float kBaseAlpha = 0.6f;
 	constexpr float kDecAlpha = 0.4f * kBaseAlpha;
 
 	// 減少アニメーションの総時間
@@ -18,11 +18,12 @@ namespace {
 }
 
 UILockonTarget::UILockonTarget(
-	int graphHandle, Position2 centerPos, float scale) :
+	int graphHandle, Position2 centerPos, float scaleMul) :
 	UIBase(centerPos, false, false),
 	_graphHandle(graphHandle),
 	_percent(0.0f),
-	_baseScale(scale),
+	_baseScale(0.0f),
+	_baseScaleMul(scaleMul),
 	_animStartPercent(0.0f),
 	_decAnimFrame(0),
 	_drawAnimFrame(0)
@@ -52,7 +53,6 @@ void UILockonTarget::Draw(Vector2 shakeOffset)
 	float currentAlpha = CalcCurrentAlpha();
 	// 減少アニメーション描画
 	float visualPercent = GetAnimPercent();
-	printf("LockAlpha:%.02f\n", kDecAlpha * currentAlpha);
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, static_cast<int>(255 * kDecAlpha * currentAlpha));
 	// DrawCircleGaugeを使用し円形のゲージを表示
 	DrawCircleGauge(drawPosX, drawPosY, visualPercent, _graphHandle, 0.0, currentScale);
@@ -167,8 +167,9 @@ float UILockonTarget::CalcCurrentScale() const
 	progress = Easing::Get(progress, EasingType::EaseOutCubic);;
 	// scaleは反転してほしいため反転させる
 	progress = progress * -1.0f + 1.0f;
-	float ret = _baseScale + 
-		(_baseScale * kDrawAnimScaleMul * progress);
+	float baseScale = _baseScale * _baseScaleMul;
+	float ret = baseScale +
+		(baseScale * kDrawAnimScaleMul * progress);
 	return ret;
 }
 

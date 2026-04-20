@@ -9,6 +9,7 @@
 #include "Library/System/Effect/EffectManager.h"
 #include "Library/System/Effect/EffekseerEffect.h"
 #include "Library/System/SoundManager.h"
+#include <DxLib.h>
 
 namespace {
 	constexpr float kStartTransformFrameRate = 0.0f;

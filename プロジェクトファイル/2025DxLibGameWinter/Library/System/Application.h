@@ -4,9 +4,10 @@
 class Application final {
 	// シングルトン化
 private:
-	Application()
+	Application() :
+		_isPause(false)
 #ifdef _DEBUG
-		: _in(), _out()
+		, _in(), _out()
 #endif	// _DEBUG
 		{}
 	Application(const Application&) = delete;

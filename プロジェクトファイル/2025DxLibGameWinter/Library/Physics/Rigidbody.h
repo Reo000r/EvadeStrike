@@ -9,7 +9,7 @@ class Rigidbody final
 {
 public:
 	Rigidbody();
-	~Rigidbody() = default;
+	virtual ~Rigidbody() = default;
 
 	/// <summary>
 	/// 初期化
@@ -23,6 +23,7 @@ public:
 	const Vector3 GetDir() const { return _dir; }
 	const Vector3 GetVel() const { return _vel; }
 	bool UseGravity() const { return _useGravity; }
+	void SetGravityState(bool useGravity) { _useGravity = useGravity; }
 	float GetGravityScale() const { return _gravityScale; }
 	void SetGravityScale(float scale) { _gravityScale = scale; }
 	// setter

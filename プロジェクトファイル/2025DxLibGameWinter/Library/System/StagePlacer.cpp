@@ -15,20 +15,7 @@
 #include <string>
 
 namespace {
-	// モデルの位置の補正値
-	constexpr float kModelTransformOffset = 100.0f;
-
-	// ステージの拡縮倍率
-	constexpr float kStageScale = 4.0f;
-	// モデル自体の拡縮補正
-	constexpr float kModelScaleOffset = 0.01f;
-
-	const Position3 kStagePosOffset = 
-		Position3(0, -0.0f, 0) *
-		//Position3(0, -10.4f, -10.0f) * 
-		kModelTransformOffset * kStageScale;
-
-	const std::string kStageDataPath = "Data/StagePlaceData.csv";
+	const std::string kStageDataPath = "Data/CSV/StagePlaceData.csv";
 }
 
 StagePlacer::StagePlacer()
@@ -39,7 +26,6 @@ StagePlacer::~StagePlacer()
 {
 	// モデルのハンドルを解放
 	for (auto& col : _colliders) {
-		
 		auto colDataPolygon = std::static_pointer_cast<ColliderDataPolygon>(col->GetColData());
 		int modelHandle = colDataPolygon->GetModelHandle();
 		if (modelHandle >= 0) {
@@ -57,6 +43,16 @@ std::vector<ObjectData> StagePlacer::Place(
 	std::weak_ptr<Physics> physics, 
 	std::weak_ptr<EventManager> eventManager)
 {
+	// 既存のモデルのハンドルを解放
+	for (auto& col : _colliders) {
+		auto colDataPolygon = std::static_pointer_cast<ColliderDataPolygon>(col->GetColData());
+		int modelHandle = colDataPolygon->GetModelHandle();
+		if (modelHandle >= 0) {
+			MV1DeleteModel(modelHandle);
+		}
+	}
+	_colliders.clear();
+
 	printf("---ステージ配置開始---\n");
 	std::vector<ObjectData> enemySpawnData;
 	// kStageDataPathの情報をObjectDataLoaderを用いて取得
@@ -105,6 +101,7 @@ std::vector<ObjectData> StagePlacer::Place(
 			// 壁や床とは当たり判定を行わない
 			col->AddThroughTag(PhysicsData::GameObjectTag::SystemWall);
 			col->AddThroughTag(PhysicsData::GameObjectTag::StepGround);
+			col->AddThroughTag(PhysicsData::GameObjectTag::EventWall);
 
 			// col->SetPosで正確な位置を入れるか
 			// 当たり判定時にGetModelPosをしないと当たり判定がおかしくなるかも

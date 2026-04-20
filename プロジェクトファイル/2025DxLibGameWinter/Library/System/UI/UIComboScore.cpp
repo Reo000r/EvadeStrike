@@ -9,7 +9,7 @@ namespace {
 
 	constexpr float kScaleMin = 0.0f;
 	constexpr float kScaleMax = kScale;
-	constexpr int kMaxDrawFrame = 1.5 * Statistics::kFPS;
+	constexpr int kMaxDrawFrame = 1.5f * Statistics::kFPS;
 	constexpr int kAnimFrame = 0.5f * Statistics::kFPS;
 
 	constexpr int kMaxDigits = 2;
@@ -42,7 +42,7 @@ UIComboScore::~UIComboScore()
 
 void UIComboScore::Init()
 {
-	ResultDataHolder::GetInstance().AddScore(_drawScore);
+	ResultDataHolder::GetInstance().AddScore(static_cast<float>(_drawScore));
 }
 
 void UIComboScore::Update()

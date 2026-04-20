@@ -24,7 +24,8 @@ public:
 	/// ダメージを受ける処理
 	/// </summary>
 	/// <param name="attacker">攻撃を行った相手</param>
-	void TakeDamage(std::shared_ptr<AttackableGameObject> attacker) override;
+	void TakeDamage(std::shared_ptr<AttackableGameObject> attacker,
+		bool isReact = true) override;
 
 	/// <summary>
 	/// 最大体力値を返す
