@@ -207,7 +207,6 @@ private:
 	/// </summary>
 	void StartDodgeEffect();
 
-	// MEMO:AnimatorはCharacterBaseに置きたいが、そうするとStateから見えない
 	std::shared_ptr<PlayerStateBase> _currentState;	// 現在のステート
 	std::shared_ptr<AnimationModel> _animator;		// モデルとアニメーションを管理
 	std::weak_ptr<Camera> _camera;					// カメラ

@@ -69,7 +69,6 @@ void EffekseerEffect::SetData(const EffectData& data) const
 bool EffekseerEffect::IsPlaying() const
 {
 	// 再生中なら0、再生停止/再生終了なら-1
-	// MEMO:再生速度が0の場合は再生中判定になる？
 	return IsEffekseer3DEffectPlaying(_effectHandle) == 0;
 }
 

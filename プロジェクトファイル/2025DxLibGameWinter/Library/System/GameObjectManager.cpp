@@ -40,9 +40,6 @@ void GameObjectManager::Release(std::shared_ptr<GameObject> object)
 
 void GameObjectManager::Init()
 {
-	// MEMO:Managerはライブラリなのでゲーム固有の処理はなるべく置きたくない
-	// 「ゲーム開始時に必要なオブジェクトを生成する」クラスを作るべき
-
 	for (auto& object : _gameObjects) {
 		object->Init();
 	}

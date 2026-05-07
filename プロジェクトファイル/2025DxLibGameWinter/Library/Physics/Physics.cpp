@@ -132,9 +132,6 @@ void Physics::DebugCollisionDraw(std::shared_ptr<Collider>& collider, Position3&
 		std::shared_ptr<ColliderDataCapsule> capsuleData = std::static_pointer_cast<ColliderDataCapsule>(collider->_colliderData);
 		Position3 pos = collider->_rigidbody->GetPos();
 		float radius = capsuleData->GetRad();
-		// MEMO:描画判定のみ半径分だけ上がっている為要修正
-		// プレイヤーの見た目判定を違和感なくしようとした
-		// 実際に判定を取るとモデルが半径分だけ浮く
 		Position3 start = capsuleData->GetStartPos(pos);
 		Position3 end = capsuleData->GetEndPos(pos);
 		DebugDraw::GetInstance().DrawSphere(start, radius, color);
@@ -644,17 +641,10 @@ void Physics::FixPosition()
 		// Posを更新するので、velocityもそこに移動するvelocityに修正
 		toFixedPos = collider->CalcNextPos() - collider->_rigidbody->GetPos();
 
-		//collider->_rigidbody->SetVel(toFixedPos);
-
 		// 位置確定
-		// MEMO:本来はここでCollider側に位置更新処理を行わせる関数を呼び、
-		// モデルなどの位置更新なども一緒に行わせたい
 		collider->_rigidbody->SetPos(collider->CalcNextPos());
 
-
-		// 
 		float y = collider->_rigidbody->GetVel().y;
-
 		// 接地していたら
 		if (collider->CalcNextPos().y <= 0.0f) {
 			y = 0.0f;

@@ -6,8 +6,6 @@ class GameObjectManager;
 
 /// <summary>
 /// <para> ゲームシーンの進行速度を管理するシングルトンクラス </para>
-/// <para> MEMO:全体のゲームスピードと個別のゲームスピードを変えたい場合があるのでそれに対応させたい </para>
-/// <para> (例外のものに対して通常の速度から変化後の速度に対しての影響値を設定するなど) </para>
 /// </summary>
 class TimeScaleManager final
 {

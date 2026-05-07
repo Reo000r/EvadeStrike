@@ -50,7 +50,6 @@ public:
 	/// <param name="frame">探索要素数</param>
 	/// <returns>入力されていたなら要素数、されていなければ-1</returns>
 	int GetPressFrame(std::string inputName, float frame) const;
-	// MEMO:引数名が雑
 
 	/// <summary>
 	/// 入力の流れを取り始める

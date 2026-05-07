@@ -1,5 +1,6 @@
 ﻿#include "CameraStateAnimation.h"
 #include "Camera.h"
+#include "Library/Geometry/Easing.h"
 
 CameraStateAnimation::CameraStateAnimation(
 	std::weak_ptr<Camera> parent,
@@ -45,11 +46,9 @@ void CameraStateAnimation::Update()
         return;
     }
 
-    // イージングを用いた進行度の計算(easeOutCubic)
-    // MEMO:イージングタイプを選択可能にしたい
-    // https://easings.net/ja
+    // イージングを用いた進行度の計算
     float rate = static_cast<float>(_animFrame - _stopFrame) / (_totalFrame - _stopFrame);
-    rate = 1.0f - powf(1.0f - rate, 3.0f);    // easeOutCubic
+    rate = Easing::Get(rate, EasingType::EaseOutCubic);
 
     Position3 newPos = _startPos * (1.0f - rate) + _endPos * rate;
     Position3 newTarget = _startTargetPos * (1.0f - rate) + _endTargetPos * rate;
