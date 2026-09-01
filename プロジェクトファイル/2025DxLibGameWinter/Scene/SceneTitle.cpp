@@ -1,8 +1,10 @@
 ﻿#include "SceneTitle.h"
 #include "SceneGamePlay.h"
+#include "SceneTutorial.h"
 #include "SceneController.h"
 #include "Library/Physics/Physics.h"
 #include "Library/System/SoundManager.h"
+#include "Library/System/TutorialFlagHolder.h"
 
 #include "Library/System/Input.h"
 #include "Library/Geometry/Vector2.h"
@@ -25,6 +27,7 @@ SceneTitle::SceneTitle() :
 	_nowUpdateState(&SceneTitle::FadeinUpdate),
 	_nowDrawState(&SceneTitle::FadeDraw),
 	_nextSceneName(NextSceneName::GamePlay),
+	_tutorialShowSkipPopup(false),
 	_nextScene(nullptr)
 {
 }
@@ -40,10 +43,34 @@ void SceneTitle::Init()
 	auto start = std::make_shared<UIButton>(
 		playHandle,
 		Vector2(Statistics::kScreenWidth * 0.5f,
-			Statistics::kScreenHeight * 0.8f),
+			Statistics::kScreenHeight * 0.7f),
 		0.2f * Statistics::kScreenWidthFullHDRatio,
 		[this]() {
-			_nextSceneName = NextSceneName::GamePlay;
+			// アプリケーション起動後、初めてゲーム開始が押された場合は
+			// チュートリアルへ遷移し、スキップ確認ポップアップを表示する
+			if (!TutorialFlagHolder::GetInstance().HasStartedGameOnce()) {
+				TutorialFlagHolder::GetInstance().MarkGameStarted();
+				_nextSceneName = NextSceneName::Tutorial;
+				_tutorialShowSkipPopup = true;
+			}
+			else {
+				_nextSceneName = NextSceneName::GamePlay;
+			}
+			_nowUpdateState = &SceneTitle::FadeoutUpdate;
+			_nowDrawState = &SceneTitle::FadeDraw;
+			_frame = 0;
+		}
+	);
+	// チュートリアルボタン(押下時はスキップ確認ポップアップを表示しない)
+	int tutorialHandle = LoadGraph(L"Data/Graph/EvadeStrike_Tutorial.png");
+	auto tutorial = std::make_shared<UIButton>(
+		tutorialHandle,
+		Vector2(Statistics::kScreenWidth * 0.5f,
+			Statistics::kScreenHeight * 0.79f),
+		0.12f * Statistics::kScreenWidthFullHDRatio,
+		[this]() {
+			_nextSceneName = NextSceneName::Tutorial;
+			_tutorialShowSkipPopup = false;
 			_nowUpdateState = &SceneTitle::FadeoutUpdate;
 			_nowDrawState = &SceneTitle::FadeDraw;
 			_frame = 0;
@@ -83,8 +110,10 @@ void SceneTitle::Init()
 		[](){}
 	);
 
-	start->SetDown(exit);
-	exit->SetUp(start);
+	start->SetDown(tutorial);
+	tutorial->SetUp(start);
+	tutorial->SetDown(exit);
+	exit->SetUp(tutorial);
 	
 	start->SetSelected(true);
 
@@ -95,6 +124,7 @@ void SceneTitle::Init()
 	logoback->SetAnimType(UIAnimType::Rotate);
 
 	UIButtonManager::GetInstance().AddButton(start);
+	UIButtonManager::GetInstance().AddButton(tutorial);
 	UIButtonManager::GetInstance().AddButton(exit);
 	UIButtonManager::GetInstance().AddButton(logoback);
 	UIButtonManager::GetInstance().AddButton(logo);
@@ -148,6 +178,10 @@ void SceneTitle::FadeoutUpdate()
 		if (_nextSceneName == NextSceneName::GamePlay) {
 			EffectManager::GetInstance().DeleteAllEffect();
 			_nextScene = std::make_shared<SceneGamePlay>();
+		}
+		else if (_nextSceneName == NextSceneName::Tutorial) {
+			EffectManager::GetInstance().DeleteAllEffect();
+			_nextScene = std::make_shared<SceneTutorial>(_tutorialShowSkipPopup);
 		}
 		else {
 			assert(false && "次のシーンが不明");

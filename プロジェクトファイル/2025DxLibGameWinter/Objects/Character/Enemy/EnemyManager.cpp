@@ -12,12 +12,16 @@
 #include "Library/System/Event/EventManager.h"
 #include "Library/System/UI/UIGameScoreDrawer.h"
 #include <cassert>
+#include <algorithm>
 
 namespace {
 	// 敵の数
 	constexpr int kEnemyWeakNum = 6;
 	// 権限を与える敵の数
-	constexpr int kAttackAuthorityNum = 2;
+	constexpr int kMaxAttackAuthorityNum = 2;
+	// 退避+射撃行動権を与える数
+	constexpr int kMaxRetreatShooterNum = 2;
+
 
 	const std::wstring kModelPathWeak = L"Data/Model/Character/PlayerModel.mv1";
 
@@ -200,40 +204,35 @@ void EnemyManager::HitPlayerAttack()
 
 void EnemyManager::UpdateAttackAuthority()
 {
-	int authorityNum = 0;
-	std::vector<std::shared_ptr<EnemyBase>> notAuthority;
+	// ボスを除く、生存中の雑魚敵のみを対象にする
+	std::vector<std::shared_ptr<EnemyBase>> targets;
 	for (auto& enemy : _enemys) {
-		// ボスだった場合は
-		if (enemy->GetTag() == PhysicsData::GameObjectTag::EnemyBoss) {
-			// 無視
+		if (enemy->GetTag() == PhysicsData::GameObjectTag::EnemyBoss) continue;
+		if (!enemy->IsAlive()) continue;
+		targets.emplace_back(enemy);
+	}
+
+	// プレイヤーとの距離が近い順にソートする
+	Position3 playerPos = GetPlayerPos();
+	std::sort(targets.begin(), targets.end(),
+		[&playerPos](const std::shared_ptr<EnemyBase>& a, const std::shared_ptr<EnemyBase>& b) {
+			float distA = (a->GetCenterPos() - playerPos).SqrMagnitude();
+			float distB = (b->GetCenterPos() - playerPos).SqrMagnitude();
+			return distA < distB;
+		});
+
+	// 近い順にAttack、RetreatShoot、Noneを割り当てる
+	int index = 0;
+	for (auto& enemy : targets) {
+		if (index < kMaxAttackAuthorityNum) {
+			enemy->SetAuthorityType(EnemyAuthorityType::Attack);
 		}
-		else if (enemy->HasAttackAuthority()) {
-			++authorityNum;
+		else if (index < kMaxAttackAuthorityNum + kMaxRetreatShooterNum) {
+			enemy->SetAuthorityType(EnemyAuthorityType::RetreatShoot);
 		}
 		else {
-			notAuthority.emplace_back(enemy);
+			enemy->SetAuthorityType(EnemyAuthorityType::None);
 		}
-	}
-	// 攻撃権がない敵数
-	int notAuthorityNum = static_cast<int>(notAuthority.size());
-	// 攻撃権が余っているかつ
-	// 攻撃権がない敵数が1以上なら
-	while (authorityNum < kAttackAuthorityNum && 
-		notAuthorityNum > 0) {
-		// 権限を与えたい番号
-		int r = GetRand(notAuthorityNum - 1);
-		std::shared_ptr<EnemyBase> addTarget = notAuthority[r];
-		addTarget->SetAttackState(true);
-		// 登録解除
-		size_t count = std::erase_if(
-			notAuthority,
-			[addTarget](std::shared_ptr<EnemyBase> target) { return target == addTarget; });
-		if (count <= 0) {
-			assert(false && "指定の敵が見つからなかった");
-			return;
-		}
-		// 与えた攻撃権数と攻撃権がない敵数を更新
-		--notAuthorityNum;
-		++authorityNum;
+		++index;
 	}
 }

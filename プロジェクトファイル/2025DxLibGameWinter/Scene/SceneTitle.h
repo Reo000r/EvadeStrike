@@ -62,9 +62,12 @@ private:
 
 	enum class NextSceneName {
 		GamePlay,
+		Tutorial,
 	};
 
 	NextSceneName _nextSceneName;
+	// Tutorialへ遷移する際、スキップ確認ポップアップを表示するかどうか
+	bool _tutorialShowSkipPopup;
 	std::shared_ptr<SceneBase> _nextScene;
 
 private:

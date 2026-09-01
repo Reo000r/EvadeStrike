@@ -9,6 +9,7 @@ namespace WeakAnimData {
 	const std::wstring kAnimNameIdle = kBaseAnimName + L"Idle";
 	const std::wstring kAnimNameDash = kBaseAnimName + L"Dash";
 	const std::wstring kAnimNameHeavyAttack1 = kBaseAnimName + L"HeavyAttack_1";
+	const std::wstring kAnimNameFire = kBaseAnimName + L"LightAttack_1";
 	const std::wstring kAnimNameReact = kBaseAnimName + L"React";
 	const std::wstring kAnimNameDeath = kBaseAnimName + L"Dying";
 

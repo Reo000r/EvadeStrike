@@ -145,6 +145,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Objects\Projectile\EnemyWeakProjectile.cpp" />
+    <ClCompile Include="Objects\Projectile\EnemyProjectile.cpp" />
+    <ClCompile Include="Objects\Character\Enemy\EnemyWeak\EnemyWeakStateFire.cpp" />
+    <ClCompile Include="Objects\Character\Enemy\EnemyWeak\EnemyWeakStateRetreatMove.cpp" />
+    <ClCompile Include="Objects\Character\Enemy\EnemyWeak\EnemyWeakStateRetreatWait.cpp" />
     <ClCompile Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateAttack1.cpp" />
     <ClCompile Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateAttack2.cpp" />
     <ClCompile Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateAttack3.cpp" />
@@ -154,7 +159,7 @@
     <ClCompile Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateSpawn.cpp" />
     <ClCompile Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateStagger.cpp" />
     <ClCompile Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateBase.cpp" />
-    <ClCompile Include="Objects\Character\Enemy\EnemyBoss\EnemyBossBressProjectile.cpp" />
+    <ClCompile Include="Objects\Projectile\EnemyBossBressProjectile.cpp" />
     <ClCompile Include="Objects\Character\Enemy\EnemyBoss\EnemyBoss.cpp" />
     <ClCompile Include="Library\DebugTools\DebugDiffTracker.cpp" />
     <ClCompile Include="Library\System\Event\EventCollider.cpp" />
@@ -227,6 +232,9 @@
     <ClCompile Include="Objects\Character\Player\PlayerStateAirAttack.cpp" />
     <ClCompile Include="Objects\Character\Player\PlayerStateAirSpecialAttack.cpp" />
     <ClCompile Include="Objects\Character\Player\PlayerStateDodgeFail.cpp" />
+    <ClCompile Include="Objects\Projectile\ProjectileBase.cpp" />
+    <ClCompile Include="Scene\SceneTutorial.cpp" />
+    <ClCompile Include="Scene\SceneGameBase.cpp" />
     <ClCompile Include="Scene\ResultDataHolder.cpp" />
     <ClCompile Include="Scene\SceneResult.cpp" />
     <ClCompile Include="Scene\ScenePause.cpp" />
@@ -257,8 +265,21 @@
     <ClCompile Include="Library\System\UI\UILockonTarget.cpp" />
     <ClCompile Include="Library\ShadowGenerator.cpp" />
     <ClCompile Include="Library\System\UI\UIBossHP.cpp" />
+    <ClCompile Include="Loader\TutorialDataLoader.cpp" />
+    <ClCompile Include="Library\System\Tutorial\TutorialEventWall.cpp" />
+    <ClCompile Include="Library\System\Tutorial\TutorialManager.cpp" />
+    <ClCompile Include="Library\System\UI\UITutorialTableOfContents.cpp" />
+    <ClCompile Include="Library\System\UI\UITutorialDescription.cpp" />
+    <ClCompile Include="Library\System\UI\UITutorialControllerDisplay.cpp" />
+    <ClCompile Include="Library\System\UI\UIConfirmPopup.cpp" />
+    <ClCompile Include="Library\System\TutorialFlagHolder.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Objects\Projectile\EnemyWeakProjectile.h" />
+    <ClInclude Include="Objects\Projectile\EnemyProjectile.h" />
+    <ClInclude Include="Objects\Character\Enemy\EnemyWeak\EnemyWeakStateFire.h" />
+    <ClInclude Include="Objects\Character\Enemy\EnemyWeak\EnemyWeakStateRetreatMove.h" />
+    <ClInclude Include="Objects\Character\Enemy\EnemyWeak\EnemyWeakStateRetreatWait.h" />
     <ClInclude Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateAttack1.h" />
     <ClInclude Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateAttack2.h" />
     <ClInclude Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateAttack3.h" />
@@ -268,7 +289,7 @@
     <ClInclude Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateSpawn.h" />
     <ClInclude Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateStagger.h" />
     <ClInclude Include="Objects\Character\Enemy\EnemyBoss\EnemyBossStateBase.h" />
-    <ClInclude Include="Objects\Character\Enemy\EnemyBoss\EnemyBossBressProjectile.h" />
+    <ClInclude Include="Objects\Projectile\EnemyBossBressProjectile.h" />
     <ClInclude Include="Objects\Character\Enemy\EnemyBoss\EnemyBoss.h" />
     <ClInclude Include="Library\DebugTools\DebugDiffTracker.h" />
     <ClInclude Include="Library\System\Event\EventCollider.h" />
@@ -347,8 +368,11 @@
     <ClInclude Include="Objects\Character\Player\PlayerStateAirAttack.h" />
     <ClInclude Include="Objects\Character\Player\PlayerStateAirSpecialAttack.h" />
     <ClInclude Include="Objects\Character\Player\PlayerStateDodgeFail.h" />
+    <ClInclude Include="Objects\Projectile\ProjectileBase.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="resource1.h" />
+    <ClInclude Include="Scene\SceneTutorial.h" />
+    <ClInclude Include="Scene\SceneGameBase.h" />
     <ClInclude Include="Scene\ResultDataHolder.h" />
     <ClInclude Include="Scene\SceneResult.h" />
     <ClInclude Include="Scene\ScenePause.h" />
@@ -380,6 +404,14 @@
     <ClInclude Include="Library\System\UI\UILockonTarget.h" />
     <ClInclude Include="Library\ShadowGenerator.h" />
     <ClInclude Include="Library\System\UI\UIBossHP.h" />
+    <ClInclude Include="Loader\TutorialDataLoader.h" />
+    <ClInclude Include="Library\System\Tutorial\TutorialEventWall.h" />
+    <ClInclude Include="Library\System\Tutorial\TutorialManager.h" />
+    <ClInclude Include="Library\System\UI\UITutorialTableOfContents.h" />
+    <ClInclude Include="Library\System\UI\UITutorialDescription.h" />
+    <ClInclude Include="Library\System\UI\UITutorialControllerDisplay.h" />
+    <ClInclude Include="Library\System\UI\UIConfirmPopup.h" />
+    <ClInclude Include="Library\System\TutorialFlagHolder.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2025DxLibGameWinter.rc" />

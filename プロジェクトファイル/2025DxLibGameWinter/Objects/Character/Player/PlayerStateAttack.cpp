@@ -18,13 +18,13 @@
 
 PlayerStateAttack::PlayerStateAttack(std::weak_ptr<Player> player,
 	PlayerAttackAnimData data, std::shared_ptr<AttackCol> attackCol,
-	PlayerActionKind actionKind) :
+	PlayerActionKind actionKind, PlayerActionKind rawActionKind) :
 	PlayerStateBase(player),
 	_data(data),
 	_attackCol(attackCol)
 {
 	// 攻撃を行ったらコンボ登録する
-	GetComboHolder()->AddAction(actionKind);
+	GetComboHolder()->AddAction(actionKind, rawActionKind);
 }
 
 void PlayerStateAttack::OnEnter()

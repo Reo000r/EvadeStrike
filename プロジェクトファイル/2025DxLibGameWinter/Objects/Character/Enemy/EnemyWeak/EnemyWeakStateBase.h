@@ -20,6 +20,12 @@ namespace {
 	constexpr int kReactDefaultScaleFrame = 4;	// 被弾時タイムスケールを戻すフレーム
 
 	constexpr float kRangeEnemyDist = 10.0f;
+
+	// 射撃行動用の定数
+	constexpr float kRetreatDistance = 1500.0f;		// 退避の目標距離
+	constexpr float kRetreatMoveTimeLimit = 3.0f;	// 退避移動の時間制限
+	constexpr float kRetreatMoveSpeed = kEnterForwardVel*0.5f;		// 退避移動速度
+	constexpr float kPreFireWaitTime = 1.0f;		// 射撃前待機時間
 }
 
 class AttackCol;
@@ -135,11 +141,24 @@ protected:
 	/// <param name="speed"></param>
 	void RotateToPlayer(float speed) { GetParentPtr()->RotateToPlayer(speed); }
 	/// <summary>
+	/// <para> プレイヤーの反対方向を向く </para>
+	/// <para> 速度制限あり </para>
+	/// </summary>
+	/// <param name="speed"></param>
+	void RotateOppositeToPlayer(float speed) { GetParentPtr()->RotateOppositeToPlayer(speed); }
+	
+	
+	/// <summary>
 	/// プレイヤーが攻撃範囲にいるか
 	/// </summary>
 	/// <param name="attackRangeInPlayer"></param>
 	/// <returns></returns>
 	bool CanAttackRangeInPlayer(float attackRangeInPlayer);
+	/// <summary>
+	/// プレイヤーとの距離が退避目標距離以上離れているか
+	/// </summary>
+	bool IsRetreatDistanceSatisfied() const;
+	
 	/// <summary>
 	/// ステート変更待機時間がないなら
 	/// </summary>

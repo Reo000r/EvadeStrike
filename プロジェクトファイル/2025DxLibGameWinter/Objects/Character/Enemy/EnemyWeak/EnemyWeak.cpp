@@ -1,9 +1,11 @@
 ﻿#include "EnemyWeak.h"
-#include "Objects/Character/Enemy/EnemyAnimationData.h"
 #include "EnemyWeakStateBase.h"
 #include "EnemyWeakStateSpawn.h"
 #include "EnemyWeakStateReact.h"
 #include "EnemyWeakStateDeath.h"
+#include "Objects/Projectile/EnemyWeakProjectile.h"
+#include "Objects/Character/Enemy/EnemyAnimationData.h"
+#include "Objects/Character/Enemy/EnemyManager.h"
 #include "Library/Objects/AttackCol.h"
 #include "Library/Geometry/Calculation.h"
 #include "Library/System/Statistics.h"
@@ -63,6 +65,7 @@ EnemyWeak::EnemyWeak(std::weak_ptr<Physics> physics, int modelHandle) :
 	_animator->SetAnimData(WeakAnimData::kAnimNameIdle, WeakAnimData::kBaseAnimSpeed, true);
 	_animator->SetAnimData(WeakAnimData::kAnimNameDash, WeakAnimData::kBaseAnimSpeed, true);
 	_animator->SetAnimData(WeakAnimData::kAnimNameHeavyAttack1, WeakAnimData::kAttackAnimSpeed, false);
+	_animator->SetAnimData(WeakAnimData::kAnimNameFire, WeakAnimData::kAttackAnimSpeed, false);
 	_animator->SetAnimData(WeakAnimData::kAnimNameReact, WeakAnimData::kBaseAnimSpeed, false);
 	_animator->SetAnimData(WeakAnimData::kAnimNameDeath, WeakAnimData::kDeathAnimSpeed, false);
 
@@ -136,7 +139,9 @@ void EnemyWeak::Update()
 	// ステートに応じた更新を行う
 	_currentState->Update();
 
+	// 攻撃判定を更新
 	UpdateAttackCol();
+	UpdateProjectiles();
 }
 
 void EnemyWeak::Draw() const
@@ -227,6 +232,22 @@ void EnemyWeak::DisableAttackCol()
 	_attackCol->Disable();
 }
 
+void EnemyWeak::FireProjectile()
+{
+	if (_manager.expired()) return;
+
+	Position3 firePos = GetPos() + Vector3(0, kAttackColRad, 0);	// 手元程度の高さから発射
+	Vector3 dirToPlayer = _manager.lock()->GetPlayerPos() - firePos;
+	if (dirToPlayer.SqrMagnitude() <= 0.0f) return;
+	dirToPlayer.Normalized();
+
+	auto projectile = std::make_shared<EnemyWeakProjectile>(_physics, firePos, dirToPlayer);
+	projectile->SetOwnerStatus(GetParentPtr());
+	projectile->Init();
+
+	_projectiles.emplace_back(projectile);
+}
+
 void EnemyWeak::UpdateAttackCol()
 {
 	// 位置更新
@@ -262,4 +283,20 @@ void EnemyWeak::UpdateAttackInterval()
 	if (_attackInterval < 0.0f) {
 		_attackInterval = 0.0f;
 	}
+}
+
+void EnemyWeak::UpdateProjectiles()
+{
+	// 弾の更新
+	for (auto& proj : _projectiles) {
+		if (proj && !proj->CanDelete()) {
+			proj->Update();
+		}
+	}
+	// 削除可能な弾があれば削除する
+	std::erase_if(
+		_projectiles,
+		[](const std::shared_ptr<EnemyWeakProjectile>& p) {
+			return !p || p->CanDelete();
+		});
 }

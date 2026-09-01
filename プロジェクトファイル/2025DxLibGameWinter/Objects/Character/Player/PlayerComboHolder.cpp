@@ -12,6 +12,7 @@ namespace {
 
 PlayerComboHolder::PlayerComboHolder() :
     _actions(),
+    _rawActions(),
     _comboList()
 {
 }
@@ -56,11 +57,12 @@ void PlayerComboHolder::LoadCombo()
     file.close();
 }
 
-void PlayerComboHolder::AddAction(PlayerActionKind name)
+void PlayerComboHolder::AddAction(PlayerActionKind action, PlayerActionKind rawAction)
 {
-    _actions.emplace_back(name);
+    _actions.emplace_back(action);
+    _rawActions.emplace_back(rawAction);
     std::wstring kind = L"";
-    if (name == PlayerActionKind::Punch) {
+    if (action == PlayerActionKind::Punch) {
         kind = L"Punch";
     }
     else {
@@ -96,9 +98,22 @@ bool PlayerComboHolder::CheckComboConsist(PlayerActionKind action)
     return false;
 }
 
+bool PlayerComboHolder::CheckRawComboConsist()
+{
+    // 保存されている入力がコンボになっているか調べる
+    for (const auto& combo : _comboList) {
+        // 長さが違ったら同一でない
+        if (_rawActions.size() != combo.size()) continue;
+        // 要素が完全に一致しているならtrue
+        if (_rawActions == combo) return true;
+    }
+    return false;
+}
+
 void PlayerComboHolder::ResetActionData()
 {
     _actions.clear();
+    _rawActions.clear();
     printf("コンボが途切れた\n");
 }
 

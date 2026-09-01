@@ -16,8 +16,9 @@
 #include <cassert>
 
 PlayerStateSpecialAttack::PlayerStateSpecialAttack(std::weak_ptr<Player> player, 
-	PlayerAttackAnimData data, std::shared_ptr<AttackCol> attackCol) :
-	PlayerStateAttack(player, data, attackCol, PlayerActionKind::Special)
+	PlayerAttackAnimData data, std::shared_ptr<AttackCol> attackCol, 
+	PlayerActionKind rawActionKind) :
+	PlayerStateAttack(player, data, attackCol, PlayerActionKind::Special, rawActionKind)
 {
 }
 

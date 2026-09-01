@@ -327,6 +327,28 @@ void Input::SetDefault()
         {PeripheralType::pad1, PAD_INPUT_8}
     };
 
+    _inputTable["Debug:PauseScene"] = {
+        {PeripheralType::keybd, KEY_INPUT_M},
+        {PeripheralType::pad1, PAD_INPUT_8}
+    };
+
+    // チュートリアルのコントローラー表示、ボタンオーバーレイ位置調整用
+    _inputTable["Debug:ControllerAdjustToggle"] = {
+        {PeripheralType::keybd, KEY_INPUT_F1}
+    };
+    _inputTable["Debug:ControllerAdjustNext"] = {
+        {PeripheralType::keybd, KEY_INPUT_RSHIFT}
+    };
+    _inputTable["Debug:ControllerAdjustPrev"] = {
+        {PeripheralType::keybd, KEY_INPUT_LSHIFT}
+    };
+    _inputTable["Debug:ControllerAdjustFine"] = {
+        {PeripheralType::keybd, KEY_INPUT_LCONTROL}
+    };
+    _inputTable["Debug:ControllerAdjustPrint"] = {
+        {PeripheralType::keybd, KEY_INPUT_SPACE}
+    };
+
     _inputTable["Debug:Key1"] = {
         {PeripheralType::keybd, KEY_INPUT_1},
         {PeripheralType::pad1, PAD_INPUT_27}

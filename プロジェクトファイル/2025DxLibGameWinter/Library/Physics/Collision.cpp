@@ -141,12 +141,14 @@ bool CheckHitCapsulePolygon(
 			}
 		}
 	}
-	if (capsuleData->IsTrigger()) {
+	// カプセル側・ポリゴン側のどちらかがトリガーであれば、
+	// FixNextPosition()側で解放処理が呼ばれることはないため、ここで即座に解放する
+	if (capsuleData->IsTrigger() || polygonData->IsTrigger()) {
 		// 検出したプレイヤーの周囲のポリゴン情報を開放する
 		MV1CollResultPolyDimTerminate(hitDim);
 	}
 	else {
-		// 当たり判定用に保存
+		// 当たり判定用に保存(この後 FixNextPosCapsulePolygon 側で解放される)
 		polygonData->SetHitDim(hitDim);
 	}
 

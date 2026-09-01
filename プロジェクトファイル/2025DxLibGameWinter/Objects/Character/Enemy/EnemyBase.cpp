@@ -22,7 +22,7 @@ EnemyBase::EnemyBase(std::weak_ptr<Physics> physics, int modelHandle,
 	_targetRotAngleY(0.0f),
 	_stateTransitionTime(0.0f),
 	_attackInterval(0.0f),
-	_canAttack(false),
+	_authorityType(EnemyAuthorityType::None),
 	_canDelete(false)
 {
 	_animator->Init(modelHandle);
@@ -32,19 +32,9 @@ EnemyBase::~EnemyBase()
 {
 }
 
-bool EnemyBase::HasAttackAuthority()
-{
-	return _canAttack;
-}
-
 bool EnemyBase::CanDelete()
 {
 	return _canDelete;
-}
-
-void EnemyBase::SetAttackState(bool canAttack)
-{
-	_canAttack = canAttack;
 }
 
 void EnemyBase::SetDeleteState(bool canDelete)
@@ -134,6 +124,33 @@ void EnemyBase::RotateToPlayer(float speed)
 
 	// モデルに回転を適用
 	MV1SetRotationXYZ(_animator->GetHandle(), 
+		Vector3(0, _rotAngleY + Calc::ToRadian(180.0f), 0));
+}
+
+void EnemyBase::RotateOppositeToPlayer(float speed)
+{
+	if (_manager.expired()) return;
+
+	Position3 playerPos = _manager.lock()->GetPlayerPos();
+	// プレイヤーから自分への方向(プレイヤーの反対方向)へ向く
+	Vector3 dirFromPlayer = GetPos() - playerPos;
+	if (dirFromPlayer.SqrMagnitude() == 0.0f) return;
+	dirFromPlayer.Normalized();
+
+	// Y軸回転角度を計算
+	float targetAngle = atan2f(dirFromPlayer.x, dirFromPlayer.z);
+	
+	// 現在の角度から目標角度までの差分を計算
+	float diff = Calc::RadianNormalize(targetAngle - _rotAngleY);
+	// タイムスケールを適用
+	diff *= GetCurrentTimeScale();
+
+	// 回転量を制限
+	float turnAmount = std::clamp<float>(diff, -speed, speed);
+	_rotAngleY += turnAmount * TimeScaleManager::GetInstance().GetOtherCurrentScale();
+
+	// モデルに回転を適用
+	MV1SetRotationXYZ(_animator->GetHandle(),
 		Vector3(0, _rotAngleY + Calc::ToRadian(180.0f), 0));
 }
 

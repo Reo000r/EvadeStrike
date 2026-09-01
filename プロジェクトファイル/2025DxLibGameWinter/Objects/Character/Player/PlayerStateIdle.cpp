@@ -45,7 +45,7 @@ std::shared_ptr<PlayerStateBase> PlayerStateIdle::CheckStateTransition()
 		PlayerAttackAnimData data = GetDataLoader()->GetAttackAnimData(GetPunchAttackID());
 		std::shared_ptr<AttackCol> col = GetAttackCol(kind);
 		return std::make_shared<PlayerStateAttack>(GetPlayerPtr(), data,
-			col, kind);
+			col, kind, kind);
 	}
 	if (CanKickAttackInput()) {
 		// 強攻撃ステートに入る
@@ -53,7 +53,7 @@ std::shared_ptr<PlayerStateBase> PlayerStateIdle::CheckStateTransition()
 		PlayerAttackAnimData data = GetDataLoader()->GetAttackAnimData(GetKickAttackID());
 		std::shared_ptr<AttackCol> col = GetAttackCol(kind);
 		return std::make_shared<PlayerStateAttack>(GetPlayerPtr(), data,
-			col, kind);
+			col, kind, kind);
 	}
 	// 回避入力があれば
 	if (CanDodgeInput()) {

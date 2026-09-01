@@ -3,7 +3,7 @@
 #include "EnemyBossStateSpawn.h"
 #include "EnemyBossStateDeath.h"
 #include "EnemyBossStateStagger.h"
-#include "EnemyBossBressProjectile.h"
+#include "Objects/Projectile/EnemyBossBressProjectile.h"
 #include "Objects/Character/Enemy/EnemyManager.h"
 #include "Objects/Character/Enemy/EnemyAnimationData.h"
 #include "Library/Objects/AttackCol.h"
@@ -104,9 +104,6 @@ EnemyBoss::EnemyBoss(std::weak_ptr<Physics> physics, int modelHandle) :
 
 	// 最初のアニメーションを設定する
 	_animator->SetStartAnim(BossAnimData::kAnimNameSpawn);
-
-	// 初めから攻撃権を持たせる
-	_canAttack = true;
 }
 
 EnemyBoss::~EnemyBoss()

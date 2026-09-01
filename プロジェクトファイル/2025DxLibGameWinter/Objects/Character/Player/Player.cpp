@@ -68,8 +68,9 @@ Player::Player(std::weak_ptr<Physics> physics) :
 	_quaternion(),
 	_lockonDurationTime(0.0f),
 	_dodgeInterval(0.0f),
-	_dodgeCount(0),
-	_isAlive(true)
+	_dodgeCount(0), 
+	_isAlive(true),
+	_isControlEnabled(true)
 {
 	// 体力設定
 	SetHitPoint(kHitPoint);
@@ -163,7 +164,10 @@ void Player::Update()
 	_animator->Update(scale);
 
 	// ステートに応じた更新を行う
-	_currentState->Update();
+	// 操作有効時のみ
+	if (_isControlEnabled) {
+		_currentState->Update();
+	}
 
 	// 回避更新
 	UpdateDodge();

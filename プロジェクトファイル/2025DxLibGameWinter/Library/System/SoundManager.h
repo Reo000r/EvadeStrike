@@ -14,6 +14,7 @@ enum class SEType {
 
 enum class BGMType {
 	Title,
+	Tutorial,
 	GamePlay,
 	Result,
 	typeNum,

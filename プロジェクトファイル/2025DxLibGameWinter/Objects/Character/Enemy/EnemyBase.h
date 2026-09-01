@@ -3,6 +3,13 @@
 
 class EnemyManager;
 
+// 攻撃権の種類
+enum class EnemyAuthorityType {
+	None,
+	Attack,
+	RetreatShoot,
+};
+
 class EnemyBase : public CharacterBase
 {
 public:
@@ -16,23 +23,31 @@ public:
 	/// <summary>
 	/// 攻撃権を持っているか返す
 	/// </summary>
-	/// <returns></returns>
-	bool HasAttackAuthority();
+	bool HasAttackAuthority() const { return _authorityType == EnemyAuthorityType::Attack; }
+	/// <summary>
+	/// 退避+射撃行動権を持っているか返す
+	/// </summary>
+	bool HasRetreatShootAuthority() const { return _authorityType == EnemyAuthorityType::RetreatShoot; }
+	/// <summary>
+	/// 現在の権限種別を返す
+	/// </summary>
+	EnemyAuthorityType GetAuthorityType() const { return _authorityType; }
+	/// <summary>
+	/// 権限種別を設定する(EnemyManagerからのみ呼ばれる想定)
+	/// </summary>
+	void SetAuthorityType(EnemyAuthorityType type) { _authorityType = type; }
+
+
 	/// <summary>
 	/// 攻撃可否を返す
 	/// </summary>
 	/// <returns></returns>
 	virtual bool CanAttack() abstract;
 	/// <summary>
-	/// 攻撃可否を返す
+	/// 削除可否を返す
 	/// </summary>
 	/// <returns></returns>
 	bool CanDelete();
-	/// <summary>
-	/// 攻撃可否を設定
-	/// </summary>
-	/// <param name="canAttack"></param>
-	void SetAttackState(bool canAttack);
 	/// <summary>
 	/// 攻撃可否を設定
 	/// </summary>
@@ -93,6 +108,12 @@ protected:
 	/// </summary>
 	/// <param name="speed"></param>
 	void RotateToPlayer(float speed);
+	/// <summary>
+	/// <para> プレイヤーの反対方向を向く </para>
+	/// <para> 速度制限あり </para>
+	/// </summary>
+	/// <param name="speed"></param>
+	void RotateOppositeToPlayer(float speed);
 
 	/// <summary>
 	/// プレイヤーが攻撃範囲にいるか
@@ -147,7 +168,8 @@ protected:
 	float _stateTransitionTime;	// ステート変更待機時間
 	float _attackInterval;		// 攻撃待機時間
 
-	bool _canAttack;
+	// 攻撃権種
+	EnemyAuthorityType _authorityType;
 	bool _canDelete;
 };
 

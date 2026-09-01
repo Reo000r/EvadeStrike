@@ -49,7 +49,7 @@ std::shared_ptr<PlayerStateBase> PlayerStateDash::CheckStateTransition()
 		PlayerAttackAnimData data = GetDataLoader()->GetAttackAnimData(GetPunchAttackID());
 		std::shared_ptr<AttackCol> col = GetAttackCol(kind);
 		return std::make_shared<PlayerStateAttack>(GetPlayerPtr(), data, 
-			col, kind);
+			col, kind, kind);
 	}
 	if (CanKickAttackInput()) {
 		// 移動時に攻撃を入力すると追加で前進する
@@ -59,7 +59,7 @@ std::shared_ptr<PlayerStateBase> PlayerStateDash::CheckStateTransition()
 		PlayerAttackAnimData data = GetDataLoader()->GetAttackAnimData(GetKickAttackID());
 		std::shared_ptr<AttackCol> col = GetAttackCol(kind);
 		return std::make_shared<PlayerStateAttack>(GetPlayerPtr(), data, 
-			col, kind);
+			col, kind, kind);
 	}
 	// 回避入力があれば
 	if (CanDodgeInput()) {

@@ -31,7 +31,7 @@ public:
 	/// アクション追加
 	/// </summary>
 	/// <param name="action"></param>
-	void AddAction(PlayerActionKind action);
+	void AddAction(PlayerActionKind action, PlayerActionKind rawAction);
 	/// <summary>
 	/// コンボが成り立っているかチェック
 	/// </summary>
@@ -43,6 +43,11 @@ public:
 	/// <param name="action"></param>
 	/// <returns></returns>
 	bool CheckComboConsist(PlayerActionKind action);
+	/// <summary>
+	/// コンボ入力が成り立っているかチェック
+	/// </summary>
+	/// <returns></returns>
+	bool CheckRawComboConsist();
 	/// <summary>
 	/// コンボデータを削除
 	/// </summary>
@@ -65,6 +70,7 @@ private:
 
 	// 攻撃遷移保存
 	ComboData_t _actions;
+	ComboData_t _rawActions;
 	// 定められたコンボ一覧
 	std::vector<ComboData_t> _comboList;
 };

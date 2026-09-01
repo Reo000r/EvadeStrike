@@ -13,6 +13,7 @@ namespace {
         {"Ground", kStageModelPath + L"Ground_Tilling.mv1"},
         {"Wall", kStageModelPath + L"Wall.mv1"},
         {"EventWall", kStageModelPath + L"Wall.mv1"},
+        {"TutorialEventWall", kStageModelPath + L"Wall.mv1"},
 
         {"Player", kCharacterModelPath + L"PlayerModel.mv1"},
         {"EnemyWeak", kCharacterModelPath + L"EnemyWeakModel.mv1"},

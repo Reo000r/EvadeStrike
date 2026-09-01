@@ -118,17 +118,17 @@ std::shared_ptr<PlayerStateBase> PlayerStateBase::CheckComboTransition(PlayerAct
 	if (kind == PlayerActionKind::Punch) {
 		// 特殊コンボが成立していたら
 		if (GetComboHolder()->CheckComboConsist(kind)) {
-			printf("コンボ成立");
+			printf("コンボ成立\n");
 			// 特殊攻撃クラスを返す
 			PlayerAttackAnimData retdata = GetDataLoader()->GetAttackAnimData(GetDataLoader()->GetSpecialAttackID());
 			std::shared_ptr<AttackCol> col = GetAttackCol(PlayerActionKind::Special);
-			return std::make_shared<PlayerStateSpecialAttack>(GetPlayerPtr(), retdata, col);
+			return std::make_shared<PlayerStateSpecialAttack>(GetPlayerPtr(), retdata, col, kind);
 		}
 		if (data.punchId != -1) {
 			PlayerAttackAnimData retdata = GetDataLoader()->GetAttackAnimData(data.punchId);
 			std::shared_ptr<AttackCol> col = GetAttackCol(kind);
 			return std::make_shared<PlayerStateAttack>(GetPlayerPtr(), retdata,
-				col, kind);
+				col, kind, kind);
 		}
 	}
 	else if (kind == PlayerActionKind::Kick) {
@@ -138,13 +138,13 @@ std::shared_ptr<PlayerStateBase> PlayerStateBase::CheckComboTransition(PlayerAct
 			// 特殊攻撃クラスを返す
 			PlayerAttackAnimData retdata = GetDataLoader()->GetAttackAnimData(GetDataLoader()->GetSpecialAttackID());
 			std::shared_ptr<AttackCol> col = GetAttackCol(PlayerActionKind::Special);
-			return std::make_shared<PlayerStateSpecialAttack>(GetPlayerPtr(), retdata, col);
+			return std::make_shared<PlayerStateSpecialAttack>(GetPlayerPtr(), retdata, col, kind);
 		}
 		if (data.kickId != -1) {
 			PlayerAttackAnimData retdata = GetDataLoader()->GetAttackAnimData(data.kickId);
 			std::shared_ptr<AttackCol> col = GetAttackCol(kind);
 			return std::make_shared<PlayerStateAttack>(GetPlayerPtr(), retdata,
-				col, kind);
+				col, kind, kind);
 		}
 	}
 	else {
@@ -164,13 +164,13 @@ std::shared_ptr<PlayerStateBase> PlayerStateBase::CheckAirComboTransition(Player
 			// 特殊攻撃クラスを返す
 			PlayerAttackAnimData retdata = GetDataLoader()->GetAttackAnimData(GetDataLoader()->GetSpecialAttackID());
 			std::shared_ptr<AttackCol> col = GetAttackCol(PlayerActionKind::Special);
-			return std::make_shared<PlayerStateAirSpecialAttack>(GetPlayerPtr(), retdata, col);
+			return std::make_shared<PlayerStateAirSpecialAttack>(GetPlayerPtr(), retdata, col, kind);
 		}
 		if (data.punchId != -1) {
 			PlayerAttackAnimData retdata = GetDataLoader()->GetAttackAnimData(data.punchId);
 			std::shared_ptr<AttackCol> col = GetAttackCol(kind);
 			return std::make_shared<PlayerStateAirAttack>(GetPlayerPtr(), retdata,
-				col, kind);
+				col, kind, kind);
 		}
 	}
 	else if (kind == PlayerActionKind::Kick) {
@@ -180,13 +180,13 @@ std::shared_ptr<PlayerStateBase> PlayerStateBase::CheckAirComboTransition(Player
 			// 特殊攻撃クラスを返す
 			PlayerAttackAnimData retdata = GetDataLoader()->GetAttackAnimData(GetDataLoader()->GetSpecialAttackID());
 			std::shared_ptr<AttackCol> col = GetAttackCol(PlayerActionKind::Special);
-			return std::make_shared<PlayerStateAirSpecialAttack>(GetPlayerPtr(), retdata, col);
+			return std::make_shared<PlayerStateAirSpecialAttack>(GetPlayerPtr(), retdata, col, kind);
 		}
 		if (data.kickId != -1) {
 			PlayerAttackAnimData retdata = GetDataLoader()->GetAttackAnimData(data.kickId);
 			std::shared_ptr<AttackCol> col = GetAttackCol(kind);
 			return std::make_shared<PlayerStateAirAttack>(GetPlayerPtr(), retdata,
-				col, kind);
+				col, kind, kind);
 		}
 	}
 	else {

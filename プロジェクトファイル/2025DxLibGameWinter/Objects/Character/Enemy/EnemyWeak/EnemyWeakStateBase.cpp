@@ -1,4 +1,5 @@
 ﻿#include "EnemyWeakStateBase.h"
+#include "Objects/Character/Enemy/EnemyManager.h"
 
 EnemyWeakStateBase::EnemyWeakStateBase(std::weak_ptr<EnemyWeak> parent) :
 	_parent(parent)
@@ -89,6 +90,13 @@ void EnemyWeakStateBase::Stop() const
 bool EnemyWeakStateBase::CanAttackRangeInPlayer(float attackRangeInPlayer)
 {
 	return _parent.lock()->CanAttackRangeInPlayer(attackRangeInPlayer);
+}
+
+bool EnemyWeakStateBase::IsRetreatDistanceSatisfied() const
+{
+	Position3 playerPos = GetEnemyManager().lock()->GetPlayerPos();
+	Vector3 toPlayer = playerPos - GetParentPtr()->GetCenterPos();
+	return toPlayer.Magnitude() >= kRetreatDistance;
 }
 
 bool EnemyWeakStateBase::IsNothingStateTransitionTime() const

@@ -11,12 +11,10 @@
 #include "Library/System/Event/EventCollider.h"
 #include "Library/System/Event/EventTrigger.h"
 #include "Library/System/Event/EventWall.h"
+#include "Library/System/Tutorial/TutorialEventWall.h"
+#include "Library/System/Tutorial/TutorialManager.h"
 #include <DxLib.h>
 #include <string>
-
-namespace {
-	const std::string kStageDataPath = "Data/CSV/StagePlaceData.csv";
-}
 
 StagePlacer::StagePlacer()
 {
@@ -40,8 +38,10 @@ void StagePlacer::SetObjectHandleHolder(std::shared_ptr<ObjectHandleHolder> hold
 }
 
 std::vector<ObjectData> StagePlacer::Place(
-	std::weak_ptr<Physics> physics, 
-	std::weak_ptr<EventManager> eventManager)
+	std::weak_ptr<Physics> physics,
+	std::weak_ptr<EventManager> eventManager,
+	const std::string& stageCsvPath,
+	std::weak_ptr<TutorialManager> tutorialManager)
 {
 	// 既存のモデルのハンドルを解放
 	for (auto& col : _colliders) {
@@ -55,9 +55,9 @@ std::vector<ObjectData> StagePlacer::Place(
 
 	printf("---ステージ配置開始---\n");
 	std::vector<ObjectData> enemySpawnData;
-	// kStageDataPathの情報をObjectDataLoaderを用いて取得
+	// stageCsvPathの情報をObjectDataLoaderを用いて取得
 	std::vector<ObjectData> objData =
-		ObjectDataLoader::LoadData(kStageDataPath.c_str());
+		ObjectDataLoader::LoadData(stageCsvPath.c_str());
 	for (const auto& data : objData) {
 		
 		// 壁や床であれば
@@ -139,6 +139,23 @@ std::vector<ObjectData> StagePlacer::Place(
 			}
 			printf("イベント配置(%s, Trigger:%d)\n", data.transData.name.c_str(), data.colData.isTrigger);
 		}
+		// チュートリアル専用のイベント壁であれば
+		else if (data.transData.name == "TutorialEventWall") {
+			if (tutorialManager.expired()) {
+				printf("TutorialManagerが未設定のためTutorialEventWallを無視(%s)\n", data.transData.name.c_str());
+				continue;
+			}
+
+			std::shared_ptr<TutorialEventWall> wall =
+				std::make_shared<TutorialEventWall>(physics, data, _holder);
+			wall->SetTutorialManager(tutorialManager);
+			wall->Init();
+			// TutorialManagerに登録して一元管理させる(所有権もここで移す)
+			tutorialManager.lock()->RegisterTutorialWall(wall);
+
+			printf("チュートリアルイベント配置(%s, Trigger:%d)\n", data.transData.name.c_str(), data.colData.isTrigger);
+		}
+
 		// 敵の出現位置であれば
 		else if (data.transData.name == "EnemySpawn") {
 			// EnemyManagerへ渡すデータ

@@ -1,5 +1,5 @@
 #include "EnemyBossStateAttack3.h"
-#include "EnemyBossBressProjectile.h"
+#include "Objects/Projectile/EnemyBossBressProjectile.h"
 #include "EnemyBossStateIdle.h"
 #include "Objects/Character/Enemy/EnemyAnimationData.h"
 #include "Objects/Character/Enemy/EnemyManager.h"

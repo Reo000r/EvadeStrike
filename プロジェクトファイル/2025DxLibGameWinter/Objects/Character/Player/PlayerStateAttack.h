@@ -11,7 +11,7 @@ class PlayerStateAttack : public PlayerStateBase
 public:
 	PlayerStateAttack(std::weak_ptr<Player> player,
 		PlayerAttackAnimData data, std::shared_ptr<AttackCol> attackCol, 
-		PlayerActionKind actionKind);
+		PlayerActionKind actionKind, PlayerActionKind rawActionKind);
 	~PlayerStateAttack() = default;
 
 	/// <summary>

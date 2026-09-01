@@ -16,6 +16,7 @@ namespace {
 	};
 	const std::unordered_map<BGMType, std::wstring> kBGMPaths = {
 		{ BGMType::Title,		L"Data/Sound/BGM/BGMTitle.mp3" },
+		{ BGMType::Tutorial,	L"Data/Sound/BGM/BGMTutorial.mp3" },
 		{ BGMType::GamePlay,	L"Data/Sound/BGM/BGMGamePlay.mp3" },
 		{ BGMType::Result,		L"Data/Sound/BGM/BGMResult.mp3" },
 	};

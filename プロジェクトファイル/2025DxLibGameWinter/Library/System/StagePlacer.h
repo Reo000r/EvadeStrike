@@ -5,6 +5,7 @@
 
 class ObjectHandleHolder;
 class EventManager;
+class TutorialManager;
 class Collider;
 class Physics;
 
@@ -23,8 +24,10 @@ public:
 	/// オブジェクト配置
 	/// </summary>
 	std::vector<ObjectData> Place(
-		std::weak_ptr<Physics> physics, 
-		std::weak_ptr<EventManager> eventManager);
+		std::weak_ptr<Physics> physics,
+		std::weak_ptr<EventManager> eventManager,
+		const std::string& stageCsvPath,
+		std::weak_ptr<TutorialManager> tutorialManager = std::weak_ptr<TutorialManager>());
 
 	void Draw();
 
@@ -33,8 +36,6 @@ public:
 private:
 
 	std::weak_ptr<ObjectHandleHolder> _holder;
-	// 配置オブジェクトのハンドル
-	//std::vector<int> _objectHandles;
 	std::vector<std::shared_ptr<Collider>> _colliders;
 };
 

@@ -5,7 +5,8 @@ class PlayerStateSpecialAttack : public PlayerStateAttack
 {
 public:
 	PlayerStateSpecialAttack(std::weak_ptr<Player> player,
-		PlayerAttackAnimData data, std::shared_ptr<AttackCol> attackCol);
+		PlayerAttackAnimData data, std::shared_ptr<AttackCol> attackCol, 
+		PlayerActionKind rawActionKind);
 	~PlayerStateSpecialAttack() = default;
 
 	/// <summary>

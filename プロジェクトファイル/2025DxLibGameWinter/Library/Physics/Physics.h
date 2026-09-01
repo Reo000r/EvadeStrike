@@ -81,30 +81,7 @@ private:
 	/// </summary>
 	void ApplyGravity();
 
-	/// <summary>
-	/// 床ポリゴンと壁ポリゴンに分ける
-	/// </summary>
-	void AnalyzeWallAndFloor(MV1_COLL_RESULT_POLY_DIM hitDim, Vector3 nextPos);
-
-	/// <summary>
-	/// 壁と当たった時の処理 カプセル
-	/// </summary>
-	Vector3 HitWallCP(const Vector3& headPos, const Vector3& legPos, float shortDis);
-	/// <summary>
-	/// 床の高さに合わせる カプセル
-	/// </summary>
-	bool HitFloorCP(const std::shared_ptr<Collider> other, const Vector3& legPos, const Vector3& headPos, float shortDis);
-	/// <summary>
-	/// 天井に当たった時の処理 カプセル
-	/// </summary>
-	void HitRoofCP(const std::shared_ptr<Collider> other, const Vector3& headPos, float shortDis);
-
 	// 登録されたColliderのリスト
 	std::forward_list<std::shared_ptr<Collider>> _colliders;
-
-	// 壁
-	std::vector<MV1_COLL_RESULT_POLY> _wall;
-	// 床と屋根
-	std::vector<MV1_COLL_RESULT_POLY> _floorAndRoof;
 };
 

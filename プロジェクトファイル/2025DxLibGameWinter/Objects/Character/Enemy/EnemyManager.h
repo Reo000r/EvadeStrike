@@ -89,6 +89,9 @@ public:
 
 private:
 
+	/// <summary>
+	/// プレイヤーとの距離順に攻撃権・射撃行動権を割り当て直す
+	/// </summary>
 	void UpdateAttackAuthority();
 
 	std::vector<std::shared_ptr<EnemyBase>> _enemys;

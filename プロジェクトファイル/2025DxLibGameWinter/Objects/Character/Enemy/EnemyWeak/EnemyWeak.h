@@ -1,8 +1,10 @@
 ﻿#pragma once
 #include "Objects/Character/Enemy/EnemyBase.h"
+#include <vector>
 
 class EnemyWeakStateBase;
 class AttackCol;
+class EnemyWeakProjectile;
 
 class EnemyWeak : public EnemyBase
 {
@@ -48,6 +50,11 @@ public:
 	/// </summary>
 	void DisableAttackCol() override;
 
+	/// <summary>
+	/// プレイヤー方向へ弾を発射する
+	/// </summary>
+	void FireProjectile();
+
 private:
 	/// <summary>
 	/// 攻撃判定更新
@@ -62,6 +69,11 @@ private:
 	/// </summary>
 	void UpdateAttackInterval();
 
+	/// <summary>
+	/// 発射済みの弾の更新・削除処理
+	/// </summary>
+	void UpdateProjectiles();
+
 	// ステートが以下のメンバを変更可能にする
 	friend EnemyWeakStateBase;
 
@@ -73,6 +85,8 @@ private:
 
 	std::shared_ptr<EnemyWeakStateBase> _currentState;	// 現在のステート
 
-	std::shared_ptr<AttackCol> _attackCol;				// 攻撃判定
+	std::shared_ptr<AttackCol> _attackCol;			// 攻撃判定
+
+	std::vector<std::shared_ptr<EnemyWeakProjectile>> _projectiles;
 };
 

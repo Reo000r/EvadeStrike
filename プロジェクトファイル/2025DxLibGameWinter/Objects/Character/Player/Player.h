@@ -54,6 +54,15 @@ public:
 	void SetEnemyManager(std::weak_ptr<EnemyManager> manager) { _enemyManager = manager; }
 	void SetJustDodgeManager(std::weak_ptr<JustDodgeManager> manager) { _justDodgeManager = manager; }
 	void SetUIGameScoreDrawer(std::weak_ptr<UIGameScoreDrawer> scoreDrawer) { _scoreDrawer = scoreDrawer; }
+
+	/// <summary>
+	/// プレイヤーの操作可否を設定する
+	/// </summary>
+	void SetControlEnabled(bool isEnabled) { _isControlEnabled = isEnabled; }
+	/// <summary>
+	/// プレイヤーが操作可能かどうかを返す
+	/// </summary>
+	bool IsControlEnabled() const { return _isControlEnabled; }
 	/// <summary>
 	/// 最大体力値を返す
 	/// </summary>
@@ -232,5 +241,6 @@ private:
 	float _dodgeInterval;	// 回避待機時間(秒)
 	int _dodgeCount;		// 回避回数
 	bool _isAlive;
+	bool _isControlEnabled;	// falseの間はUpdateを呼ばない
 };
 

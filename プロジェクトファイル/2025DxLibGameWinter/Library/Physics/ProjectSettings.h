@@ -17,7 +17,7 @@ namespace PhysicsData {
 		Item,			// アイテム
 		SystemWall,		// システム壁
 		StepGround,		// 足場の地面
-		EventWall,		// 足場の地面
+		EventWall,		// イベント判定用の壁
 	};
 
 	/// <summary>

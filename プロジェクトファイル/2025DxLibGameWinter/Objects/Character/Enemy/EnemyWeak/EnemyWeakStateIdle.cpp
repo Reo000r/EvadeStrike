@@ -1,6 +1,8 @@
 ﻿#include "EnemyWeakStateIdle.h"
 #include "EnemyWeakStateChase.h"
 #include "EnemyWeakStateAttack.h"
+#include "EnemyWeakStateRetreatMove.h"
+#include "EnemyWeakStateRetreatWait.h"
 #include "Objects/Character/Player/PlayerAnimationData.h"
 #include "Objects/Character/Enemy/EnemyManager.h"
 #include "Library/System/Effect/EffectManager.h"
@@ -72,6 +74,19 @@ std::shared_ptr<EnemyWeakStateBase> EnemyWeakStateIdle::CheckStateTransition()
 	if (CanAttack()) {
 		// 攻撃ステートに入る
 		return std::make_shared<EnemyWeakStateAttack>(GetParentPtr(), GetAttackCol());
+	}
+
+	// 射撃行動権を持っている場合
+	if (GetParentPtr()->HasRetreatShootAuthority()) {
+		// 指定距離を満たしていなければ退避移動へ
+		if (!IsRetreatDistanceSatisfied()) {
+			return std::make_shared<EnemyWeakStateRetreatMove>(GetParentPtr());
+		}
+		// 満たしていれば、待機時間経過後に射撃待機ステートへ
+		if (IsNothingStateTransitionTime() && _currentEffect.expired()) {
+			return std::make_shared<EnemyWeakStateRetreatWait>(GetParentPtr());
+		}
+		return nullptr;
 	}
 
 	// 一定範囲内に別の敵がいるなら(正常な敵が帰ってきたなら)

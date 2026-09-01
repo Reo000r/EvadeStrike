@@ -17,8 +17,8 @@
 
 PlayerStateAirAttack::PlayerStateAirAttack(std::weak_ptr<Player> player, 
 	PlayerAttackAnimData data, std::shared_ptr<AttackCol> attackCol,
-	PlayerActionKind actionKind) :
-	PlayerStateAttack(player, data, attackCol, actionKind)
+	PlayerActionKind actionKind, PlayerActionKind rawActionKind) :
+	PlayerStateAttack(player, data, attackCol, actionKind, rawActionKind)
 {
 }
 
