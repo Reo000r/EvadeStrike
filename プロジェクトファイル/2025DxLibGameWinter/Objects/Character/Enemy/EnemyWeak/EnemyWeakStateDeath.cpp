@@ -23,8 +23,6 @@ EnemyWeakStateDeath::EnemyWeakStateDeath(std::weak_ptr<EnemyWeak> parent) :
 
 void EnemyWeakStateDeath::OnEnter()
 {
-	ResultDataHolder::GetInstance().AddScore(100);
-
 	// アニメーションを変更する
 	GetAnimator()->ChangeAnim(kAnimNameDeath, false, 1.0f);
 

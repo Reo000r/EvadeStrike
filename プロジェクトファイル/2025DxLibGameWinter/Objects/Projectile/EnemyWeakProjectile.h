@@ -9,6 +9,7 @@ class EnemyWeakProjectile : public EnemyProjectile
 public:
     EnemyWeakProjectile(
         std::weak_ptr<Physics> physics,
+        std::weak_ptr<EnemyManager> enemyManager,
         const Position3& startPos,
         const Vector3& direction);
     ~EnemyWeakProjectile() override = default;

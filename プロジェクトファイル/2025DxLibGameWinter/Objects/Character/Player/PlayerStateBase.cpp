@@ -244,6 +244,11 @@ std::shared_ptr<AttackCol> PlayerStateBase::GetAttackCol(PlayerActionKind kind)c
 	return _player.lock()->GetAttackCol(kind);
 }
 
+void PlayerStateBase::SetInvTime(float time)
+{
+	GetPlayerPtr()->SetInvTime(time);
+}
+
 void PlayerStateBase::AddTransformForward(float add) const
 {
 	// 向いている方向に移動

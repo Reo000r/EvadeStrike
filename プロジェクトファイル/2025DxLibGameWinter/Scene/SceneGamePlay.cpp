@@ -61,15 +61,17 @@ void SceneGamePlay::OnAdditionalUpdate()
 bool SceneGamePlay::CheckSceneCompleteCondition() const
 {
 #ifdef _DEBUG
-	if ((Input::GetInstance().IsPress("Debug:NextScene1") &&
-		Input::GetInstance().IsPress("Debug:NextScene2")) ||
-		_eventManager->IsClearable()) {
+	if (Input::GetInstance().IsPress("Debug:NextScene1") &&
+		Input::GetInstance().IsPress("Debug:NextScene2")) {
+		return true;
+	}
+#endif // _DEBUG
+	if (_eventManager->IsClearable()) {
 		return true;
 	}
 	if (!_player.lock()->IsAlive()) {
 		return true;
 	}
-#endif // _DEBUG
 	return false;
 }
 

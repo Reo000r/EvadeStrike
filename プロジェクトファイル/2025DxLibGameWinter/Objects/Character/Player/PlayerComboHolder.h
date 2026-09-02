@@ -59,6 +59,11 @@ public:
 
 	ComboData_t GetActionList() const ;
 
+	/// <summary>
+	/// コンボ一覧を返す
+	/// </summary>
+	const std::vector<ComboData_t>& GetComboList() const { return _comboList; }
+
 private:
 
 	/// <summary>

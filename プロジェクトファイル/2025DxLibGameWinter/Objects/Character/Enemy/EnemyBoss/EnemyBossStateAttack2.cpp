@@ -6,6 +6,7 @@
 #include "Library/System/Effect/EffectManager.h"
 #include "Library/System/Effect/EffekseerEffect.h"
 #include "Library/System/SoundManager.h"
+#include "Library/System/AttackRangeIndicator.h"
 
 namespace {
 	// 溜めフェーズ（この範囲ではプレイヤーを向き続けるだけ）
@@ -18,11 +19,16 @@ namespace {
 	//エフェクトのスケール
 	constexpr float kEffectScale = 5.0f;
 	constexpr float kEffectPlaySpeed = 2.0f;
+
+	// 攻撃範囲の半径
+	constexpr float kIndicatorRadius = 900.0f;
+	const Vector3 kRangeIndicatorOffset = Vector3(0, -120, 0);
 }
 
 EnemyBossStateAttack2::EnemyBossStateAttack2(std::weak_ptr<EnemyBoss> parent) :
 	EnemyBossStateBase(parent),
-	_effectSpawned(false)
+	_effectSpawned(false),
+	_rangeIndicator(std::make_shared<AttackRangeIndicator>())
 {
 }
 
@@ -39,6 +45,11 @@ void EnemyBossStateAttack2::OnEnter()
 	GetAttackColHeavy()->SetCollisionState(false);
 
 	_effectSpawned = false;
+
+	// 攻撃範囲を初期化する
+	_rangeIndicator->InitAsCircle(
+		GetParentPtr()->GetPos() + kRangeIndicatorOffset, 
+		kIndicatorRadius);
 }
 
 void EnemyBossStateAttack2::Update()
@@ -50,7 +61,10 @@ void EnemyBossStateAttack2::Update()
 		GetAnimator()->GetCurrentAnimData();
 	const float rate = animData->frame / animData->totalFrame;
 
-	// 溜めフェーズ中はプレイヤーの方向を向き続ける
+	// 攻撃判定発生タイミングに合わせて不透明度を変更
+	_rangeIndicator->UpdateAlphaByRate(rate, 0.0f, kStartAttackColRate);
+
+	// 溜め中はプレイヤーの方向を向き続ける
 	if (rate < kChargeEndRate) {
 		RotateToPlayer(kBossTurnSpeed);
 	}
@@ -100,6 +114,11 @@ void EnemyBossStateAttack2::OnExit()
 		interval *= kPhase2IntervalRate;
 	}
 	SetAttackInterval(interval);
+}
+
+void EnemyBossStateAttack2::DrawAttackRangeIndicator() const
+{
+	_rangeIndicator->Draw();
 }
 
 std::shared_ptr<EnemyBossStateBase> EnemyBossStateAttack2::CheckStateTransition()

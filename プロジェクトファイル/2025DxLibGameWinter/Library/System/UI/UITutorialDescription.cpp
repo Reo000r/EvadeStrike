@@ -15,8 +15,8 @@ namespace {
 	constexpr int kBackgroundAlpha = 160;
 	constexpr float kBackgroundPadding = 24.0f;
 
-	// タイプライター演出(1秒あたりに出現させる文字数)
-	constexpr float kCharsPerSecond = 30.0f;
+	// 1秒あたりに出現させる文字数
+	constexpr float kCharsPerSecond = 50.0f;
 }
 
 UITutorialDescription::UITutorialDescription(Position2 anchorPos, float scale) :

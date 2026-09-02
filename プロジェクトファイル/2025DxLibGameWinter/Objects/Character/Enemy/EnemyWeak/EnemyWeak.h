@@ -15,6 +15,7 @@ public:
 	void Init() override;
 	void Update() override;
 	void Draw() const override;
+	void DrawAttackRangeIndicator() const override;
 
 	/// <summary>
 	/// 衝突したときに呼ばれる

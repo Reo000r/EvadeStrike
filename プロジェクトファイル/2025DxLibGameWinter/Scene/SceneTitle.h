@@ -10,7 +10,7 @@ class SceneTitle final : public SceneBase
 {
 public:
 	SceneTitle();
-	~SceneTitle() = default;
+	~SceneTitle();
 
 	/// <summary>
 	/// 初期化
@@ -50,6 +50,8 @@ private:
 	/// 通常時の描画
 	/// </summary>
 	void NormalDraw() const;
+
+	void DrawBackgroundMovie() const;
 	
 
 	int _frame;
@@ -72,4 +74,5 @@ private:
 
 private:
 
+	int _movieHandle;	// 動画ファイルハンドル
 };

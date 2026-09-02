@@ -59,7 +59,6 @@ void EnemyBase::SetColliderData(float rad, Vector3 startToEnd)
 	);
 	// 敵の攻撃判定やイベント壁などとは当たり判定を行わない
 	_collider->AddThroughTag(PhysicsData::GameObjectTag::EnemyAttack);
-	_collider->AddThroughTag(PhysicsData::GameObjectTag::EventWall);
 	_collider->AddThroughTag(PhysicsData::GameObjectTag::PlayerJustDodge);
 
 	// physicsに登録する

@@ -2,6 +2,7 @@
 #include "EnemyBossStateBase.h"
 
 class EnemyBossBressProjectile;
+class AttackRangeIndicator;
 
 /// <summary>
 /// ボスブレス攻撃ステート
@@ -18,10 +19,31 @@ public:
 	void Update() override;
 	void OnExit() override;
 
+	/// <summary>
+	/// 攻撃範囲を描画する
+	/// </summary>
+	void DrawAttackRangeIndicator() const override;
+
 private:
 	std::shared_ptr<EnemyBossStateBase> CheckStateTransition() override;
 
 	void UpdateBress();
+
+	/// <summary>
+	/// 弾を1発発射した際にその弾用の攻撃範囲を生成する
+	/// </summary>
+	void SpawnIndicatorForProjectile(const std::weak_ptr<EnemyBossBressProjectile>&projectile, Vector3 fireDir);
+	
+	/// <summary>
+	/// 発射済みの各攻撃範囲の不透明度を更新する
+	/// </summary>
+	void UpdateIndicators();
+
+	// 発射した弾ごとの攻撃範囲
+	struct BreathIndicatorEntry {
+		std::shared_ptr<AttackRangeIndicator> indicator;
+		float elapsedTime = 0.0f;
+	};
 
 	// 発射間隔タイマー
 	float _fireTimer;
@@ -33,4 +55,6 @@ private:
 	Vector3 _fireDir;
 
 	std::vector<std::weak_ptr<EnemyBossBressProjectile>> _projectileList;
+
+	std::vector<BreathIndicatorEntry> _rangeIndicators;
 };

@@ -93,9 +93,9 @@ public:
 	/// ノックバックベクトルをリセット
 	/// </summary>
 	void ResetKnockback();
+	void SetHitPoint(float hitPoint);
 
 protected:
-	void SetHitPoint(float hitPoint);
 	void Damage(float damage);
 
 	float _hitPoint;	// 体力

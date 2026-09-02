@@ -23,6 +23,9 @@ namespace {
 	constexpr float kJustDodgeColRad = 300.0f;			// ジャスト回避判定半径
 	const Vector3 kJustDodgeColPosOffset = 
 		Vector3(0.0f, kJustDodgeColRad * 0.5f, 0.0f);	// 判定位置補正
+
+	// 無敵時間
+	constexpr float kInvTime = 0.3f;
 }
 
 PlayerStateDodge::PlayerStateDodge(std::weak_ptr<Player> player) :
@@ -32,6 +35,8 @@ PlayerStateDodge::PlayerStateDodge(std::weak_ptr<Player> player) :
 
 void PlayerStateDodge::OnEnter()
 {
+	SetInvTime(kInvTime);
+
 	// 方向入力があった場合は
 	if (CanDashInput()) {
 		// 入力方向の反対に向ける

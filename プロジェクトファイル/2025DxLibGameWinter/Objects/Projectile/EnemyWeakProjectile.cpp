@@ -11,9 +11,10 @@ namespace {
 
 EnemyWeakProjectile::EnemyWeakProjectile(
     std::weak_ptr<Physics> physics,
+    std::weak_ptr<EnemyManager> enemyManager,
     const Position3& startPos,
     const Vector3& direction) :
-    EnemyProjectile(physics, startPos, direction, kSpeed, kMaxLifeTime)
+    EnemyProjectile(physics, enemyManager, startPos, direction, kSpeed, kMaxLifeTime)
 {
 }
 

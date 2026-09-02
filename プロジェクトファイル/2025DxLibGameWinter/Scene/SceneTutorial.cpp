@@ -5,10 +5,12 @@
 #include "Library/System/UI/UITutorialTableOfContents.h"
 #include "Library/System/UI/UITutorialDescription.h"
 #include "Library/System/UI/UITutorialControllerDisplay.h"
+#include "Library/System/UI/UITutorialComboRoute.h"
 #include "Library/System/UI/UIConfirmPopup.h"
 #include "Library/System/UI/UIManager.h"
 #include "Library/System/Statistics.h"
 #include "Objects/Character/Player/Player.h"
+#include "Objects/Character/Player/PlayerComboHolder.h"
 
 namespace {
 	const std::string kStageCsvPath = "Data/CSV/TutorialStagePlaceData.csv";
@@ -27,6 +29,11 @@ namespace {
 	const Position2 kControllerAnchorPos =
 		Position2(Statistics::kScreenWidth * 0.15f, Statistics::kScreenHeight * 0.82f);
 	constexpr float kControllerScale = 2.0f;
+
+	// コンボルート表示UIの配置(画面左)
+	const Position2 kComboRouteAnchorPos =
+		Position2(Statistics::kScreenWidth * 0.05f, Statistics::kScreenHeight * 0.35f);
+	constexpr float kComboRouteScale = 1.0f;
 }
 
 SceneTutorial::SceneTutorial(bool showSkipConfirmation) :
@@ -71,6 +78,19 @@ void SceneTutorial::OnAfterCommonInit()
 
 	_tocUI.lock()->SetTopics(_tutorialManager->GetTocEntries());
 
+	// コンボルート表示UI
+	auto comboRoute = std::make_shared<UITutorialComboRoute>(kComboRouteAnchorPos, kComboRouteScale);
+	UIManager::GetInstance().RegisterUI(comboRoute);
+	_comboRouteUI = comboRoute;
+
+	// コンボ一覧を渡す
+	if (!_player.expired()) {
+		std::weak_ptr<PlayerComboHolder> comboHolder = _player.lock()->GetComboHolder();
+		if (!comboHolder.expired()) {
+			comboRoute->SetComboList(comboHolder.lock()->GetComboList());
+		}
+	}
+
 	// 開始直後のUI内容を反映
 	ApplyCurrentStepToUI();
 
@@ -82,7 +102,10 @@ void SceneTutorial::OnAfterCommonInit()
 			_player.lock()->SetControlEnabled(false);
 		}
 		auto popup = std::make_shared<UIConfirmPopup>(
-			L"チュートリアルをスキップしますか？",
+			L"チュートリアルを確認しますか？",
+			[this]() {
+				_isPopupActive = false;
+			},
 			[this]() {
 				_skipToGamePlay = true;
 				_isPopupActive = false;
@@ -90,9 +113,6 @@ void SceneTutorial::OnAfterCommonInit()
 				if (!_player.expired()) {
 					_player.lock()->SetControlEnabled(true);
 				}
-			},
-			[this]() {
-				_isPopupActive = false;
 			}
 		);
 		UIManager::GetInstance().RegisterUI(popup);
@@ -147,6 +167,9 @@ void SceneTutorial::ApplyCurrentStepToUI()
 	}
 	if (!_tocUI.expired()) {
 		_tocUI.lock()->SetCurrentRegion(_tutorialManager->GetCurrentRegionId());
+	}
+	if (!_comboRouteUI.expired() && step.type == TutorialType::Combo) {
+		_comboRouteUI.lock()->SetDrawState(true);
 	}
 }
 

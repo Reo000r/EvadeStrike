@@ -9,6 +9,7 @@
 #include "Library/Objects/AttackCol.h"
 #include "Library/Geometry/Calculation.h"
 #include "Library/System/Statistics.h"
+#include "Scene/ResultDataHolder.h"
 #include <DxLib.h>
 #include <algorithm>
 #include <cassert>
@@ -64,6 +65,9 @@ namespace {
 	
 	// ヒットストップ時のモデル振動量
 	constexpr float kShakeMagnitude = 5.0f * kModelScale;
+
+	// 獲得スコア
+	constexpr int kBossDeathScore = 1000;
 }
 
 EnemyBoss::EnemyBoss(std::weak_ptr<Physics> physics, int modelHandle) :
@@ -104,6 +108,8 @@ EnemyBoss::EnemyBoss(std::weak_ptr<Physics> physics, int modelHandle) :
 
 	// 最初のアニメーションを設定する
 	_animator->SetStartAnim(BossAnimData::kAnimNameSpawn);
+
+	_authorityType = EnemyAuthorityType::Attack;
 }
 
 EnemyBoss::~EnemyBoss()
@@ -195,6 +201,12 @@ void EnemyBoss::Draw() const
 	_animator->Draw();
 }
 
+void EnemyBoss::DrawAttackRangeIndicator() const
+{
+	// 現在のステートの攻撃範囲を描画する
+	_currentState->DrawAttackRangeIndicator();
+}
+
 void EnemyBoss::OnCollide(const std::weak_ptr<Collider> collider)
 {
 }
@@ -221,6 +233,12 @@ void EnemyBoss::TakeDamage(std::shared_ptr<AttackableGameObject> attacker,
 
 	// 体力が尽きた場合は死亡ステートへ
 	if (!IsAlive()) {
+		if (!_scoreAdded) {
+			ResultDataHolder::GetInstance().AddScore(kBossDeathScore);
+			// リザルト用の画面を取得する予定を立てる
+			ResultDataHolder::GetInstance().ReserveCopyResultScreen();
+			_scoreAdded = true;
+		}
 		_currentState->ChangeState(
 			std::make_shared<EnemyBossStateDeath>(GetParentPtr()));
 		return;
@@ -288,6 +306,7 @@ std::weak_ptr<EnemyBossBressProjectile> EnemyBoss::FireBressProjectile(Vector3 d
 	// ブレス弾生成
 	projectile = std::make_shared<EnemyBossBressProjectile>(
 		_physics,
+		_manager,
 		headPos,
 		dir);
 	projectile->SetOwnerStatus(GetParentPtr());

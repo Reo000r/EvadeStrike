@@ -17,9 +17,6 @@ namespace {
 	// エフェクト再生速度
 	constexpr float kDefaultEffectSpeed = 0.7f;
 	constexpr float kOpacityEffectSpeed = 0.7f;
-
-	// 獲得スコア
-	constexpr int kBossDeathScore = 1000;
 }
 
 EnemyBossStateDeath::EnemyBossStateDeath(std::weak_ptr<EnemyBoss> parent) :
@@ -29,9 +26,6 @@ EnemyBossStateDeath::EnemyBossStateDeath(std::weak_ptr<EnemyBoss> parent) :
 
 void EnemyBossStateDeath::OnEnter()
 {
-	// スコア加算
-	ResultDataHolder::GetInstance().AddScore(kBossDeathScore);
-
 	// アニメーション変更
 	GetAnimator()->ChangeAnim(kAnimNameDeath, false, 1.0f);
 
@@ -49,9 +43,6 @@ void EnemyBossStateDeath::OnEnter()
 			Vector3(kDeathEffectScale, kDeathEffectScale, kDeathEffectScale));
 		_defeatEffect.lock()->SetPlaySpeed(kDefaultEffectSpeed);
 	}
-
-	// リザルト用の画面を取得する予定を立てる
-	ResultDataHolder::GetInstance().ReserveCopyResultScreen();
 }
 
 void EnemyBossStateDeath::Update()

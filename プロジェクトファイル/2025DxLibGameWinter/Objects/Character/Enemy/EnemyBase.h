@@ -64,6 +64,16 @@ public:
 	/// </summary>
 	virtual void DisableAttackCol() abstract;
 
+	/// <summary>
+	/// 攻撃範囲を描画する
+	/// </summary>
+	virtual void DrawAttackRangeIndicator() const abstract;
+
+	/// <summary>
+	/// 現在のY軸回転量を返す
+	/// </summary>
+	float GetRotAngleY() const { return _rotAngleY; }
+
 protected:
 	/// <summary>
 	/// 自身の当たり判定設定を行う
@@ -171,5 +181,6 @@ protected:
 	// 攻撃権種
 	EnemyAuthorityType _authorityType;
 	bool _canDelete;
+	bool _scoreAdded;
 };
 

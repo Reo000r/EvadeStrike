@@ -150,6 +150,8 @@ protected:
 	/// <returns></returns>
 	std::shared_ptr<AttackCol> GetAttackCol(PlayerActionKind kind) const;
 
+	void SetInvTime(float time);
+
 	/// <summary>
 	/// プレイヤーの向いている方へ指定の移動量加算する
 	/// </summary>

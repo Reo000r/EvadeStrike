@@ -140,7 +140,7 @@ void CameraStateFollow::Update()
     Input& input = Input::GetInstance();
 
     // スティックによる平面移動
-    Vector2 stick = input.GetPadRightSitck();
+    Vector2 stick = input.GetPadRightStick();
     stick *= 0.001f;
 
     // スティックの縦成分 + X軸回転時の回転量

@@ -7,6 +7,7 @@
 #include "Library/Geometry/Calculation.h"
 #include "Library/System/Statistics.h"
 #include "Library/System/SoundManager.h"
+#include "Library/System/AttackRangeIndicator.h"
 #include <DxLib.h>
 
 namespace {
@@ -25,6 +26,13 @@ namespace {
 	const float kMaxAngleDiff = Calc::ToRadian(10.0f);
 	// 0とみなす閾値
 	const float kAngleZeroTolerance = 0.0001f;
+
+	// 攻撃範囲
+	constexpr float kIndicatorWidth = 200.0f;
+	constexpr float kIndicatorLength = 2400.0f;
+	const Vector3 kRangeIndicatorOffset = Vector3(0, -720, 0);
+	// 弾ごとの攻撃範囲のフェード時間(秒)
+	constexpr float kIndicatorFadeDuration = 0.15f;
 }
 
 EnemyBossStateAttack3::EnemyBossStateAttack3(std::weak_ptr<EnemyBoss> parent) :
@@ -40,6 +48,7 @@ void EnemyBossStateAttack3::OnEnter()
 {
 	// 履歴をリセット
 	_projectileList.clear();
+	_rangeIndicators.clear();
 
 	// 移動量をなくす
 	Stop();
@@ -63,6 +72,9 @@ void EnemyBossStateAttack3::Update()
 
 	// ブレス関連の更新
 	UpdateBress();
+
+	// 発射済みの攻撃範囲の不透明度を更新する
+	UpdateIndicators();
 }
 
 void EnemyBossStateAttack3::OnExit()
@@ -73,6 +85,13 @@ void EnemyBossStateAttack3::OnExit()
 		interval *= kPhase2IntervalRate;
 	}
 	SetAttackInterval(interval);
+}
+
+void EnemyBossStateAttack3::DrawAttackRangeIndicator() const
+{
+	for (const auto& entry : _rangeIndicators) {
+		entry.indicator->Draw();
+	}
 }
 
 std::shared_ptr<EnemyBossStateBase> EnemyBossStateAttack3::CheckStateTransition()
@@ -176,7 +195,10 @@ void EnemyBossStateAttack3::UpdateBress()
 		_fireTimer -= kBressFireInterval;
 
 		// 弾を発射する
-		_projectileList.emplace_back(FireBressProjectile(_fireDir));
+		std::weak_ptr<EnemyBossBressProjectile> firedProjectile = FireBressProjectile(_fireDir);
+		_projectileList.emplace_back(firedProjectile);
+		// 発射した弾用の攻撃範囲を生成する
+		SpawnIndicatorForProjectile(firedProjectile, _fireDir);
 		SoundManager::GetInstance().PlaySoundType(SEType::AttackSwing);
 
 		--_remainFireCount;
@@ -185,5 +207,31 @@ void EnemyBossStateAttack3::UpdateBress()
 		if (_remainFireCount <= 0) {
 			_firingDone = true;
 		}
+	}
+}
+
+void EnemyBossStateAttack3::SpawnIndicatorForProjectile(const std::weak_ptr<EnemyBossBressProjectile>& projectile, Vector3 fireDir)
+{
+	if (projectile.expired()) return;
+
+	// 発射位置と発射方向から攻撃範囲を生成する
+	Position3 spawnPos = projectile.lock()->GetPos() + kRangeIndicatorOffset;
+	float rotY = atan2f(fireDir.x, fireDir.z);
+
+	BreathIndicatorEntry entry;
+	entry.indicator = std::make_shared<AttackRangeIndicator>();
+	entry.indicator->InitAsRect(spawnPos, kIndicatorWidth, kIndicatorLength, rotY);
+	entry.elapsedTime = 0.0f;
+	_rangeIndicators.emplace_back(entry);
+}
+
+void EnemyBossStateAttack3::UpdateIndicators()
+{
+	float timeScale = GetParentPtr()->GetCurrentTimeScale();
+	float deltaTime = timeScale / Statistics::kFPS;
+
+	for (auto& entry : _rangeIndicators) {
+		entry.elapsedTime += deltaTime;
+		entry.indicator->UpdateAlphaByTime(entry.elapsedTime, kIndicatorFadeDuration);
 	}
 }

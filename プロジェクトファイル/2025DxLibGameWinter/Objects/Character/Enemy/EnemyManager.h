@@ -87,6 +87,16 @@ public:
 	/// </summary>
 	void HitPlayerAttack();
 
+	/// <summary>
+	/// 現在管理している敵の一覧を返す
+	/// </summary>
+	const std::vector<std::shared_ptr<EnemyBase>>& GetEnemies() const { return _enemys; }
+
+	/// <summary>
+	/// 生存中の全敵の攻撃範囲を描画する
+	/// </summary>
+	void DrawAttackRangeIndicators() const;
+
 private:
 
 	/// <summary>

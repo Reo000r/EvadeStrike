@@ -137,12 +137,17 @@ void AttackableGameObject::Disable()
 
 void AttackableGameObject::SetCollisionState(bool isCollision)
 {
-	_collider->SetCollisionState(isCollision);
+	if (_collider != nullptr) {
+		_collider->SetCollisionState(isCollision);
+	}
 }
 
 bool AttackableGameObject::GetCollisionState() const
 {
-	return _collider->IsCollision();
+	if (_collider != nullptr) {
+		return _collider->IsCollision();
+	}
+	return false;
 }
 
 bool AttackableGameObject::IsAlreadyAttack() const

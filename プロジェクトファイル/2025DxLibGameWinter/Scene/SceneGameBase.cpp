@@ -217,6 +217,7 @@ void SceneGameBase::FadeDraw() const
 	OnAdditionalStageDraw();
 	_enemyManager->Draw();
 	_justDodgeManager->Draw();
+	_enemyManager->DrawAttackRangeIndicators();
 	_shadowGenerator->NormalDrawEnd();
 	// ‰e‚È‚µ‚Ì’Êí‚ÌŽè‘O•`‰æ
 	UIManager::GetInstance().Draw();
@@ -257,6 +258,7 @@ void SceneGameBase::NormalDraw() const
 	OnAdditionalStageDraw();
 	_enemyManager->Draw();
 	_justDodgeManager->Draw();
+	_enemyManager->DrawAttackRangeIndicators();
 	EffectManager::GetInstance().Draw();
 	_shadowGenerator->NormalDrawEnd();
 	// ‰e‚È‚µ‚Ì’Êí‚ÌŽè‘O•`‰æ

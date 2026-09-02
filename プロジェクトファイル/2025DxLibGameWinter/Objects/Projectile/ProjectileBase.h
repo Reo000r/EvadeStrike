@@ -33,6 +33,7 @@ public:
     /// <param name="colider"></param>
     void OnCollide(const std::weak_ptr<Collider> collider) override;
 
+    void SetDeletable();
     bool CanDelete() const { return _canDelete; }
     void ReleaseFromPhysics();
 

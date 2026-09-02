@@ -90,7 +90,7 @@ bool UITutorialControllerDisplay::IsInputForButtonKey(const std::wstring& key)
 	//if (key == L"LB")    return Input::GetInstance().IsTrigger("Debug:JustDodge");
 	if (key == L"RB")    return Input::GetInstance().IsTrigger("Gameplay:Dodge");
 	if (key == L"LS")    return Input::GetInstance().GetPadLeftStick().Magnitude() > kStickPressThreshold;
-	if (key == L"RS")    return Input::GetInstance().GetPadRightSitck().Magnitude() > kStickPressThreshold;
+	if (key == L"RS")    return Input::GetInstance().GetPadRightStick().Magnitude() > kStickPressThreshold;
 	if (key == L"Pause") return Input::GetInstance().IsTrigger("Debug:PauseScene");
 	return false;
 }
@@ -118,7 +118,7 @@ void UITutorialControllerDisplay::Update()
 
 	// スティックの傾き取得(-1.0~1.0)
 	_leftStickCurrentTilt = Input::GetInstance().GetPadLeftStick();
-	_rightStickCurrentTilt = Input::GetInstance().GetPadRightSitck();
+	_rightStickCurrentTilt = Input::GetInstance().GetPadRightStick();
 
 #ifdef _DEBUG
 	DebugUpdate();

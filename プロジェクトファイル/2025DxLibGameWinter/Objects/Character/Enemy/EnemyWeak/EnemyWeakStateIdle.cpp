@@ -96,6 +96,8 @@ std::shared_ptr<EnemyWeakStateBase> EnemyWeakStateIdle::CheckStateTransition()
 		return nullptr;
 	}
 
+	if (!IsNothingStateTransitionTime()) return nullptr;
+
 	// 遷移待機時間が経過しているかつ
 	// 攻撃予告エフェクトが生成されていなければ
 	if (IsNothingStateTransitionTime() &&

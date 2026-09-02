@@ -4,6 +4,7 @@
 #include "Library/Objects/AttackCol.h"
 #include "Objects/Character/Player/PlayerAnimationData.h"
 #include "Library/System/SoundManager.h"
+#include "Library/System/AttackRangeIndicator.h"
 #include <cassert>
 
 namespace{
@@ -12,12 +13,17 @@ namespace{
 
 	constexpr float kStartAttackColActiveFrameRate = 0.1f;
 	constexpr float kEndAttackColActiveFrameRate = 0.5f;
+
+	// 攻撃範囲描画
+	constexpr float kIndicatorWidth = 200.0f;
+	constexpr float kIndicatorLength = 600.0f;
 }
 
 EnemyWeakStateAttack::EnemyWeakStateAttack(std::weak_ptr<EnemyWeak> parent, 
 	std::shared_ptr<AttackCol> attackCol) :
 	EnemyWeakStateBase(parent),
-	_attackCol(attackCol)
+	_attackCol(attackCol),
+	_rangeIndicator(std::make_shared<AttackRangeIndicator>())
 {
 }
 
@@ -30,6 +36,11 @@ void EnemyWeakStateAttack::OnEnter()
 	_attackCol->Enable();
 	// 当たり判定はまだ行わない
 	_attackCol->SetCollisionState(false);
+
+	// 攻撃範囲を初期化する
+	_rangeIndicator->InitAsRect(
+		GetParentPtr()->GetPos(), kIndicatorWidth, kIndicatorLength,
+		GetParentPtr()->GetRotAngleY());
 }
 
 void EnemyWeakStateAttack::Update()
@@ -43,6 +54,9 @@ void EnemyWeakStateAttack::Update()
 	const std::shared_ptr<AnimationModel::AnimData> animData = GetAnimator()->GetCurrentAnimData();
 	// アニメーション進行度
 	const float currentAnimFrameRate = animData->frame / animData->totalFrame;
+
+	// 攻撃判定発生タイミングに合わせて不透明度を変更
+	_rangeIndicator->UpdateAlphaByRate(currentAnimFrameRate, 0.0f, kStartAttackColActiveFrameRate);
 
 	// 攻撃時の移動が行えるなら
 	if (currentAnimFrameRate > kStartTransformFrameRate &&
@@ -87,6 +101,11 @@ void EnemyWeakStateAttack::OnExit()
 
 	// 攻撃待機時間を設定
 	SetAttackInterval(kAttackInterval);
+}
+
+void EnemyWeakStateAttack::DrawAttackRangeIndicator() const
+{
+	_rangeIndicator->Draw();
 }
 
 std::shared_ptr<EnemyWeakStateBase> EnemyWeakStateAttack::CheckStateTransition()

@@ -15,7 +15,7 @@ namespace {
 	constexpr float kTurnSpeed = 0.2f;
 
 	constexpr float kStateTransitionTime = 1.0f;// ステート遷移時間
-	constexpr float kAttackInterval = 4.0f;		// 攻撃待機時間
+	constexpr float kAttackInterval = 5.0f;		// 攻撃待機時間
 
 	constexpr int kReactDefaultScaleFrame = 4;	// 被弾時タイムスケールを戻すフレーム
 
@@ -55,6 +55,12 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	virtual bool UpdateStateTransition();
+
+	/// <summary>
+	/// <para> 攻撃範囲を描画する </para>
+	/// <para> 攻撃を行うステートのみオーバーライドする </para>
+	/// </summary>
+	virtual void DrawAttackRangeIndicator() const {}
 
 	/// <summary>
 	/// <para> ステートの切り替えを行う </para>

@@ -9,6 +9,7 @@
 #include "Library/Objects/AttackCol.h"
 #include "Library/Geometry/Calculation.h"
 #include "Library/System/Statistics.h"
+#include "Scene/ResultDataHolder.h"
 
 #include <DxLib.h>
 
@@ -41,6 +42,9 @@ namespace {
 
 	// ヒットストップ時のモデル振動量
 	constexpr float kShakeMagnitude = 5.0f * kModelScale;
+
+	// 獲得スコア
+	constexpr int kBossDeathScore = 100;
 }
 
 EnemyWeak::EnemyWeak(std::weak_ptr<Physics> physics, int modelHandle) :
@@ -152,6 +156,12 @@ void EnemyWeak::Draw() const
 	_animator->Draw();
 }
 
+void EnemyWeak::DrawAttackRangeIndicator() const
+{
+	// 現在のステートの攻撃範囲を描画する
+	_currentState->DrawAttackRangeIndicator();
+}
+
 void EnemyWeak::OnCollide(const std::weak_ptr<Collider> collider)
 {
 }
@@ -200,6 +210,14 @@ void EnemyWeak::TakeDamage(std::shared_ptr<AttackableGameObject> attacker,
 	
 	// 生存していないなら
 	if (!IsAlive()) {
+		// 球を削除
+		for (auto projectile : _projectiles) {
+			projectile->SetDeletable();
+		}
+		if (!_scoreAdded) {
+			ResultDataHolder::GetInstance().AddScore(kBossDeathScore);
+			_scoreAdded = true;
+		}
 		// 死亡ステートに遷移
 		_currentState->ChangeState(std::make_shared<EnemyWeakStateDeath>(GetParentPtr()));
 		return;
@@ -241,7 +259,7 @@ void EnemyWeak::FireProjectile()
 	if (dirToPlayer.SqrMagnitude() <= 0.0f) return;
 	dirToPlayer.Normalized();
 
-	auto projectile = std::make_shared<EnemyWeakProjectile>(_physics, firePos, dirToPlayer);
+	auto projectile = std::make_shared<EnemyWeakProjectile>(_physics, _manager, firePos, dirToPlayer);
 	projectile->SetOwnerStatus(GetParentPtr());
 	projectile->Init();
 

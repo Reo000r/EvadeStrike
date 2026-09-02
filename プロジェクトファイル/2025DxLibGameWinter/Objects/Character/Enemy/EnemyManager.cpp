@@ -202,6 +202,16 @@ void EnemyManager::HitPlayerAttack()
 	_gameScoreDrawer.lock()->AddDrawComboScore();
 }
 
+void EnemyManager::DrawAttackRangeIndicators() const
+{
+	for (const auto& enemy : _enemys) {
+		if (!enemy) continue;
+		// 生存中の敵の攻撃範囲のみ描画
+		if (!enemy->IsAlive()) continue;
+		enemy->DrawAttackRangeIndicator();
+	}
+}
+
 void EnemyManager::UpdateAttackAuthority()
 {
 	// ボスを除く、生存中の雑魚敵のみを対象にする

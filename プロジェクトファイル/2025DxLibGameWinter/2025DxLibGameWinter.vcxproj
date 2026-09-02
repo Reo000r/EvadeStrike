@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Library\System\AttackRangeIndicator.cpp" />
     <ClCompile Include="Objects\Projectile\EnemyWeakProjectile.cpp" />
     <ClCompile Include="Objects\Projectile\EnemyProjectile.cpp" />
     <ClCompile Include="Objects\Character\Enemy\EnemyWeak\EnemyWeakStateFire.cpp" />
@@ -273,8 +274,10 @@
     <ClCompile Include="Library\System\UI\UITutorialControllerDisplay.cpp" />
     <ClCompile Include="Library\System\UI\UIConfirmPopup.cpp" />
     <ClCompile Include="Library\System\TutorialFlagHolder.cpp" />
+    <ClCompile Include="Library\System\UI\UITutorialComboRoute.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Library\System\AttackRangeIndicator.h" />
     <ClInclude Include="Objects\Projectile\EnemyWeakProjectile.h" />
     <ClInclude Include="Objects\Projectile\EnemyProjectile.h" />
     <ClInclude Include="Objects\Character\Enemy\EnemyWeak\EnemyWeakStateFire.h" />
@@ -412,6 +415,7 @@
     <ClInclude Include="Library\System\UI\UITutorialControllerDisplay.h" />
     <ClInclude Include="Library\System\UI\UIConfirmPopup.h" />
     <ClInclude Include="Library\System\TutorialFlagHolder.h" />
+    <ClInclude Include="Library\System\UI\UITutorialComboRoute.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2025DxLibGameWinter.rc" />

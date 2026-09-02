@@ -7,7 +7,7 @@ namespace {
 	constexpr float kBaseLineHeight = 32.0f;
 
 	// Œ»İ’n/Š®—¹Ï‚İ/–¢’…è‚Ì•¶šF
-	constexpr unsigned int kColorCurrent = 0x000000;
+	constexpr unsigned int kColorCurrent = 0xFFFFFF;
 	constexpr unsigned int kColorCompleted = 0x1E90FF;
 	constexpr unsigned int kColorNotStarted = 0x808080;
 

@@ -1,6 +1,7 @@
 #include "TutorialManager.h"
 #include "TutorialEventWall.h"
 #include "Objects/Character/Enemy/EnemyManager.h"
+#include "Objects/Character/Enemy/EnemyBase.h"
 #include "Objects/Character/Player/Player.h"
 #include "Objects/Character/Player/PlayerComboHolder.h"
 #include "Objects/Character/Player/JustDodge/JustDodgeManager.h"
@@ -12,13 +13,16 @@ namespace {
 	const std::string kTutorialDataPath = "Data/CSV/TutorialData.csv";
 
 	// スティック入力を行ったとみなす閾値
-	constexpr float kStickInputThreshold = 0.8f;
+	constexpr int kStickInputThreshold = 30000;
+
+	// TutorialType::Evade中の敵HP
+	constexpr float kEvadeEnemyHitPoint = 10000.0f;
+	// TutorialType::Combo中の敵HP
+	constexpr float kComboEnemyHitPoint = 100.0f;
 
 	constexpr int kTutorialIDDivValue = 100;
 
-	// EnemySpawnInfo/EnemyBehaviorのデモ敵出現に使う暫定の敵種別
-	// (将来、説明専用の敵クラス(遠距離攻撃のみ/ダメージ0近接攻撃のみ)が
-	//  追加された際は、ここを差し替える)
+	// EnemySpawnInfo/EnemyBehaviorのデモ敵出現に使う敵種別
 	constexpr EnemyType kDemoEnemyType = EnemyType::Weak;
 }
 
@@ -27,7 +31,9 @@ TutorialManager::TutorialManager() :
 	_finalRegionId(-1),
 	_stepChanged(true),
 	_isFinished(false),
-	_hasSpawnedDemoEnemyForCurrentStep(false)
+	_hasSpawnedDemoEnemyForCurrentStep(false),
+	_rightStickInputMagnitude(0),
+	_leftStickInputMagnitude(0)
 {
 }
 
@@ -75,6 +81,11 @@ void TutorialManager::Init(
 
 void TutorialManager::Update()
 {
+	UpdateSticeInputMagnitude();
+
+	// 現在のTutorialTypeに応じて敵HPを上書きする
+	ApplyEnemyHitPointOverride();
+
 	// ステップ進行判定
 	if (!_isFinished) {
 		if (CheckCurrentActionComplete()) {
@@ -128,7 +139,7 @@ const TutorialStepData& TutorialManager::GetCurrentStepData() const
 {
 	const TutorialStepData* found = FindStepById(_currentTutorialEventId);
 	if (found != nullptr) return *found;
-	return _emptyStepData;
+	return TutorialStepData();
 }
 
 int TutorialManager::GetCurrentRegionId() const
@@ -143,6 +154,12 @@ bool TutorialManager::ConsumeStepChangedFlag()
 	return changed;
 }
 
+void TutorialManager::UpdateSticeInputMagnitude()
+{
+	_rightStickInputMagnitude += Input::GetInstance().GetPadRightStick().Magnitude();
+	_leftStickInputMagnitude += Input::GetInstance().GetPadLeftStick().Magnitude();
+}
+
 bool TutorialManager::CheckCurrentActionComplete() const
 {
 	const TutorialStepData& step = GetCurrentStepData();
@@ -154,26 +171,28 @@ bool TutorialManager::CheckCurrentActionComplete() const
 		return Input::GetInstance().IsTrigger("System:Submit");
 
 	case TutorialType::EnemySpawnInfo:
+		HealPlayer();
 		return true;
 
 	case TutorialType::Camera: {
-		bool ret = Input::GetInstance().GetPadRightSitck().Magnitude() > kStickInputThreshold;
+		bool ret = _rightStickInputMagnitude > kStickInputThreshold;
 		// 満たしていれば操作を有効にする
 		if (ret && !_player.expired()) {
 			_player.lock()->SetControlEnabled(true);
 		}
 		return ret;
 	}
-		
 
 	case TutorialType::Move:
-		return Input::GetInstance().GetPadLeftStick().Magnitude() > kStickInputThreshold;
+		return _leftStickInputMagnitude > kStickInputThreshold;
 
 	case TutorialType::Attack:
+		HealPlayer();
 		return Input::GetInstance().IsTrigger("Gameplay:Punch") ||
 			Input::GetInstance().IsTrigger("Gameplay:Kick");
 
 	case TutorialType::Combo: {
+		HealPlayer();
 		if (_player.expired()) return false;
 		std::weak_ptr<PlayerComboHolder> comboHolder = _player.lock()->GetComboHolder();
 		if (comboHolder.expired()) return false;
@@ -181,9 +200,11 @@ bool TutorialManager::CheckCurrentActionComplete() const
 	}
 
 	case TutorialType::Evade:
+		HealPlayer();
 		return Input::GetInstance().IsTrigger("Gameplay:Dodge");
 
 	case TutorialType::JustEvade:
+		HealPlayer();
 		if (_justDodgeManager.expired()) return false;
 		return _justDodgeManager.lock()->IsJustDodge();
 
@@ -194,11 +215,39 @@ bool TutorialManager::CheckCurrentActionComplete() const
 	return false;
 }
 
+void TutorialManager::ApplyEnemyHitPointOverride()
+{
+	if (_enemyManager.expired()) return;
+
+	const TutorialStepData& step = GetCurrentStepData();
+
+	float overrideHitPoint = 0.0f;
+	if (step.type == TutorialType::Evade) {
+		overrideHitPoint = kEvadeEnemyHitPoint;
+	}
+	else if (step.type == TutorialType::Combo) {
+		overrideHitPoint = kComboEnemyHitPoint;
+	}
+	else {
+		// Evade/Combo以外では何もしない
+		return;
+	}
+
+	for (const auto& enemy : _enemyManager.lock()->GetEnemies()) {
+		if (!enemy) continue;
+		// 生存中の敵のみ対象
+		if (!enemy->IsAlive()) continue;
+		enemy->SetHitPoint(overrideHitPoint);
+	}
+}
+
 void TutorialManager::AdvanceStep()
 {
+	_rightStickInputMagnitude = 0;
+	_leftStickInputMagnitude = 0;
+
 	int nextId = _currentTutorialEventId + 1;
 	const TutorialStepData* nextStep = FindStepById(nextId);
-
 	// 次のIDに対応する行があればそのまま1つ進める
 	if (nextStep != nullptr) {
 		_currentTutorialEventId = nextId;
@@ -261,4 +310,12 @@ int TutorialManager::RegionIdFromTutorialEventId(int id)
 		ret = (id - kTutorialIDDivValue) / kTutorialIDDivValue;
 	}
 	return ret;
+}
+
+void TutorialManager::HealPlayer() const
+{
+	// プレイヤーを全回復
+	if (!_player.expired()) {
+		_player.lock()->SetHitPoint(_player.lock()->GetMaxHitPoint());
+	}
 }

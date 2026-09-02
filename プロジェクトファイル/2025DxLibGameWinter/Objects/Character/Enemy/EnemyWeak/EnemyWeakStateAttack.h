@@ -2,6 +2,7 @@
 #include "EnemyWeakStateBase.h"
 
 class AttackCol;
+class AttackRangeIndicator;
 
 class EnemyWeakStateAttack : public EnemyWeakStateBase
 {
@@ -23,6 +24,11 @@ public:
 	/// </summary>
 	void OnExit() override;
 
+	/// <summary>
+	/// 攻撃範囲インジケーターを描画する
+	/// </summary>
+	void DrawAttackRangeIndicator() const override;
+
 protected:
 	// このステート内で変更可能な攻撃判定
 	std::shared_ptr<AttackCol> _attackCol;
@@ -34,5 +40,8 @@ private:
 	/// <para> 変更がなければnullptrを返す </para>
 	/// </summary>
 	std::shared_ptr<EnemyWeakStateBase> CheckStateTransition() override;
+
+	// 攻撃範囲
+	std::shared_ptr<AttackRangeIndicator> _rangeIndicator;
 };
 

@@ -74,6 +74,11 @@ public:
 	/// <returns></returns>
 	float GetHitPoint();
 	/// <summary>
+	/// 体力値を設定する
+	/// </summary>
+	/// <returns></returns>
+	void SetHitPoint(float hitPoint);
+	/// <summary>
 	/// 生存状態を返す
 	/// </summary>
 	/// <returns></returns>
@@ -157,6 +162,8 @@ private:
 	/// <param name="kind"></param>
 	/// <returns></returns>
 	std::shared_ptr<AttackCol> GetAttackCol(PlayerActionKind kind);
+
+	void SetInvTime(float time);
 
 	/// <summary>
 	/// 向いている方へ指定の移動量加算する

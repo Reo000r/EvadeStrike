@@ -276,6 +276,11 @@ float Player::GetHitPoint()
 	return _hitPoint;
 }
 
+void Player::SetHitPoint(float hitPoint)
+{
+	_hitPoint = hitPoint;
+}
+
 bool Player::IsAlive()
 {
 	return _isAlive;
@@ -347,6 +352,11 @@ Vector3 Player::GetCameraRotAngle() const
 std::shared_ptr<AttackCol> Player::GetAttackCol(PlayerActionKind kind)
 {
 	return _attackCol[kind];
+}
+
+void Player::SetInvTime(float time)
+{
+	_invincibilityTime = time;
 }
 
 void Player::AddTransformForward(float add)

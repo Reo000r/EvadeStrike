@@ -2,11 +2,10 @@
 #include "EnemyBossStateBase.h"
 
 class EffekseerEffect;
+class AttackRangeIndicator;
 
 /// <summary>
-/// ボス範囲攻撃ステート（Attack2: 叩きつけ）
-/// 溜め動作の後、足元を中心とした広範囲の叩きつけを行う
-/// 衝撃波エフェクトを足元に生成する
+/// ボス範囲攻撃ステート
 /// </summary>
 class EnemyBossStateAttack2 : public EnemyBossStateBase
 {
@@ -18,12 +17,20 @@ public:
 	void Update() override;
 	void OnExit() override;
 
+	/// <summary>
+	/// 攻撃範囲インジケーターを描画する
+	/// </summary>
+	void DrawAttackRangeIndicator() const override;
+
 private:
 	std::shared_ptr<EnemyBossStateBase> CheckStateTransition() override;
 
-	// 叩きつけ時の衝撃波エフェクト
+	// エフェクト
 	std::weak_ptr<EffekseerEffect> _currentEffect;
 
-	// 衝撃波エフェクトが既に生成されたか
+	// エフェクトが既に生成されたか
 	bool _effectSpawned;
+
+	// 攻撃範囲
+	std::shared_ptr<AttackRangeIndicator> _rangeIndicator;
 };

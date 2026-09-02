@@ -28,8 +28,17 @@ SceneTitle::SceneTitle() :
 	_nowDrawState(&SceneTitle::FadeDraw),
 	_nextSceneName(NextSceneName::GamePlay),
 	_tutorialShowSkipPopup(false),
-	_nextScene(nullptr)
+	_nextScene(nullptr),
+	_movieHandle(-1)
 {
+}
+
+SceneTitle::~SceneTitle()
+{
+	if (_movieHandle != -1) {
+		DeleteGraph(_movieHandle);
+		_movieHandle = -1;
+	}
 }
 
 void SceneTitle::Init()
@@ -128,6 +137,20 @@ void SceneTitle::Init()
 	UIButtonManager::GetInstance().AddButton(exit);
 	UIButtonManager::GetInstance().AddButton(logoback);
 	UIButtonManager::GetInstance().AddButton(logo);
+
+
+	// 動画ファイルをグラフィックハンドルとして開く
+	_movieHandle = OpenMovieToGraph(L"Data/Movie/Title_Background.mp4", TRUE);
+	if (_movieHandle != -1) {
+		// ループ再生とミュート
+		PlayMovieToGraph(_movieHandle, DX_PLAYTYPE_LOOP);
+		SetMovieVolumeToGraph(0, _movieHandle);
+	}
+	else {
+#ifdef _DEBUG
+		printf("動画ファイルが見つからない");
+#endif
+	}
 }
 
 void SceneTitle::Update()
@@ -199,6 +222,8 @@ void SceneTitle::FadeoutUpdate()
 
 void SceneTitle::FadeDraw() const
 {
+	DrawBackgroundMovie();
+
 	UIManager::GetInstance().Draw();
 	UIButtonManager::GetInstance().Draw();
 
@@ -217,11 +242,54 @@ void SceneTitle::FadeDraw() const
 
 void SceneTitle::NormalDraw() const
 {
+	DrawBackgroundMovie();
+
 	UIManager::GetInstance().Draw();
 	UIButtonManager::GetInstance().Draw();
 
 #ifdef _DEBUG
 	DrawFormatString(0, 0, 0xffffff, L"Scene Title");
 #endif
+}
+
+void SceneTitle::DrawBackgroundMovie() const
+{
+	// 背景動画を描画
+	if (_movieHandle != -1) {
+		// 動画の元サイズを取得
+		int movieW, movieH;
+		GetGraphSize(_movieHandle, &movieW, &movieH);
+
+		// 画面のアスペクト比
+		float screenAspect = static_cast<float>(Statistics::kScreenWidth)
+			/ static_cast<float>(Statistics::kScreenHeight);
+		float movieAspect = static_cast<float>(movieW) / static_cast<float>(movieH);
+
+		int drawX, drawY, drawW, drawH;
+
+		if (movieAspect > screenAspect) {
+			// 動画が画面より横長の場合は高さに合わせると幅がはみ出る
+			drawH = Statistics::kScreenHeight;
+			drawW = static_cast<int>(drawH * movieAspect);
+			drawX = (Statistics::kScreenWidth - drawW) / 2;
+			drawY = 0;
+		}
+		else {
+			// 動画が画面より縦長の場合は幅に合わせると高さがはみ出る
+			drawW = Statistics::kScreenWidth;
+			drawH = static_cast<int>(drawW / movieAspect);
+			drawX = 0;
+			drawY = (Statistics::kScreenHeight - drawH) / 2;
+		}
+
+		// はみ出た部分は自動的にクリップされる
+		DrawExtendGraph(drawX, drawY, drawX + drawW, drawY + drawH, _movieHandle, FALSE);
+		
+		constexpr float kAlphaRate = 0.5f;
+		SetDrawBlendMode(DX_BLENDMODE_MULA, static_cast<int>(255 * kAlphaRate));
+		DrawBox(0, 0, Statistics::kScreenWidth, Statistics::kScreenHeight, 0x000000, true);
+		// BlendModeを使った後はNOBLENDにしておくことを忘れず
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+	}
 }
 

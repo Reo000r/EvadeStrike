@@ -1,16 +1,37 @@
 #include "EnemyProjectile.h"
 #include "Library/Physics/Collider.h"
 #include "Objects/Character/Player/Player.h"
+#include "Objects/Character/Enemy/EnemyManager.h"
 
 EnemyProjectile::EnemyProjectile(
     std::weak_ptr<Physics> physics,
+    std::weak_ptr<EnemyManager> enemyManager,
     const Position3& startPos,
     const Vector3& direction,
     float speed,
     float lifeTime) :
     ProjectileBase(physics, PhysicsData::GameObjectTag::EnemyAttack,
-        startPos, direction, speed, lifeTime)
+        startPos, direction, speed, lifeTime),
+    _enemyManager(enemyManager)
 {
+}
+
+void EnemyProjectile::Update()
+{
+    if (CanDelete()) return;
+    
+    // 基底の更新を行う
+    ProjectileBase::Update();
+
+    // ジャスト回避中は攻撃判定を無効化する
+    if (_enemyManager.lock()->ShouldBeDisableAttackCol()) {
+        if (GetCollisionState()) {
+            SetCollisionState(false);
+        }
+    }
+    else {
+        SetCollisionState(true);
+    }
 }
 
 void EnemyProjectile::SetupCollisionIgnoreTags()

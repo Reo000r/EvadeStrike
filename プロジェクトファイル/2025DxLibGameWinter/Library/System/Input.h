@@ -72,7 +72,7 @@ public:
 	/// 右スティックの入力情報をVector2型で返す
 	/// </summary>
 	/// <returns>右スティックの入力情報</returns>
-	Vector2 GetPadRightSitck() const;
+	Vector2 GetPadRightStick() const;
 	/// <summary>
 	/// <para> 右スティックの入力情報をVector2型で返す </para>
 	/// <para> 直前にあった入力を返す </para>

@@ -130,7 +130,7 @@ bool Input::IsTrigger(const std::string key) const
     return (_current.at(key.c_str()) && !_last.at(key.c_str()));
 }
 
-Vector2 Input::GetPadRightSitck() const
+Vector2 Input::GetPadRightStick() const
 {
     return _currentRightStickInput;
 }

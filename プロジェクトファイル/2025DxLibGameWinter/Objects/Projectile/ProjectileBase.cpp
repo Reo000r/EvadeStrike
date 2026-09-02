@@ -110,6 +110,13 @@ void ProjectileBase::OnCollide(const std::weak_ptr<Collider> collider)
     }
 }
 
+void ProjectileBase::SetDeletable()
+{
+    _canDelete = true;
+    ReleaseFromPhysics();
+    _currentEffect.lock()->DeleteEffect();
+}
+
 void ProjectileBase::ReleaseFromPhysics()
 {
     if (_physics.expired()) return;

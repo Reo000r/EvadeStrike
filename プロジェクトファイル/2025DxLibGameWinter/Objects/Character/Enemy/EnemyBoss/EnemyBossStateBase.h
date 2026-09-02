@@ -68,6 +68,12 @@ public:
 	virtual bool UpdateStateTransition();
 
 	/// <summary>
+	/// <para> 攻撃範囲を描画する </para>
+	/// <para> 攻撃を行うステートのみオーバーライドする </para>
+	/// </summary>
+	virtual void DrawAttackRangeIndicator() const {}
+
+	/// <summary>
 	/// <para> ステートの切り替えを行う </para>
 	/// <para> 既存のステートは廃棄される </para>
 	/// </summary>

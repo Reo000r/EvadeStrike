@@ -85,9 +85,19 @@ public:
 private:
 
 	/// <summary>
+	/// スティック入力量を更新する
+	/// </summary>
+	void UpdateSticeInputMagnitude();
+
+	/// <summary>
 	/// 現在のステップのTutorialTypeに応じた完了条件を判定する
 	/// </summary>
 	bool CheckCurrentActionComplete() const;
+
+	/// <summary>
+	/// 現在のTutorialTypeに応じて、生存中の全敵のHPを上書きする
+	/// </summary>
+	void ApplyEnemyHitPointOverride();
 
 	/// <summary>
 	/// IDを進める
@@ -115,20 +125,21 @@ private:
 	/// </summary>
 	static int RegionIdFromTutorialEventId(int id);
 
-	std::vector<TutorialStepData> _allSteps;    // Init時に一度だけロード
-	std::vector<TutorialTocEntry> _tocEntries;  // Init時に一度だけ構築
+	void HealPlayer() const;
+
+	std::vector<TutorialStepData> _allSteps;    // チュートリアル進行データ
+	std::vector<TutorialTocEntry> _tocEntries;  // 目次
 	int _currentTutorialEventId;
 	int _finalRegionId;   // _allStepsの最大区画IDから自動算出
 	bool _stepChanged;
 	bool _isFinished;
 	bool _hasSpawnedDemoEnemyForCurrentStep;
+	float _rightStickInputMagnitude;
+	float _leftStickInputMagnitude;
 
 	std::vector<std::shared_ptr<TutorialEventWall>> _registeredWalls;
 
 	std::weak_ptr<EnemyManager> _enemyManager;
 	std::weak_ptr<Player> _player;
 	std::weak_ptr<JustDodgeManager> _justDodgeManager;
-
-	// 不正なID要求時に返すためのダミーデータ
-	TutorialStepData _emptyStepData;
 };

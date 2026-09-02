@@ -19,6 +19,7 @@ public:
 	void Init() override;
 	void Update() override;
 	void Draw() const override;
+	void DrawAttackRangeIndicator() const override;
 
 	using BressList_t = std::vector<std::shared_ptr<EnemyBossBressProjectile>>;
 

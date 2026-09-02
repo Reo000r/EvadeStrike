@@ -2,10 +2,10 @@
 #include "EnemyBossStateBase.h"
 
 class AttackCol;
+class AttackRangeIndicator;
 
 /// <summary>
-/// ボス通常攻撃ステート（Attack1: 近接）
-/// アニメーション進行度に応じて踏み込みと攻撃判定を制御する
+/// ボス突進攻撃ステート
 /// </summary>
 class EnemyBossStateAttack1 : public EnemyBossStateBase
 {
@@ -17,6 +17,14 @@ public:
 	void Update() override;
 	void OnExit() override;
 
+	/// <summary>
+	/// 攻撃範囲インジケーターを描画する
+	/// </summary>
+	void DrawAttackRangeIndicator() const override;
+
 private:
 	std::shared_ptr<EnemyBossStateBase> CheckStateTransition() override;
+
+	// 攻撃範囲
+	std::shared_ptr<AttackRangeIndicator> _rangeIndicator;
 };

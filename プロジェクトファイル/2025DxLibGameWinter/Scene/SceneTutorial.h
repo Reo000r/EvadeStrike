@@ -8,6 +8,7 @@ class TutorialManager;
 class UITutorialTableOfContents;
 class UITutorialDescription;
 class UITutorialControllerDisplay;
+class UITutorialComboRoute;
 
 /// <summary>
 /// チュートリアルシーン
@@ -58,4 +59,5 @@ private:
 	std::weak_ptr<UITutorialTableOfContents> _tocUI;
 	std::weak_ptr<UITutorialDescription> _descUI;
 	std::weak_ptr<UITutorialControllerDisplay> _controllerUI;
+	std::weak_ptr<UITutorialComboRoute> _comboRouteUI;
 };

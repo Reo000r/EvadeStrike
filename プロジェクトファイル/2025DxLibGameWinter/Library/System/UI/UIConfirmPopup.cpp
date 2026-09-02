@@ -10,6 +10,9 @@ namespace {
 
 	constexpr unsigned int kSelectedColor = 0xffffaa;
 	constexpr unsigned int kUnselectedColor = 0xffffff;
+
+	constexpr int kUnderLineHeight = 5;
+	constexpr int kUnderLineThickness = 3;
 }
 
 UIConfirmPopup::UIConfirmPopup(
@@ -80,6 +83,19 @@ void UIConfirmPopup::Draw(Vector2 shakeOffset)
 	}
 	DrawFormatString(static_cast<int>(center.x) - 100, bottom - 60, yesColor, L"ÇÕÇ¢");
 	DrawFormatString(static_cast<int>(center.x) + 40, bottom - 60, noColor, L"Ç¢Ç¢Ç¶");
+
+	// â∫ê¸Çà¯Ç≠
+	int lineY = bottom - kUnderLineHeight;
+	if (_isYesSelected) {
+		int x = static_cast<int>(center.x) - 100;
+		int width = GetDrawFormatStringWidth(L"ÇÕÇ¢");
+		DrawLine(x, lineY, x + width, lineY, 0xffffff, kUnderLineThickness);
+	}
+	else {
+		int x = static_cast<int>(center.x) + 40;
+		int width = GetDrawFormatStringWidth(L"Ç¢Ç¢Ç¶");
+		DrawLine(x, lineY, x + width, lineY, 0xffffff, kUnderLineThickness);
+	}
 
 	SetFontSize(defaultFontSize);
 }
